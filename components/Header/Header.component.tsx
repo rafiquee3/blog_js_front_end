@@ -6,6 +6,7 @@ const Header = () => {
     <header 
     style={{
       position: 'fixed',
+      top: '0px',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
