@@ -8,7 +8,7 @@ const Menu = () => {
     color: #BAD1CD;
     margin: 0;
     padding: 0;
-
+    
     & > li > a {
       display: block;
       line-height: 70px;
