@@ -1,10 +1,10 @@
-const Content = ({children}) => {
+const Content = ({children}: any) => {
   return ( 
     <>
       <div style={{
         display: 'flex',
         height: 'calc(100vh - 70px)',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
       }}>
         {children}

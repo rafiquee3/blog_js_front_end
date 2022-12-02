@@ -24,12 +24,14 @@ const Menu = () => {
   `
   return (
     <>
-      <ul className={style}>
-        <li><a>HOME</a></li>
-        <li><a>BLOG</a></li>
-        <li><a>O MNIE</a></li>
-        <li><a>KONTAKT</a></li>
-      </ul> 
+      <nav>
+        <ul className={style}>
+          <li><a>HOME</a></li>
+          <li><a>BLOG</a></li>
+          <li><a>O MNIE</a></li>
+          <li><a>KONTAKT</a></li>
+        </ul> 
+      </nav>
     </>
   )
 }
