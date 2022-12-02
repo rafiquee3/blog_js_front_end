@@ -1,3 +1,5 @@
+import { GetStaticProps, GetStaticPaths } from 'next'
+
 export default function Articles({ article }) {
   console.log(article)
   return (
@@ -5,8 +7,7 @@ export default function Articles({ article }) {
   )
 }
 
-// This function gets called at build time
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   // Call an external API endpoint to get posts
   const res = await fetch('http://localhost:3001/article/all')
   const articles = await res.json()
@@ -21,13 +22,16 @@ export async function getStaticPaths() {
   return { paths, fallback: false }
 }
 
-// This also gets called at build time
-export async function getStaticProps({ params }) {
-  // params contains the post `id`.
-  // If the route is like /posts/1, then params.id is 1
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  // Call an external API endpoint to get posts
   const res = await fetch(`http://localhost:3001/article/${params.id}`)
   const article = await res.json()
 
-  // Pass post data to the page via props
-  return { props: { article } }
+  // By returning { props: { posts } }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      article,
+    },
+  }
 }
