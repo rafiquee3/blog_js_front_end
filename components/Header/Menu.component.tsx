@@ -1,22 +1,34 @@
+import { css } from '@emotion/css'
+
 const Menu = () => {
-  const menuStyle = {
-    ul: {
-      display: 'flex',
-    },
-    li: {
-      padding: '1rem'
-    },
-    a: {
-      textDecoration: 'none'
-    }
+  const styleLi = css`
+    color: red;
+    &:hover {
+      color: white;
   }
+`
   return (
     <>
-      <ul style={menuStyle.ul}>
-        <li style={menuStyle.li}><a>HOME</a></li>
-        <li style={menuStyle.li}><a>BLOG</a></li>
-        <li style={menuStyle.li}><a>O MNIE</a></li>
-        <li style={menuStyle.li}><a>KONTAKT</a></li>
+      <ul className={css`
+        display: flex;
+        color: green;
+        list-style-type: none;
+        & > li {
+          margin: 1em;
+        }
+        & > li > a {
+          cursor: default;
+          text-decoration: none;
+        }
+        }
+        a:hover {
+          color: white;
+        }
+      `}>
+        <li><a>HOME</a></li>
+        <li><a>BLOG</a></li>
+        <li><a>O MNIE</a></li>
+        <li><a>KONTAKT</a></li>
       </ul> 
     </>
   )
