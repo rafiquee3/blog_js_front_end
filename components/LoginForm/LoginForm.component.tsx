@@ -1,4 +1,5 @@
 import { css } from '@emotion/css'
+import Image from 'next/image'
 
 const LoginForm = () => {
   const style = css`
@@ -25,21 +26,62 @@ const LoginForm = () => {
       align-items: center;
       width: 60%;
       background: #183D61;
+      color: white;
+
+      input {
+        font-size: 1em;
+        color: #8CAFBD;
+      }
 
       input:nth-child(1), input:nth-child(2) {
-        height: 40px;
+        height: 50px;
+        margin: 5px;
         border: none;
-        border-bottom: 4px solid #166587;
+        border-bottom: 1px solid #166587;
         background: #183D61;
       }
 
-      input:focus {
-        border: none;
-        background-color: #166587;
-        outline: none;
-        border-bottom: 4px solid red;
+      input:nth-child(3) {
+        position: relative;
+        top: 8px;
+        align-self: flex-end;
+        gap: 10px;
+        color: #7FA2B3;
+        background: #183D61;
+        border: 1px solid #166587;
+        border-radius: 14px;
+        padding: 8px 12px 8px 12px;
+        
+        margin-right: 10px;
+
+        &:hover {
+          color: green;
+          cursor: pointer;
+          border-color: green;
+        }
       }
-  }
+
+      input:focus-visible {
+        outline: none;
+        border-bottom: 1px solid green;
+      }
+
+      input::placeholder {
+        font-size: 1em;
+        opacity: .5;
+        color: gray;
+      }
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active{
+      -webkit-box-shadow: 0 0 0 30px #183D61 inset !important;
+    }
+  `
+  const styleImg = css`
+    opacity: 0.4;
   `
   return (
     <>
@@ -58,13 +100,18 @@ const LoginForm = () => {
           // etc...
         }}
       >
-        <div className="first">
-          <p>Login</p>
-          <p>Password</p>
+        <div>
+          <Image
+            src="/login.png"
+            alt="Picture of the author"
+            width={110}
+            height={110}
+            className={styleImg}
+          />
         </div>
         <div>
-          <input type="email" name="email" />
-          <input type="password" name="password" /> 
+          <input type="text" name="login" placeholder="login"/>
+          <input type="password" name="password" placeholder="password"/> 
           <input type="submit" value="login"></input>
         </div>
       </form>

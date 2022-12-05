@@ -15,7 +15,7 @@ const Header = () => {
       background: '#183D61',
       fontSize: 25,
       color: 'white'
-    }}><div></div><Menu/><LoginBttn/></header>
+    }}><div style={{marginLeft: 'calc(2rem + 40px)'}}></div><Menu/><LoginBttn/></header>
   )
 }
 export default Header;
