@@ -51,8 +51,7 @@ const LoginForm = () => {
         border: 1px solid #166587;
         border-radius: 14px;
         padding: 8px 12px 8px 12px;
-        
-        margin-right: 10px;
+        margin-right: 12px;
 
         &:hover {
           color: green;

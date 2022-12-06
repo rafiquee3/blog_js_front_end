@@ -10,6 +10,7 @@ const Header = () => {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
+      paddingRight: '2rem',
       width: '100%',
       height: '70px',
       background: '#183D61',
