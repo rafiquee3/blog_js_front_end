@@ -16,7 +16,7 @@ const LoginBttn = () => {
     height: 40px;
   `
   return (
-    <Link className={styleLink} href={'/admin'}>
+    <Link className={styleLink} href={'/login'}>
       <Image
         src="/login.png"
         alt="Picture of the author"

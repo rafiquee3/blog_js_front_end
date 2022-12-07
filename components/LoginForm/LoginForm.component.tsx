@@ -1,5 +1,7 @@
 import { css } from '@emotion/css'
 import Image from 'next/image'
+import { InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps } from 'next'
 
 const LoginForm = () => {
   const style = css`
@@ -82,22 +84,23 @@ const LoginForm = () => {
   const styleImg = css`
     opacity: 0.4;
   `
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      email: { value: string };
+      password: { value: string };
+    };
+    const email = target.email.value; // typechecks!
+    const password = target.password.value; // typechecks!
+    // etc...
+  }
   return (
     <>
       <form 
         action="" 
         method="get"
         className={style}
-        onSubmit={(e: React.SyntheticEvent) => {
-          e.preventDefault();
-          const target = e.target as typeof e.target & {
-            email: { value: string };
-            password: { value: string };
-          };
-          const email = target.email.value; // typechecks!
-          const password = target.password.value; // typechecks!
-          // etc...
-        }}
+        onSubmit={handleSubmit}
       >
         <div>
           <Image
@@ -118,3 +121,30 @@ const LoginForm = () => {
   )
 }
 export default LoginForm;
+
+
+
+type Data = {
+  login: string,
+  email: string,
+  password: string,
+  firstName?: string,
+  lastName?: string
+ }
+
+export const getServerSideProps: GetServerSideProps<{ data: Data }> = async () => {
+  const res = await fetch('https://.../data')
+  const data: Data = await res.json()
+
+  return {
+    props: {
+      data,
+    },
+  }
+}
+
+function Page({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  // will resolve data to type Data
+}
+
+export default Page
