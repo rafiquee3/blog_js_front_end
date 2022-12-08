@@ -14,15 +14,26 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const prevLogin = usePrevious(login);
   const [error, setError] = useState(false);
+  const [errMsg, setErrMsg] = useState('');
 
   const style = css`
     display: flex;
+    position: relative;
     width: 500px;
     height: 200px;
     border: 2px solid #166587;
     border-radius: 18px;
     overflow: hidden;
-  
+
+    span {
+      position: absolute;
+      bottom: 0;
+      font-size: 0.7em;
+      margin: 1em;
+      color: red;
+      align-self: flex-start;
+    }
+
     div:nth-child(1) {
       display: flex;
       flex-direction: column;
@@ -71,7 +82,7 @@ const LoginForm = () => {
           border-color: green;
         }
       }
-
+  
       input:focus-visible {
         outline: none;
         border-bottom: 1px solid ${error ? FontColor.RED : FontColor.GREEN};
@@ -104,7 +115,7 @@ const LoginForm = () => {
     })
     .catch(function (error) {
       setError(true);
-      console.log(error);
+      setErrMsg('Login or password incorrect');
     });
   }
 
@@ -116,6 +127,7 @@ const LoginForm = () => {
   useEffect(() => {
     if(FontColor.RED && prevLogin !== login) {
       setError(false);
+      setErrMsg('');
     }
   }, [login])
 
@@ -151,6 +163,7 @@ const LoginForm = () => {
             placeholder="password"
           /> 
           <input type="submit" value="login"></input>
+          <span>{errMsg}</span>
         </div>
       </form>
     </>
