@@ -1,9 +1,20 @@
 import { css } from '@emotion/css'
 import Image from 'next/image'
-import { InferGetServerSidePropsType } from 'next'
-import { GetServerSideProps } from 'next'
+import axios from 'axios';
+import { useEffect, useState, useRef } from 'react';
+import { usePrevious } from '../../hooks/usePrevious';
 
 const LoginForm = () => {
+  const enum FontColor {
+    GREEN = 'green',
+    RED = '#BE5555',
+    DEFAULT = '#8CAFBD'
+  }
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const prevLogin = usePrevious(login);
+  const [error, setError] = useState(false);
+
   const style = css`
     display: flex;
     width: 500px;
@@ -28,11 +39,10 @@ const LoginForm = () => {
       align-items: center;
       width: 60%;
       background: #183D61;
-      color: white;
 
       input {
         font-size: 1em;
-        color: #8CAFBD;
+        color: ${error ? FontColor.RED : FontColor.DEFAULT};
       }
 
       input:nth-child(1), input:nth-child(2) {
@@ -64,7 +74,7 @@ const LoginForm = () => {
 
       input:focus-visible {
         outline: none;
-        border-bottom: 1px solid green;
+        border-bottom: 1px solid ${error ? FontColor.RED : FontColor.GREEN};
       }
 
       input::placeholder {
@@ -84,21 +94,35 @@ const LoginForm = () => {
   const styleImg = css`
     opacity: 0.4;
   `
+  const apiConnect = (login: string, password: string) => {
+    axios.post('http://localhost:3001/auth/signin', {
+      login,
+      password
+    })
+    .then(function (response) {
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      setError(true);
+      console.log(error);
+    });
+  }
+
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const target = e.target as typeof e.target & {
-      email: { value: string };
-      password: { value: string };
-    };
-    const email = target.email.value; // typechecks!
-    const password = target.password.value; // typechecks!
-    // etc...
+    apiConnect(login, password);
   }
+
+  useEffect(() => {
+    if(FontColor.RED && prevLogin !== login) {
+      setError(false);
+    }
+  }, [login])
+
   return (
     <>
       <form 
-        action="" 
-        method="get"
+        method="post"
         className={style}
         onSubmit={handleSubmit}
       >
@@ -112,8 +136,20 @@ const LoginForm = () => {
           />
         </div>
         <div>
-          <input type="text" name="login" placeholder="login"/>
-          <input type="password" name="password" placeholder="password"/> 
+          <input 
+            type="text" 
+            value={login} 
+            name="login" 
+            onChange={e => setLogin(e.target.value)} 
+            placeholder="login"
+          />
+          <input 
+            type="password" 
+            value={password} 
+            onChange={e => setPassword(e.target.value)} 
+            name="password" 
+            placeholder="password"
+          /> 
           <input type="submit" value="login"></input>
         </div>
       </form>
@@ -121,30 +157,3 @@ const LoginForm = () => {
   )
 }
 export default LoginForm;
-
-
-
-type Data = {
-  login: string,
-  email: string,
-  password: string,
-  firstName?: string,
-  lastName?: string
- }
-
-export const getServerSideProps: GetServerSideProps<{ data: Data }> = async () => {
-  const res = await fetch('https://.../data')
-  const data: Data = await res.json()
-
-  return {
-    props: {
-      data,
-    },
-  }
-}
-
-function Page({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  // will resolve data to type Data
-}
-
-export default Page
