@@ -1,8 +1,9 @@
 import { css } from '@emotion/css'
 import Image from 'next/image'
 import axios from 'axios';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { usePrevious } from '../../hooks/usePrevious';
+import { useRouter } from 'next/router';
 
 const LoginForm = () => {
   const enum FontColor {
@@ -15,6 +16,7 @@ const LoginForm = () => {
   const prevLogin = usePrevious(login);
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const router = useRouter();
 
   const style = css`
     display: flex;
@@ -30,7 +32,7 @@ const LoginForm = () => {
       bottom: 0;
       font-size: 0.7em;
       margin: 1em;
-      color: red;
+      color: ${FontColor.RED};
       align-self: flex-start;
     }
 
@@ -111,7 +113,9 @@ const LoginForm = () => {
       password
     })
     .then(function (response) {
-      console.log(response.data);
+      console.log(response);
+      router.push('/admin');
+      
     })
     .catch(function (error) {
       setError(true);
