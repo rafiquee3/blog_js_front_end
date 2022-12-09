@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { usePrevious } from '../../hooks/usePrevious';
 import { useRouter } from 'next/router';
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const enum FontColor {
     GREEN = 'green',
     RED = '#BE5555',
@@ -13,6 +13,10 @@ const LoginForm = () => {
   }
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [currentField, setCurrentField] = useState('')
   const prevLogin = usePrevious(login);
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
@@ -22,7 +26,7 @@ const LoginForm = () => {
     display: flex;
     position: relative;
     width: 500px;
-    height: 200px;
+    height: 370px;
     border: 2px solid #166587;
     border-radius: 18px;
     overflow: hidden;
@@ -58,7 +62,7 @@ const LoginForm = () => {
         color: ${error ? FontColor.RED : FontColor.DEFAULT};
       }
 
-      input:nth-child(1), input:nth-child(2) {
+      input:nth-child(1), input:nth-child(2), input:nth-child(3), input:nth-child(4), input:nth-child(5) {
         height: 50px;
         margin: 5px;
         border: none;
@@ -66,9 +70,9 @@ const LoginForm = () => {
         background: #183D61;
       }
 
-      input:nth-child(3) {
+      input:nth-child(6) {
         position: relative;
-        top: 12px;
+        top: 8px;
         align-self: flex-end;
         gap: 10px;
         color: #7FA2B3;
@@ -107,6 +111,12 @@ const LoginForm = () => {
   const styleImg = css`
     opacity: 0.4;
   `
+  const styleCurrentField = css`
+    position: absolute;
+    padding-bottom: 95px;
+    color: white;
+    bottom: 0;
+  `
   const apiConnect = (login: string, password: string) => {
     axios.post('http://localhost:3001/auth/signin', {
       login,
@@ -143,6 +153,7 @@ const LoginForm = () => {
         onSubmit={handleSubmit}
       >
         <div>
+          <div className={styleCurrentField}>{currentField}</div>
           <Image
             src="/login.png"
             alt="Picture of the author"
@@ -156,21 +167,47 @@ const LoginForm = () => {
             type="text" 
             value={login} 
             name="login" 
-            onChange={e => setLogin(e.target.value)} 
+            onChange={e => setLogin(e.target.value)}
+            onFocus={() => setCurrentField('login')} 
             placeholder="login"
           />
           <input 
             type="password" 
             value={password} 
-            onChange={e => setPassword(e.target.value)} 
+            onChange={e => setPassword(e.target.value)}
+            onFocus={() => setCurrentField('password')}  
             name="password" 
             placeholder="password"
           /> 
-          <input type="submit" value="login"></input>
+          <input 
+            type="email" 
+            value={email} 
+            onChange={e => setEmail(e.target.value)}
+            onFocus={() => setCurrentField('email')} 
+            name="email" 
+            placeholder="email"
+          /> 
+          <input 
+            type="text" 
+            value={firstName} 
+            onChange={e => setFirstName(e.target.value)}
+            onFocus={() => setCurrentField('first name')}
+            name="firstName" 
+            placeholder="first name"
+          /> 
+          <input 
+            type="text" 
+            value={lastName} 
+            onChange={e => setLastName(e.target.value)}
+            onFocus={() => setCurrentField('last name')}
+            name="lastName" 
+            placeholder="last name"
+          /> 
+          <input type="submit" value="signup" name="submit"></input>
           <span>{errMsg}</span>
         </div>
       </form>
     </>
   )
 }
-export default LoginForm;
+export default RegisterForm;
