@@ -16,9 +16,9 @@ const RegisterForm = () => {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [currentField, setCurrentField] = useState('')
+  const [currentField, setCurrentField] = useState('');
   const prevLogin = usePrevious(login);
-  const [error, setError] = useState(false);
+  const [errorFields, setErrorFields] = useState([]);
   const [errMsg, setErrMsg] = useState('');
   const router = useRouter();
 
@@ -59,7 +59,7 @@ const RegisterForm = () => {
 
       input {
         font-size: 1em;
-        color: ${error ? FontColor.RED : FontColor.DEFAULT};
+        color: ${FontColor.DEFAULT};
       }
 
       input:nth-child(1), input:nth-child(2), input:nth-child(3), input:nth-child(4), input:nth-child(5) {
@@ -91,13 +91,17 @@ const RegisterForm = () => {
   
       input:focus-visible {
         outline: none;
-        border-bottom: 1px solid ${error ? FontColor.RED : FontColor.GREEN};
+        border-bottom: 1px solid ${FontColor.GREEN};
       }
 
       input::placeholder {
         font-size: 1em;
         opacity: .5;
         color: gray;
+      }
+
+      input[name=['password']] {
+        color: red;
       }
     }
 
@@ -114,37 +118,55 @@ const RegisterForm = () => {
   const styleCurrentField = css`
     position: absolute;
     padding-bottom: 95px;
-    color: white;
+    color: ${FontColor.DEFAULT};
     bottom: 0;
   `
-  const apiConnect = (login: string, password: string) => {
-    axios.post('http://localhost:3001/auth/signin', {
+  const errField = {
+    color: FontColor.RED, 
+    borderBottom: `1px solid ${FontColor.RED}`
+  }
+  const apiConnect = (login: string, password: string, email: string, firstName: string, lastName: string) => {
+    axios.post('http://localhost:3001/auth/signup', {
       login,
-      password
+      email,
+      password,
+      firstName,
+      lastName
     })
     .then(function (response) {
-      console.log(response);
-      router.push('/admin');
-      
+      router.push('/login');
     })
     .catch(function (error) {
-      setError(true);
-      setErrMsg('Login or password incorrect');
+      const validationError = error.response.data.errors;
+      console.log(validationError);
+      setErrorFields(validationError);
+      //setError(true);
+      //setErrMsg(error.response.data.errors);
+      setCurrentField('');
     });
   }
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    apiConnect(login, password);
+    apiConnect(login, password, email, firstName, lastName);
+  }
+
+  const isValid = (formField: string): Boolean => {
+    interface ErrorObj {
+      field: string;
+      error: string;
+    }
+    const result = errorFields.find((elem: ErrorObj) => elem.field === formField);
+    return !Boolean(result);
   }
 
   useEffect(() => {
     if(FontColor.RED && prevLogin !== login) {
-      setError(false);
+      //setError(false);
       setErrMsg('');
     }
-  }, [login])
-
+  }, [login, errorFields])
+  const errLogin = !isValid('login');
   return (
     <>
       <form 
@@ -166,7 +188,8 @@ const RegisterForm = () => {
           <input 
             type="text" 
             value={login} 
-            name="login" 
+            name="login"
+            style={isValid('login') ? {} : errField}
             onChange={e => setLogin(e.target.value)}
             onFocus={() => setCurrentField('login')} 
             placeholder="login"

@@ -3,6 +3,7 @@ import { css } from '@emotion/css'
 const Content = ({children}: any) => {
   const style = css`
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: calc(100vh - 70px);

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { usePrevious } from '../../hooks/usePrevious';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const LoginForm = () => {
   const enum FontColor {
@@ -13,6 +14,7 @@ const LoginForm = () => {
   }
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [currentField, setCurrentField] = useState('');
   const prevLogin = usePrevious(login);
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
@@ -107,19 +109,33 @@ const LoginForm = () => {
   const styleImg = css`
     opacity: 0.4;
   `
+  const styleCurrentField = css`
+    position: absolute;
+    padding-bottom: 12px;
+    color: ${FontColor.DEFAULT};
+    bottom: 0;
+  `
+  const styleLink = css`
+    margin: 1em;
+    margin-left: 350px;
+    color: ${FontColor.DEFAULT}
+  `
   const apiConnect = (login: string, password: string) => {
     axios.post('http://localhost:3001/auth/signin', {
       login,
       password
     })
     .then(function (response) {
-      console.log(response);
-      router.push('/admin');
-      
+      if(login === 'admin') {
+        router.push('/admin');
+      } else {
+        router.push('/');
+      }
     })
     .catch(function (error) {
       setError(true);
       setErrMsg('Login or password incorrect');
+      setCurrentField('');
     });
   }
 
@@ -143,6 +159,7 @@ const LoginForm = () => {
         onSubmit={handleSubmit}
       >
         <div>
+          <div className={styleCurrentField}>{currentField}</div>
           <Image
             src="/login.png"
             alt="Picture of the author"
@@ -156,13 +173,15 @@ const LoginForm = () => {
             type="text" 
             value={login} 
             name="login" 
-            onChange={e => setLogin(e.target.value)} 
+            onChange={e => setLogin(e.target.value)}
+            onFocus={() => setCurrentField('login')}
             placeholder="login"
           />
           <input 
             type="password" 
             value={password} 
-            onChange={e => setPassword(e.target.value)} 
+            onChange={e => setPassword(e.target.value)}
+            onFocus={() => setCurrentField('password')}
             name="password" 
             placeholder="password"
           /> 
@@ -170,6 +189,7 @@ const LoginForm = () => {
           <span>{errMsg}</span>
         </div>
       </form>
+      <Link href="/signup" className={styleLink}>create a new account</Link>
     </>
   )
 }
