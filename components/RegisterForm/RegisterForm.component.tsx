@@ -17,10 +17,12 @@ const RegisterForm = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [currentField, setCurrentField] = useState('');
-  const prevLogin = usePrevious(login);
   const [errorFields, setErrorFields] = useState([]);
   const [errMsg, setErrMsg] = useState('');
   const router = useRouter();
+  const prevLogin = usePrevious(login);
+  const prevPassword = usePrevious(password);
+  const prevEmail = usePrevious(email);
 
   const style = css`
     display: flex;
@@ -100,8 +102,8 @@ const RegisterForm = () => {
         color: gray;
       }
 
-      input[name=['password']] {
-        color: red;
+      input[name='login'] {
+        color: ${FontColor.DEFAULT}
       }
     }
 
@@ -125,7 +127,78 @@ const RegisterForm = () => {
     color: FontColor.RED, 
     borderBottom: `1px solid ${FontColor.RED}`
   }
+  type ErrorObj = {
+    field: string;
+    error: string;
+  }
+  type User = {
+    login: string;
+    password: string;
+    email: string;
+  }
+  const userValidator = (user: User): ErrorObj[] => {
+    const errors: ErrorObj[] = [];
+
+    if (user.login.length < 5)
+      errors.push({
+        field: 'login',
+        error: 'the entered word should contain at least 5 characters',
+      });
+    if (user.login.length > 13)
+      errors.push({
+        field: 'login',
+        error: 'the entered word should contain at max 13 characters',
+      });
+    if (user.password.length < 5)
+      errors.push({
+        field: 'password',
+        error: 'the entered password should contain at least 5 characters',
+      });
+    if (user.password.length > 13)
+      errors.push({
+        field: 'password',
+        error: 'the entered password should contain at max 13 characters',
+      });
+    if (user.login.length > 0 && user.password.length > 0) {
+      const reg = /^[a-zA-Z0-9]+[_]?[a-zA-Z0-9]+$/;
+  
+      if (!reg.test(user.login))
+        errors.push({
+          field: 'login',
+          error:
+            'login should consist of letters and numbers and may contain _',
+        });
+      if (!reg.test(user.password))
+        errors.push({
+          field: 'password',
+          error:
+            'password should consist of letters and numbers and may contain _',
+        });
+    }
+    if(!user.email.length) {
+      errors.push({
+        field: 'email',
+        error:
+          'email is empty',
+      });
+    } else {
+      const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+      if (!reg.test(user.email))
+        errors.push({
+          field: 'email',
+          error:
+            'email format incorrect',
+        });
+    }
+    return errors;
+  }
   const apiConnect = (login: string, password: string, email: string, firstName: string, lastName: string) => {
+    console.log(login,
+      email,
+      password,
+      firstName,
+      lastName)
     axios.post('http://localhost:3001/auth/signup', {
       login,
       email,
@@ -137,36 +210,45 @@ const RegisterForm = () => {
       router.push('/login');
     })
     .catch(function (error) {
+      console.log(error)
       const validationError = error.response.data.errors;
       console.log(validationError);
       setErrorFields(validationError);
-      //setError(true);
-      //setErrMsg(error.response.data.errors);
       setCurrentField('');
     });
   }
-
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    apiConnect(login, password, email, firstName, lastName);
+    const validationErrors: any = userValidator({login, password, email});
+    if(validationErrors.length) {
+      setErrorFields(validationErrors);
+    } else {
+      apiConnect(login, password, email, firstName, lastName);
+    }
   }
 
   const isValid = (formField: string): Boolean => {
-    interface ErrorObj {
-      field: string;
-      error: string;
-    }
-    const result = errorFields.find((elem: ErrorObj) => elem.field === formField);
+    const result = errorFields?.find((elem: ErrorObj) => elem.field === formField);
     return !Boolean(result);
   }
 
   useEffect(() => {
-    if(FontColor.RED && prevLogin !== login) {
-      //setError(false);
-      setErrMsg('');
+    if(errorFields.length) {
+      if(prevLogin !== login) {
+        setErrMsg('');
+        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'login'));
+      }
+      if(prevPassword !== password) {
+        setErrMsg('');
+        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'password'));
+      }
+      if(prevEmail !== email) {
+        setErrMsg('');
+        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'email'));
+      }
     }
-  }, [login, errorFields])
-  const errLogin = !isValid('login');
+  }, [login, password, email])
+
   return (
     <>
       <form 
@@ -188,15 +270,16 @@ const RegisterForm = () => {
           <input 
             type="text" 
             value={login} 
-            name="login"
             style={isValid('login') ? {} : errField}
             onChange={e => setLogin(e.target.value)}
             onFocus={() => setCurrentField('login')} 
+            name="login"
             placeholder="login"
           />
           <input 
             type="password" 
-            value={password} 
+            value={password}
+            style={isValid('password') ? {} : errField} 
             onChange={e => setPassword(e.target.value)}
             onFocus={() => setCurrentField('password')}  
             name="password" 
@@ -205,6 +288,7 @@ const RegisterForm = () => {
           <input 
             type="email" 
             value={email} 
+            style={isValid('email') ? {} : errField} 
             onChange={e => setEmail(e.target.value)}
             onFocus={() => setCurrentField('email')} 
             name="email" 
