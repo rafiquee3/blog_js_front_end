@@ -9,7 +9,8 @@ const RegisterForm = () => {
   const enum FontColor {
     GREEN = 'green',
     RED = '#BE5555',
-    DEFAULT = '#8CAFBD'
+    DEFAULT = '#8CAFBD',
+    GRAY = 'gray'
   }
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -19,6 +20,7 @@ const RegisterForm = () => {
   const [currentField, setCurrentField] = useState('');
   const [errorFields, setErrorFields] = useState([]);
   const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
   const prevLogin = usePrevious(login);
   const prevPassword = usePrevious(password);
@@ -27,8 +29,8 @@ const RegisterForm = () => {
   const style = css`
     display: flex;
     position: relative;
-    width: 500px;
-    height: 370px;
+    width: ${success ? '380px' : '500px'};
+    height: ${success ? '220px' : '400px'};
     border: 2px solid #166587;
     border-radius: 18px;
     overflow: hidden;
@@ -72,7 +74,7 @@ const RegisterForm = () => {
         background: #183D61;
       }
 
-      input:nth-child(6) {
+      input:nth-child(6), input[type="button"] {
         position: relative;
         top: 8px;
         align-self: flex-end;
@@ -85,7 +87,7 @@ const RegisterForm = () => {
         margin-right: 12px;
 
         &:hover {
-          color: green;
+          color: ${FontColor.GREEN};
           cursor: pointer;
           border-color: green;
         }
@@ -99,11 +101,12 @@ const RegisterForm = () => {
       input::placeholder {
         font-size: 1em;
         opacity: .5;
-        color: gray;
+        color: ${FontColor.GRAY};
       }
 
-      input[name='login'] {
-        color: ${FontColor.DEFAULT}
+      p {
+        color: ${FontColor.DEFAULT};
+        text-align: center;
       }
     }
 
@@ -115,12 +118,13 @@ const RegisterForm = () => {
     }
   `
   const styleImg = css`
-    opacity: 0.4;
+    opacity: ${success ? 0.5 : 0.4};
+    filter: ${success ? 'hue-rotate(340deg) saturate(130%) brightness(0.3)' : ''};
   `
   const styleCurrentField = css`
     position: absolute;
-    padding-bottom: 95px;
-    color: ${FontColor.DEFAULT};
+    padding-bottom: ${success ? '22px' : '110px'};
+    color: ${success ? '#BAD1CD' : FontColor.DEFAULT};
     bottom: 0;
   `
   const errField = {
@@ -202,11 +206,12 @@ const RegisterForm = () => {
       lastName
     })
     .then(function (response) {
-      router.push('/login');
+      setSuccess(true);
+      setCurrentField(login);
+      //router.push('/login');
     })
     .catch(function (error) {
       const validationErrors = error.response.data.errors;
-      console.log(validationErrors);
       setErrorFields(validationErrors);
       setCurrentField('');
     });
@@ -215,18 +220,99 @@ const RegisterForm = () => {
     e.preventDefault();
     const validationErrors: any = userValidator({login, password, email});
     if(validationErrors.length) {
-      console.log(validationErrors)
       setErrorFields(validationErrors);
     } else {
       apiConnect(login, password, email, firstName, lastName);
     }
   }
-
   const isValid = (formField: string): Boolean => {
     const result = errorFields?.find((elem: ErrorObj) => elem.field === formField);
     return !Boolean(result);
   }
-
+  const Form = (
+          <form 
+            method="post"
+            className={style}
+            onSubmit={handleSubmit}
+            autoComplete="do-not-autofill"
+          >
+            <div>
+              <div className={styleCurrentField}>{currentField}</div>
+              <Image
+                src="/login.png"
+                alt="Picture of the author"
+                width={110}
+                height={110}
+                className={styleImg}
+              />
+            </div>
+            <div>
+              <input 
+                type="text" 
+                value={login} 
+                style={isValid('login') ? {} : errField}
+                onChange={e => setLogin(e.target.value)}
+                onFocus={() => setCurrentField('login')} 
+                name="login"
+                placeholder="login"
+              />
+              <input 
+                type="password" 
+                value={password}
+                style={isValid('password') ? {} : errField} 
+                onChange={e => setPassword(e.target.value)}
+                onFocus={() => setCurrentField('password')}  
+                name="password" 
+                placeholder="password"
+              /> 
+              <input 
+                type="text" 
+                value={email} 
+                style={isValid('email') ? {} : errField} 
+                onChange={e => setEmail(e.target.value)}
+                onFocus={() => setCurrentField('email')} 
+                name="email" 
+                placeholder="email"
+              /> 
+              <input 
+                type="text" 
+                value={firstName} 
+                onChange={e => setFirstName(e.target.value)}
+                onFocus={() => setCurrentField('first name')}
+                name="firstName" 
+                placeholder="first name"
+              /> 
+              <input 
+                type="text" 
+                value={lastName} 
+                onChange={e => setLastName(e.target.value)}
+                onFocus={() => setCurrentField('last name')}
+                name="lastName" 
+                placeholder="last name"
+              /> 
+              <input type="submit" value="signup" name="submit"></input>
+              <span>{errMsg}</span>
+            </div>
+          </form>
+  );
+  const SuccessMsg = (
+          <div className={style}>
+            <div>
+              <div className={styleCurrentField}>{currentField}</div>
+              <Image
+                src="/login.png"
+                alt="Picture of the author"
+                width={110}
+                height={110}
+                className={styleImg}
+              />
+            </div>
+            <div>
+                <p>User <b>{login}</b> has been successfully registered</p>
+              <input type="button" value="Login" name="submit"></input>
+            </div>
+          </div>
+  );
   useEffect(() => {
     if(errorFields.length) {
       if(prevLogin !== login) {
@@ -246,70 +332,7 @@ const RegisterForm = () => {
 
   return (
     <>
-      <form 
-        method="post"
-        className={style}
-        onSubmit={handleSubmit}
-        autoComplete="do-not-autofill"
-      >
-        <div>
-          <div className={styleCurrentField}>{currentField}</div>
-          <Image
-            src="/login.png"
-            alt="Picture of the author"
-            width={110}
-            height={110}
-            className={styleImg}
-          />
-        </div>
-        <div>
-          <input 
-            type="text" 
-            value={login} 
-            style={isValid('login') ? {} : errField}
-            onChange={e => setLogin(e.target.value)}
-            onFocus={() => setCurrentField('login')} 
-            name="login"
-            placeholder="login"
-          />
-          <input 
-            type="password" 
-            value={password}
-            style={isValid('password') ? {} : errField} 
-            onChange={e => setPassword(e.target.value)}
-            onFocus={() => setCurrentField('password')}  
-            name="password" 
-            placeholder="password"
-          /> 
-          <input 
-            type="text" 
-            value={email} 
-            style={isValid('email') ? {} : errField} 
-            onChange={e => setEmail(e.target.value)}
-            onFocus={() => setCurrentField('email')} 
-            name="email" 
-            placeholder="email"
-          /> 
-          <input 
-            type="text" 
-            value={firstName} 
-            onChange={e => setFirstName(e.target.value)}
-            onFocus={() => setCurrentField('first name')}
-            name="firstName" 
-            placeholder="first name"
-          /> 
-          <input 
-            type="text" 
-            value={lastName} 
-            onChange={e => setLastName(e.target.value)}
-            onFocus={() => setCurrentField('last name')}
-            name="lastName" 
-            placeholder="last name"
-          /> 
-          <input type="submit" value="signup" name="submit"></input>
-          <span>{errMsg}</span>
-        </div>
-      </form>
+      {success ? SuccessMsg : Form}
     </>
   )
 }

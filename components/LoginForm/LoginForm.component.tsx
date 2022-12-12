@@ -24,7 +24,7 @@ const LoginForm = () => {
     display: flex;
     position: relative;
     width: 500px;
-    height: 200px;
+    height: 230px;
     border: 2px solid #166587;
     border-radius: 18px;
     overflow: hidden;
@@ -111,7 +111,7 @@ const LoginForm = () => {
   `
   const styleCurrentField = css`
     position: absolute;
-    padding-bottom: 12px;
+    padding-bottom: 27px;
     color: ${FontColor.DEFAULT};
     bottom: 0;
   `
@@ -185,7 +185,7 @@ const LoginForm = () => {
             name="password" 
             placeholder="password"
           /> 
-          <input type="submit" value="login"></input>
+          <input type="submit" value="Login"></input>
           <span>{errMsg}</span>
         </div>
       </form>
