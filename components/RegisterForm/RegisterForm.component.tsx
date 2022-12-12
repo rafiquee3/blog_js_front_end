@@ -194,11 +194,6 @@ const RegisterForm = () => {
     return errors;
   }
   const apiConnect = (login: string, password: string, email: string, firstName: string, lastName: string) => {
-    console.log(login,
-      email,
-      password,
-      firstName,
-      lastName)
     axios.post('http://localhost:3001/auth/signup', {
       login,
       email,
@@ -210,10 +205,9 @@ const RegisterForm = () => {
       router.push('/login');
     })
     .catch(function (error) {
-      console.log(error)
-      const validationError = error.response.data.errors;
-      console.log(validationError);
-      setErrorFields(validationError);
+      const validationErrors = error.response.data.errors;
+      console.log(validationErrors);
+      setErrorFields(validationErrors);
       setCurrentField('');
     });
   }
@@ -221,6 +215,7 @@ const RegisterForm = () => {
     e.preventDefault();
     const validationErrors: any = userValidator({login, password, email});
     if(validationErrors.length) {
+      console.log(validationErrors)
       setErrorFields(validationErrors);
     } else {
       apiConnect(login, password, email, firstName, lastName);
@@ -255,6 +250,7 @@ const RegisterForm = () => {
         method="post"
         className={style}
         onSubmit={handleSubmit}
+        autoComplete="do-not-autofill"
       >
         <div>
           <div className={styleCurrentField}>{currentField}</div>
@@ -286,7 +282,7 @@ const RegisterForm = () => {
             placeholder="password"
           /> 
           <input 
-            type="email" 
+            type="text" 
             value={email} 
             style={isValid('email') ? {} : errField} 
             onChange={e => setEmail(e.target.value)}
