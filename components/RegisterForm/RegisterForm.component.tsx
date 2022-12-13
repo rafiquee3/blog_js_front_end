@@ -35,15 +35,6 @@ const RegisterForm = () => {
     border-radius: 18px;
     overflow: hidden;
 
-    span {
-      position: absolute;
-      bottom: 0;
-      font-size: 0.7em;
-      margin: 1em;
-      color: ${FontColor.RED};
-      align-self: flex-start;
-    }
-
     div:nth-child(1) {
       display: flex;
       flex-direction: column;
@@ -56,7 +47,8 @@ const RegisterForm = () => {
     div:nth-child(2) {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: 'flex-start';
+      padding-top: ${success ? '50px' : '20px'};
       align-items: center;
       width: 60%;
       background: #183D61;
@@ -66,30 +58,40 @@ const RegisterForm = () => {
         color: ${FontColor.DEFAULT};
       }
 
-      input:nth-child(1), input:nth-child(2), input:nth-child(3), input:nth-child(4), input:nth-child(5) {
+      input[type="text"], input[type="password"] {
         height: 50px;
+        width: 70%;
         margin: 5px;
         border: none;
         border-bottom: 1px solid #166587;
         background: #183D61;
       }
 
-      input:nth-child(6), input[type="button"] {
-        position: relative;
-        top: 8px;
+      input[type="submit"], input[type="button"] {
+        position: absolute;
+        bottom: 12px;
         align-self: flex-end;
-        gap: 10px;
+        height: 50px;
         color: #7FA2B3;
         background: #183D61;
         border: 1px solid #166587;
         border-radius: 14px;
-        padding: 8px 12px 8px 12px;
+        padding: 12px 12px;
         margin-right: 12px;
 
         &:hover {
           color: ${FontColor.GREEN};
           cursor: pointer;
           border-color: green;
+        }
+
+        & span {
+          position: absolute;
+          bottom: 0;
+          font-size: 0.7em;
+          margin: 1em;
+          color: ${FontColor.RED};
+          align-self: flex-start;
         }
       }
   
@@ -102,11 +104,6 @@ const RegisterForm = () => {
         font-size: 1em;
         opacity: .5;
         color: ${FontColor.GRAY};
-      }
-
-      p {
-        color: ${FontColor.DEFAULT};
-        text-align: center;
       }
     }
 
@@ -124,8 +121,18 @@ const RegisterForm = () => {
   const styleCurrentField = css`
     position: absolute;
     padding-bottom: ${success ? '22px' : '110px'};
-    color: ${success ? '#BAD1CD' : FontColor.DEFAULT};
+    color: ${FontColor.DEFAULT};
     bottom: 0;
+  `
+  const styleSuccess = css`
+    color: ${FontColor.DEFAULT};
+    & p {
+      text-align: center;
+    }
+    & b {
+      color: #166587;
+      filter: brightness(1.4);
+    }
   `
   const errField = {
     color: FontColor.RED, 
@@ -290,7 +297,7 @@ const RegisterForm = () => {
                 name="lastName" 
                 placeholder="last name"
               /> 
-              <input type="submit" value="signup" name="submit"></input>
+              <input type="submit" value="Signup" name="submit"></input>
               <span>{errMsg}</span>
             </div>
           </form>
@@ -307,9 +314,9 @@ const RegisterForm = () => {
                 className={styleImg}
               />
             </div>
-            <div>
-                <p>User <b>{login}</b> has been successfully registered</p>
-              <input type="button" value="Login" name="submit"></input>
+            <div className={styleSuccess}>
+              <p>User <b>{login}</b> has been successfully registered</p>
+              <input type="button" value="Login" name="goLogin"></input>
             </div>
           </div>
   );

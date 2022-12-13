@@ -10,7 +10,8 @@ const LoginForm = () => {
   const enum FontColor {
     GREEN = 'green',
     RED = '#BE5555',
-    DEFAULT = '#8CAFBD'
+    DEFAULT = '#8CAFBD',
+    GRAY = 'gray'
   }
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +24,7 @@ const LoginForm = () => {
   const style = css`
     display: flex;
     position: relative;
-    width: 500px;
+    width: 450px;
     height: 230px;
     border: 2px solid #166587;
     border-radius: 18px;
@@ -70,18 +71,18 @@ const LoginForm = () => {
 
       input:nth-child(3) {
         position: relative;
+        height: 50px;
         top: 12px;
         align-self: flex-end;
-        gap: 10px;
         color: #7FA2B3;
         background: #183D61;
         border: 1px solid #166587;
         border-radius: 14px;
-        padding: 8px 12px 8px 12px;
+        padding: 12px 12px;
         margin-right: 12px;
 
         &:hover {
-          color: green;
+          color: ${FontColor.GREEN};
           cursor: pointer;
           border-color: green;
         }
@@ -95,7 +96,7 @@ const LoginForm = () => {
       input::placeholder {
         font-size: 1em;
         opacity: .5;
-        color: gray;
+        color: ${FontColor.GRAY};
       }
     }
 
@@ -118,7 +119,11 @@ const LoginForm = () => {
   const styleLink = css`
     margin: 1em;
     margin-left: 350px;
-    color: ${FontColor.DEFAULT}
+    color: ${FontColor.DEFAULT};
+    
+    &:hover {
+      color: ${FontColor.GREEN};
+    }
   `
   const apiConnect = (login: string, password: string) => {
     axios.post('http://localhost:3001/auth/signin', {
