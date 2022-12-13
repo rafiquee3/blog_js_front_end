@@ -24,7 +24,7 @@ const LoginForm = () => {
   const style = css`
     display: flex;
     position: relative;
-    width: 450px;
+    width: 420px;
     height: 230px;
     border: 2px solid #166587;
     border-radius: 18px;
@@ -51,7 +51,8 @@ const LoginForm = () => {
     div:nth-child(2) {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: 'flex-start';
+      padding-top: 20px;
       align-items: center;
       width: 60%;
       background: #183D61;
@@ -69,10 +70,10 @@ const LoginForm = () => {
         background: #183D61;
       }
 
-      input:nth-child(3) {
-        position: relative;
+      input[type="submit"] {
+        position: absolute;
         height: 50px;
-        top: 12px;
+        bottom: 12px;
         align-self: flex-end;
         color: #7FA2B3;
         background: #183D61;
@@ -118,7 +119,7 @@ const LoginForm = () => {
   `
   const styleLink = css`
     margin: 1em;
-    margin-left: 350px;
+    margin-left: 260px;
     color: ${FontColor.DEFAULT};
     
     &:hover {

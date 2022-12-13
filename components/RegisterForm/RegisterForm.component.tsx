@@ -120,8 +120,8 @@ const RegisterForm = () => {
   `
   const styleCurrentField = css`
     position: absolute;
-    padding-bottom: ${success ? '22px' : '110px'};
-    color: ${FontColor.DEFAULT};
+    padding-bottom: ${success ? '22px' : '100px'};
+    color: ${success ?  '#BABFBF' : FontColor.DEFAULT};
     bottom: 0;
   `
   const styleSuccess = css`
@@ -215,7 +215,6 @@ const RegisterForm = () => {
     .then(function (response) {
       setSuccess(true);
       setCurrentField(login);
-      //router.push('/login');
     })
     .catch(function (error) {
       const validationErrors = error.response.data.errors;
@@ -248,8 +247,8 @@ const RegisterForm = () => {
               <Image
                 src="/login.png"
                 alt="Picture of the author"
-                width={110}
-                height={110}
+                width={130}
+                height={130}
                 className={styleImg}
               />
             </div>
@@ -316,7 +315,12 @@ const RegisterForm = () => {
             </div>
             <div className={styleSuccess}>
               <p>User <b>{login}</b> has been successfully registered</p>
-              <input type="button" value="Login" name="goLogin"></input>
+              <input 
+                type="button" 
+                value="Login" 
+                name="goLogin"
+                onClick={() => router.push('/login')}>
+              </input>
             </div>
           </div>
   );
