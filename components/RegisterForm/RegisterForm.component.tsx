@@ -1,8 +1,7 @@
 import { css } from '@emotion/css'
 import Image from 'next/image'
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { usePrevious } from '../../hooks/usePrevious';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 const RegisterForm = () => {
@@ -19,12 +18,8 @@ const RegisterForm = () => {
   const [lastName, setLastName] = useState('');
   const [currentField, setCurrentField] = useState('');
   const [errorFields, setErrorFields] = useState([]);
-  const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
   const router = useRouter();
-  const prevLogin = usePrevious(login);
-  const prevPassword = usePrevious(password);
-  const prevEmail = usePrevious(email);
 
   const style = css`
     display: flex;
@@ -224,6 +219,20 @@ const RegisterForm = () => {
       apiConnect(login, password, email, firstName, lastName);
     }
   }
+  const handleOnChange = (callback: () => void) => {
+    if(errorFields.length) {
+      if(currentField === 'login') {
+        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'login'));
+      }
+      if(currentField === 'password') {
+        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'password'));
+      }
+      if(currentField === 'email') {
+        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'email'));
+      }
+    }
+    callback();
+  }
   const isValid = (formField: string): Boolean => {
     const result = errorFields?.find((elem: ErrorObj) => elem.field === formField);
     return !Boolean(result);
@@ -250,7 +259,7 @@ const RegisterForm = () => {
                 type="text" 
                 value={login} 
                 style={isValid('login') ? {} : styleErrField}
-                onChange={e => setLogin(e.target.value)}
+                onChange={e => handleOnChange(() => setLogin(e.target.value))}
                 onFocus={() => setCurrentField('login')} 
                 name="login"
                 placeholder="login"
@@ -259,7 +268,7 @@ const RegisterForm = () => {
                 type="password" 
                 value={password}
                 style={isValid('password') ? {} : styleErrField} 
-                onChange={e => setPassword(e.target.value)}
+                onChange={e => handleOnChange(() => setPassword(e.target.value))}
                 onFocus={() => setCurrentField('password')}  
                 name="password" 
                 placeholder="password"
@@ -268,7 +277,7 @@ const RegisterForm = () => {
                 type="text" 
                 value={email} 
                 style={isValid('email') ? {} : styleErrField} 
-                onChange={e => setEmail(e.target.value)}
+                onChange={e => handleOnChange(() => setEmail(e.target.value))}
                 onFocus={() => setCurrentField('email')} 
                 name="email" 
                 placeholder="email"
@@ -276,7 +285,7 @@ const RegisterForm = () => {
               <input 
                 type="text" 
                 value={firstName} 
-                onChange={e => setFirstName(e.target.value)}
+                onChange={e => handleOnChange(() => setFirstName(e.target.value))}
                 onFocus={() => setCurrentField('first name')}
                 name="firstName" 
                 placeholder="first name"
@@ -284,13 +293,12 @@ const RegisterForm = () => {
               <input 
                 type="text" 
                 value={lastName} 
-                onChange={e => setLastName(e.target.value)}
+                onChange={e => handleOnChange(() => setLastName(e.target.value))}
                 onFocus={() => setCurrentField('last name')}
                 name="lastName" 
                 placeholder="last name"
               /> 
               <input type="submit" value="Signup" name="submit"></input>
-              <span>{errMsg}</span>
             </div>
           </form>
   );
@@ -319,26 +327,9 @@ const RegisterForm = () => {
   );
   const ErrorMsg = (
     <div className={styleErrShowField}>
-      {errorFields.map((elem: ErrorObj) => <p>{elem.field}: {elem.error}</p>)}
+      {errorFields.map((elem: ErrorObj) => <p key={elem.field}>{elem.field}: {elem.error}</p>)}
     </div>
   )
-  useEffect(() => {
-    if(errorFields.length) {
-      if(prevLogin !== login) {
-        setErrMsg('');
-        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'login'));
-      }
-      if(prevPassword !== password) {
-        setErrMsg('');
-        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'password'));
-      }
-      if(prevEmail !== email) {
-        setErrMsg('');
-        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'email'));
-      }
-    }
-  }, [login, password, email])
-
   return (
     <>
       {success ? SuccessMsg : Form}
