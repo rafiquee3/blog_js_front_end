@@ -38,7 +38,6 @@ const RegisterForm = () => {
       background: #166587;
       padding: 30px;
     }
-
     div:nth-child(2) {
       display: flex;
       flex-direction: column;
@@ -51,7 +50,6 @@ const RegisterForm = () => {
         font-size: 1em;
         color: ${FontColor.DEFAULT};
       }
-
       span {
         color: ${FontColor.RED};
         font-size: 0.7em;
@@ -59,7 +57,6 @@ const RegisterForm = () => {
         padding-left: 0.5em;
         flex-wrap: wrap;
       }
-
       input[type="text"], input[type="password"] {
         height: 50px;
         width: 220px;
@@ -68,7 +65,6 @@ const RegisterForm = () => {
         border-bottom: 1px solid #166587;
         background: #183D61;
       }
-
       input[type="submit"], input[type="button"] {
         align-self: flex-end;
         height: 50px;
@@ -85,19 +81,16 @@ const RegisterForm = () => {
           border-color: green;
         }
       }
-  
       input:focus-visible {
         outline: none;
         border-bottom: 1px solid ${FontColor.GREEN};
       }
-
       input::placeholder {
         font-size: 1em;
         opacity: .5;
         color: ${FontColor.GRAY};
       }
     }
-
     input:-webkit-autofill,
     input:-webkit-autofill:hover, 
     input:-webkit-autofill:focus, 
@@ -112,7 +105,6 @@ const RegisterForm = () => {
   const styleCurrentField = css`
     position: absolute;
     color: ${success ?  '#BABFBF' : FontColor.DEFAULT};
-    padding: 0px;
     bottom: 0;
   `
   const styleSuccess = css`

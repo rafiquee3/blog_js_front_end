@@ -1,8 +1,7 @@
 import { css } from '@emotion/css'
 import Image from 'next/image'
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { usePrevious } from '../../hooks/usePrevious';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
@@ -16,7 +15,6 @@ const LoginForm = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [currentField, setCurrentField] = useState('');
-  const prevLogin = usePrevious(login);
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const router = useRouter();
@@ -24,54 +22,45 @@ const LoginForm = () => {
   const style = css`
     display: flex;
     position: relative;
-    width: 420px;
-    height: 230px;
     border: 2px solid #166587;
     border-radius: 18px;
     overflow: hidden;
-
-    span {
-      position: absolute;
-      bottom: 0;
-      font-size: 0.7em;
-      margin: 1em;
-      color: ${FontColor.RED};
-      align-self: flex-start;
-    }
 
     div:nth-child(1) {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 40%;
       align-items: center;
       background: #166587;
+      padding: 30px;
     }
-
     div:nth-child(2) {
       display: flex;
       flex-direction: column;
       justify-content: 'flex-start';
-      padding-top: 20px;
       align-items: center;
-      width: 60%;
+      padding: 25px;
       background: #183D61;
 
       input {
         font-size: 1em;
         color: ${error ? FontColor.RED : FontColor.DEFAULT};
       }
-
-      input:nth-child(1), input:nth-child(2) {
+      span {
+        color: ${FontColor.RED};
+        font-size: 0.7em;
+        align-self: flex-start;
+        padding-left: 0.5em;
+        flex-wrap: wrap;
+      }
+      input[type="text"], input[type="password"] {
         height: 50px;
         margin: 5px;
         border: none;
         border-bottom: 1px solid #166587;
         background: #183D61;
       }
-
       input[type="submit"] {
-        position: absolute;
         height: 50px;
         bottom: 12px;
         align-self: flex-end;
@@ -80,7 +69,7 @@ const LoginForm = () => {
         border: 1px solid #166587;
         border-radius: 14px;
         padding: 12px 12px;
-        margin-right: 12px;
+        margin-top: 20px;
 
         &:hover {
           color: ${FontColor.GREEN};
@@ -88,19 +77,16 @@ const LoginForm = () => {
           border-color: green;
         }
       }
-  
       input:focus-visible {
         outline: none;
         border-bottom: 1px solid ${error ? FontColor.RED : FontColor.GREEN};
       }
-
       input::placeholder {
         font-size: 1em;
         opacity: .5;
         color: ${FontColor.GRAY};
       }
     }
-
     input:-webkit-autofill,
     input:-webkit-autofill:hover, 
     input:-webkit-autofill:focus, 
@@ -191,8 +177,8 @@ const LoginForm = () => {
             name="password" 
             placeholder="password"
           /> 
-          <input type="submit" value="Login"></input>
           <span>{errMsg}</span>
+          <input type="submit" value="Login"></input>
         </div>
       </form>
       <Link href="/signup" className={styleLink}>create a new account</Link>
