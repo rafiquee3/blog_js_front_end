@@ -24,6 +24,8 @@ const RegisterForm = () => {
   const style = css`
     display: flex;
     position: relative;
+    min-height: 250px;
+    max-width: 470px;
     border: 2px solid #166587;
     border-radius: 18px;
     overflow: hidden;
@@ -40,7 +42,7 @@ const RegisterForm = () => {
     div:nth-child(2) {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
       padding: 25px;
       background: #183D61;
@@ -48,6 +50,14 @@ const RegisterForm = () => {
       input {
         font-size: 1em;
         color: ${FontColor.DEFAULT};
+      }
+
+      span {
+        color: ${FontColor.RED};
+        font-size: 0.7em;
+        align-self: flex-start;
+        padding-left: 0.5em;
+        flex-wrap: wrap;
       }
 
       input[type="text"], input[type="password"] {
@@ -114,13 +124,6 @@ const RegisterForm = () => {
       color: #166587;
       filter: brightness(1.4);
     }
-  `
-  const styleErrShowField = css`
-    position: absolute;
-    bottom: 0;
-    color: ${FontColor.RED};
-    padding: 5px;
-    font-size: 10px;
   `
   const styleErrField = {
     color: FontColor.RED, 
@@ -233,9 +236,16 @@ const RegisterForm = () => {
     }
     callback();
   }
-  const isValid = (formField: string): Boolean => {
+  type ValidationField = {
+    res: Boolean;
+    elem: ErrorObj | undefined;
+  }
+  const isValid = (formField: string): ValidationField => {
     const result = errorFields?.find((elem: ErrorObj) => elem.field === formField);
-    return !Boolean(result);
+    return {
+      res: !Boolean(result),
+      elem: result
+    }
   }
   const Form = (
           <form 
@@ -258,30 +268,33 @@ const RegisterForm = () => {
               <input 
                 type="text" 
                 value={login} 
-                style={isValid('login') ? {} : styleErrField}
+                style={isValid('login').res ? {} : styleErrField}
                 onChange={e => handleOnChange(() => setLogin(e.target.value))}
                 onFocus={() => setCurrentField('login')} 
                 name="login"
                 placeholder="login"
               />
+              <span>{isValid('login').elem?.error}</span>
               <input 
                 type="password" 
                 value={password}
-                style={isValid('password') ? {} : styleErrField} 
+                style={isValid('password').res ? {} : styleErrField} 
                 onChange={e => handleOnChange(() => setPassword(e.target.value))}
                 onFocus={() => setCurrentField('password')}  
                 name="password" 
                 placeholder="password"
               /> 
+              <span>{isValid('password').elem?.error}</span>
               <input 
                 type="text" 
                 value={email} 
-                style={isValid('email') ? {} : styleErrField} 
+                style={isValid('email').res ? {} : styleErrField} 
                 onChange={e => handleOnChange(() => setEmail(e.target.value))}
                 onFocus={() => setCurrentField('email')} 
                 name="email" 
                 placeholder="email"
-              /> 
+              />
+              <span>{isValid('email').elem?.error}</span>
               <input 
                 type="text" 
                 value={firstName} 
@@ -325,125 +338,10 @@ const RegisterForm = () => {
             </div>
           </div>
   );
-  const ErrorMsg = (
-    <div className={styleErrShowField}>
-      {errorFields.map((elem: ErrorObj) => <p key={elem.field}>{elem.field}: {elem.error}</p>)}
-    </div>
-  )
   return (
     <>
       {success ? SuccessMsg : Form}
-      {ErrorMsg}
     </>
   )
 }
 export default RegisterForm;
-
-// const style = css`
-// display: flex;
-// position: relative;
-// width: ${success ? '380px' : '500px'};
-// height: ${success ? '220px' : '400px'};
-// border: 2px solid #166587;
-// border-radius: 18px;
-// overflow: hidden;
-
-// div:nth-child(1) {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   width: 40%;
-//   align-items: center;
-//   background: #166587;
-// }
-
-// div:nth-child(2) {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: 'flex-start';
-//   padding-top: ${success ? '50px' : '20px'};
-//   align-items: center;
-//   width: 60%;
-//   background: #183D61;
-
-//   input {
-//     font-size: 1em;
-//     color: ${FontColor.DEFAULT};
-//   }
-
-//   input[type="text"], input[type="password"] {
-//     height: 50px;
-//     width: 70%;
-//     margin: 5px;
-//     border: none;
-//     border-bottom: 1px solid #166587;
-//     background: #183D61;
-//   }
-
-//   input[type="submit"], input[type="button"] {
-//     position: absolute;
-//     bottom: 12px;
-//     align-self: flex-end;
-//     height: 50px;
-//     color: #7FA2B3;
-//     background: #183D61;
-//     border: 1px solid #166587;
-//     border-radius: 14px;
-//     padding: 12px 12px;
-//     margin-right: 12px;
-
-//     &:hover {
-//       color: ${FontColor.GREEN};
-//       cursor: pointer;
-//       border-color: green;
-//     }
-
-//     & span {
-//       position: absolute;
-//       bottom: 0;
-//       font-size: 0.7em;
-//       margin: 1em;
-//       color: ${FontColor.RED};
-//       align-self: flex-start;
-//     }
-//   }
-
-//   input:focus-visible {
-//     outline: none;
-//     border-bottom: 1px solid ${FontColor.GREEN};
-//   }
-
-//   input::placeholder {
-//     font-size: 1em;
-//     opacity: .5;
-//     color: ${FontColor.GRAY};
-//   }
-// }
-
-// input:-webkit-autofill,
-// input:-webkit-autofill:hover, 
-// input:-webkit-autofill:focus, 
-// input:-webkit-autofill:active{
-//   -webkit-box-shadow: 0 0 0 30px #183D61 inset !important;
-// }
-// `
-// const styleImg = css`
-// opacity: ${success ? 0.5 : 0.4};
-// filter: ${success ? 'hue-rotate(340deg) saturate(130%) brightness(0.3)' : ''};
-// `
-// const styleCurrentField = css`
-// position: absolute;
-// padding-bottom: ${success ? '22px' : '100px'};
-// color: ${success ?  '#BABFBF' : FontColor.DEFAULT};
-// bottom: 0;
-// `
-// const styleSuccess = css`
-// color: ${FontColor.DEFAULT};
-// & p {
-//   text-align: center;
-// }
-// & b {
-//   color: #166587;
-//   filter: brightness(1.4);
-// }
-// `

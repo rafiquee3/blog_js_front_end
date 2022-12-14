@@ -144,19 +144,19 @@ const LoginForm = () => {
       setCurrentField('');
     });
   }
-
+  const handleOnChange = (callback: () => void) => {
+    if(error) {
+      if(currentField === 'login') {
+        setError(false);
+        setErrMsg('');
+      }
+    }
+    callback();
+  }
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     apiConnect(login, password);
   }
-
-  useEffect(() => {
-    if(FontColor.RED && prevLogin !== login) {
-      setError(false);
-      setErrMsg('');
-    }
-  }, [login])
-
   return (
     <>
       <form 
@@ -179,14 +179,14 @@ const LoginForm = () => {
             type="text" 
             value={login} 
             name="login" 
-            onChange={e => setLogin(e.target.value)}
+            onChange={e => handleOnChange(() => setLogin(e.target.value))}
             onFocus={() => setCurrentField('login')}
             placeholder="login"
           />
           <input 
             type="password" 
             value={password} 
-            onChange={e => setPassword(e.target.value)}
+            onChange={e => handleOnChange(() => setPassword(e.target.value))}
             onFocus={() => setCurrentField('password')}
             name="password" 
             placeholder="password"
