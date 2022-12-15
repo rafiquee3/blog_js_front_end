@@ -1,7 +1,8 @@
 import { css } from '@emotion/css'
 import Link from 'next/link'
+import { FontColor } from '../../styles/colors'
 
-const Menu = () => {
+export const Menu = () => {
   const style = css`
     display: flex;
     height: 70px;
@@ -18,21 +19,18 @@ const Menu = () => {
     text-decoration: none;
 
     &:hover {
-      box-shadow: inset 0 -5px 0 #BB3333;
-      color: #BB3333;
+      box-shadow: inset 0 -5px 0 ${FontColor.BLUEE};
+      color: ${FontColor.BLUEE};
     }
   `
   return (
     <>
-      <nav>
         <ul className={style}>
           <li><Link href={'/'} className={linkStyle}>HOME</Link></li>
           <li><Link href={'/'} className={linkStyle}>BLOG</Link></li>
           <li><Link href={'/'} className={linkStyle}>O MNIE</Link></li>
           <li><Link href={'/'} className={linkStyle}>KONTAKT</Link></li>
         </ul> 
-      </nav>
     </>
   )
 }
-export default Menu;

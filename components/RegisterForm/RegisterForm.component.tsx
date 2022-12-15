@@ -1,16 +1,11 @@
 import { css } from '@emotion/css'
 import Image from 'next/image'
 import axios from 'axios';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
+import { FontColor } from '../../styles/colors';
 
 const RegisterForm = () => {
-  const enum FontColor {
-    GREEN = 'green',
-    RED = '#BE5555',
-    DEFAULT = '#8CAFBD',
-    GRAY = 'gray'
-  }
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -19,6 +14,9 @@ const RegisterForm = () => {
   const [currentField, setCurrentField] = useState('');
   const [errorFields, setErrorFields] = useState([]);
   const [success, setSuccess] = useState(false);
+  const loginRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
   const style = css`
@@ -195,14 +193,14 @@ const RegisterForm = () => {
       firstName,
       lastName
     })
-    .then(function (response) {
+    .then((res) => {
       setSuccess(true);
       setCurrentField(login);
     })
-    .catch(function (error) {
-      const validationErrors = error.response.data.errors;
+    .catch((err) => {
+      const validationErrors = err.response.data.errors;
       setErrorFields(validationErrors);
-      setCurrentField('');
+      focusOnErrField(validationErrors);
     });
   }
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -210,6 +208,7 @@ const RegisterForm = () => {
     const validationErrors: any = userValidator({login, password, email});
     if(validationErrors.length) {
       setErrorFields(validationErrors);
+      focusOnErrField(validationErrors);
     } else {
       apiConnect(login, password, email, firstName, lastName);
     }
@@ -239,6 +238,18 @@ const RegisterForm = () => {
       elem: result
     }
   }
+  const focusOnErrField = (validationErrors: ErrorObj[]): void => {
+    const [firstErrField] = validationErrors;
+    const {field} = firstErrField;
+    console.log(field)
+    if(field === 'login') {
+      loginRef.current?.focus();
+    } else if(field === 'password') {
+      passwordRef.current?.focus();
+    } else if(field === 'email') {
+      emailRef.current?.focus();
+    }
+  }
   const Form = (
           <form 
             method="post"
@@ -262,7 +273,8 @@ const RegisterForm = () => {
                 value={login} 
                 style={isValid('login').res ? {} : styleErrField}
                 onChange={e => handleOnChange(() => setLogin(e.target.value))}
-                onFocus={() => setCurrentField('login')} 
+                onFocus={() => setCurrentField('login')}
+                ref={loginRef} 
                 name="login"
                 placeholder="login"
               />
@@ -272,7 +284,8 @@ const RegisterForm = () => {
                 value={password}
                 style={isValid('password').res ? {} : styleErrField} 
                 onChange={e => handleOnChange(() => setPassword(e.target.value))}
-                onFocus={() => setCurrentField('password')}  
+                onFocus={() => setCurrentField('password')}
+                ref={passwordRef}  
                 name="password" 
                 placeholder="password"
               /> 
@@ -282,7 +295,8 @@ const RegisterForm = () => {
                 value={email} 
                 style={isValid('email').res ? {} : styleErrField} 
                 onChange={e => handleOnChange(() => setEmail(e.target.value))}
-                onFocus={() => setCurrentField('email')} 
+                onFocus={() => setCurrentField('email')}
+                ref={emailRef} 
                 name="email" 
                 placeholder="email"
               />

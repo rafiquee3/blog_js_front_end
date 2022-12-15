@@ -1,23 +1,19 @@
 import { css } from '@emotion/css'
 import Image from 'next/image'
 import axios from 'axios';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import { FontColor } from '../../styles/colors';
 
 const LoginForm = () => {
-  const enum FontColor {
-    GREEN = 'green',
-    RED = '#BE5555',
-    DEFAULT = '#8CAFBD',
-    GRAY = 'gray'
-  }
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [currentField, setCurrentField] = useState('');
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const router = useRouter();
+  const loginRef = useRef<HTMLInputElement>(null);
 
   const style = css`
     display: flex;
@@ -109,25 +105,32 @@ const LoginForm = () => {
     color: ${FontColor.DEFAULT};
     
     &:hover {
-      color: ${FontColor.GREEN};
+      color: ${FontColor.BLUEE};
     }
   `
+  type ErrorObj = {
+    field: string;
+    error: string;
+  }
+  type GetResponse = {
+    data: ErrorObj[];
+  };
   const apiConnect = (login: string, password: string) => {
-    axios.post('http://localhost:3001/auth/signin', {
+    axios.post<GetResponse>('http://localhost:3001/auth/signin', {
       login,
       password
     })
-    .then(function (response) {
+    .then((res) => {
       if(login === 'admin') {
         router.push('/admin');
       } else {
         router.push('/');
       }
     })
-    .catch(function (error) {
+    .catch((err) => {
       setError(true);
       setErrMsg('Login or password incorrect');
-      setCurrentField('');
+      loginRef.current?.focus();
     });
   }
   const handleOnChange = (callback: () => void) => {
@@ -167,6 +170,7 @@ const LoginForm = () => {
             name="login" 
             onChange={e => handleOnChange(() => setLogin(e.target.value))}
             onFocus={() => setCurrentField('login')}
+            ref={loginRef}
             placeholder="login"
           />
           <input 

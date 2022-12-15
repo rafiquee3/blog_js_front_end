@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { css } from '@emotion/css'
 import Link from 'next/link'
 
-const LoginBttn = () => {
+export const LoginBttn = () => {
   const style = css`
     opacity: 0.3;
     cursor: pointer;
@@ -11,7 +11,6 @@ const LoginBttn = () => {
       opacity: 1;
     }
   `
-
   const styleLink = css`
     height: 40px;
   `
@@ -27,4 +26,3 @@ const LoginBttn = () => {
     </Link>
   )
 }
-export default LoginBttn;

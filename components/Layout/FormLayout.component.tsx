@@ -1,6 +1,6 @@
 import { css } from '@emotion/css'
 
-const Content = ({children}: any) => {
+export const FormLayout = ({children}: any) => {
   const style = css`
     display: flex;
     flex-direction: column;
@@ -16,4 +16,3 @@ const Content = ({children}: any) => {
     </>
   )
 }
-export default Content;
