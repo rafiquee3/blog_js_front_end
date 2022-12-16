@@ -1,14 +1,18 @@
-import Content from "../components/Content/Contnet.component";
-import Header from "../components/Header/Header.component";
+import type { ReactElement } from 'react'
+import { Layout } from '../components/Layout'
+import { BlogLayout } from '../components/Layout'
+import type { NextPageWithLayout } from './_app'
 
+const Admin: NextPageWithLayout = () => {
+  return <p>admin</p>
+}
 
-export default function Admin() {
+Admin.getLayout = function getLayout(page: ReactElement) {
   return (
-    <>
-      <Header/>
-      <Content>
-        <p>admin</p>
-      </Content>
-    </>
+    <Layout>
+      <BlogLayout>{page}</BlogLayout>
+    </Layout>
   )
 }
+
+export default Admin;

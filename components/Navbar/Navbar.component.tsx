@@ -1,7 +1,8 @@
+import { FC } from 'react';
 import { LoginBttn } from '.';
 import { Menu } from ".";
 
-export const Navbar = () => {
+export const Navbar: FC = (): JSX.Element => {
   return (
     <nav 
       style={{

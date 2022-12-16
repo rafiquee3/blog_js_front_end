@@ -1,10 +1,9 @@
 import { css } from '@emotion/css'
 
-export const FormLayout = ({children}: any): JSX.Element => {
+export const BlogLayout = ({children}: any): JSX.Element => {
   const style = css`
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     height: calc(100vh - 70px);
   `

@@ -1,11 +1,11 @@
 import { css } from '@emotion/css'
 import Image from 'next/image'
 import axios from 'axios';
-import { useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { FontColor } from '../../styles/colors';
 
-const RegisterForm = () => {
+const RegisterForm: FC = (): JSX.Element => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');

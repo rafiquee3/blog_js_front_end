@@ -1,9 +1,29 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
 
-export default function Articles({ article }) {
-  console.log(article)
+import type { ReactElement } from 'react'
+import { Layout } from '../../components/Layout'
+import { BlogLayout } from '../../components/Layout'
+import type { NextPageWithLayout } from '../_app'
+
+type ArticleType = {
+  title: String;
+  content: String;
+}
+
+const Article: NextPageWithLayout = ({ article }: {article: ArticleType }) => {
   return (
+    <>
     <div>{article.title}</div>
+    <div>{article.content}</div>
+    </>
+  )
+}
+
+Article.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      <BlogLayout>{page}</BlogLayout>
+    </Layout>
   )
 }
 
@@ -35,3 +55,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   }
 }
+export default Article;

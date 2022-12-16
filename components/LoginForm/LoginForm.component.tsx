@@ -1,12 +1,12 @@
 import { css } from '@emotion/css'
 import Image from 'next/image'
 import axios from 'axios';
-import { useRef, useState } from 'react';
+import { FC, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { FontColor } from '../../styles/colors';
 
-const LoginForm = () => {
+export const LoginForm: FC = (): JSX.Element => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [currentField, setCurrentField] = useState('');
@@ -189,4 +189,3 @@ const LoginForm = () => {
     </>
   )
 }
-export default LoginForm;

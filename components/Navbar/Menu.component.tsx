@@ -1,8 +1,9 @@
 import { css } from '@emotion/css'
 import Link from 'next/link'
+import { FC } from 'react'
 import { FontColor } from '../../styles/colors'
 
-export const Menu = () => {
+export const Menu: FC = (): JSX.Element => {
   const style = css`
     display: flex;
     height: 70px;

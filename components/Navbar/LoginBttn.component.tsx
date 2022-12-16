@@ -1,8 +1,9 @@
 import Image from 'next/image'
 import { css } from '@emotion/css'
 import Link from 'next/link'
+import { FC } from 'react'
 
-export const LoginBttn = () => {
+export const LoginBttn: FC = (): JSX.Element => {
   const style = css`
     opacity: 0.3;
     cursor: pointer;
@@ -15,7 +16,7 @@ export const LoginBttn = () => {
     height: 40px;
   `
   return (
-    <Link className={styleLink} href={'/login'}>
+    <Link className={styleLink} href={'/signin'}>
       <Image
         src="/login.png"
         alt="Picture of the author"
