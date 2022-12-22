@@ -18,77 +18,50 @@ export const PostForm: FC = (): JSX.Element => {
   //background: #183D61;
 
   //border-bottom: 1px solid #166587;
-  const container = css`
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    height: 70%;
-    border: 2px solid #166587;
-    border-radius: 18px;
-    background: ${BckgColor.SKYBLUE};
-    overflow: hidden;
-
-    .title {
-      text-align: center;
-      padding: 1em;
-      color: ${FontColor.DEFAULT};
-      
-    }
-  `
+  // border: 2px solid #166587;
   const styleForm = css`
     display: flex;
-    flex-direction: row;
-    height: 100%;
+    position: relative;
+    flex-direction: column;
+    width: 70%;
+    height: 90%;
+    justify-content: 'flex-start';
+    align-items: left;
+    background: ${BckgColor.SKYBLUE};
 
-    .left {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    overflow: hidden;
+  
+
+    .title {
       display: flex;
-      flex-direction: column;
-      width: 25%;
       justify-content: center;
       align-items: center;
-      background: #166587;
-      padding: 30px;
-    }
-    .right {
-      display: flex;
-      flex-direction: column;
-      width: 80%;
-      justify-content: 'flex-start';
-      align-items: left;
+      
+      
       background: ${BckgColor.BLUE};
-      border-top-left-radius: 10px;
 
-      textarea {
-        padding: 0px;
-        width: 100%;
-        height: 100%;
-        resize: none;
-        border: none;
-        border-top-left-radius: 10px;
-        padding: 1em;
-        
-        background: #183D61;
-        color: ${FontColor.DEFAULT};
-      }
-
-      .title {
+      .label {
         display: flex;
-        width: 100%;
-        height: 7%;
+        height: 100%;
+        align-items: center;
+        padding-left: 1em;
+        background: ${BckgColor.SKYBLUE};
         color: ${FontColor.DEFAULT};
-        background: ${BckgColor.SKYBLUE}
+        
       }
-    
-      input[type="submit"] {
-        height: 50px;
-        bottom: 12px;
-        align-self: flex-end;
+
+      .addImg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 10%;
         color: #7FA2B3;
         background: #183D61;
-        border: 1px solid #166587;
-        border-radius: 14px;
-        padding: 12px 12px;
-        margin-top: 20px;
+        border: none;
+       
+        font-size: 1em;
 
         &:hover {
           color: ${FontColor.GREEN};
@@ -96,22 +69,54 @@ export const PostForm: FC = (): JSX.Element => {
           border-color: green;
         }
       }
-      input:focus-visible {
-        outline: none;
-        border-bottom: 1px solid ${error ? FontColor.RED : FontColor.GREEN};
-      }
-      input::placeholder {
-        font-size: 1em;
-        opacity: .5;
-        color: ${FontColor.GRAY};
-      }
-      }
-      input:-webkit-autofill,
-      input:-webkit-autofill:hover, 
-      input:-webkit-autofill:focus, 
-      input:-webkit-autofill:active{
-        -webkit-box-shadow: 0 0 0 30px #183D61 inset !important;
-      }
+
+    }
+    .postTitle {
+      width: 100%;
+      height: 100%;
+      background: ${'#166587'};
+      border: none;
+      border-bottom-right-radius: 8px;
+      font-size: 1em;
+      padding: 0px;
+      color: ${FontColor.DEFAULT};
+      
+    }
+
+    textarea {
+      padding: 0px;
+      width: 100%;
+      height: 100%;
+      resize: none;
+      border: none;
+      padding: 1em;
+      border-bottom: 4px solid ${BckgColor.SKYBLUE};
+      background: #183D61;
+      color: ${FontColor.DEFAULT};
+      font-size: 1em;
+  
+    }
+    textarea:focus-visible {
+      outline: none;
+      border-bottom: 1px solid ${error ? FontColor.RED : FontColor.GREEN};
+    }
+
+    }
+    input:focus-visible {
+      outline: none;
+      border-bottom: 1px solid ${error ? FontColor.RED : FontColor.GREEN};
+    }
+    input::placeholder {
+      font-size: 1em;
+      opacity: .5;
+      color: ${FontColor.GRAY};
+    }
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active{
+      -webkit-box-shadow: 0 0 0 30px #183D61 inset !important;
     }
   `
   type ErrorObj = {
@@ -154,24 +159,24 @@ export const PostForm: FC = (): JSX.Element => {
   }
   return (
     <>
-      <form 
-        method="post"
-        className={container} 
-      > 
-        <div className="title">Add a new post</div>
-        <div className={styleForm}>
-          <div className="left"> 
-          </div>
-          <div className="right">
-            <textarea 
-              name="content"
-            >
-              New blog post...
-            </textarea>
-            <input type="submit" name="submitBttn" value="create" ></input>
+      <div className={styleForm}> 
+        <div className="title">
+          <div className="label">Title: </div>
+          <input className="postTitle" type="text"/>
+          <div className="addImg">
+            <Image
+              src="/send.png"
+              alt="create post icon"
+              width={50}
+              height={50}
+            />
           </div>
         </div>
-      </form>
+        <textarea 
+          name="content"
+        >
+        </textarea>
+      </div>
     </>
   )
 }
