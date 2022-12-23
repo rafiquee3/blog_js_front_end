@@ -9,4 +9,5 @@ export const enum FontColor {
 export const enum BckgColor {
   SKYBLUE = '#166587',
   BLUE = '#183D61',
+  GLOBAL = '#263643',
 }

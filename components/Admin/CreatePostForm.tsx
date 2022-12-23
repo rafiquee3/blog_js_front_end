@@ -5,20 +5,17 @@ import { FC, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { FontColor, BckgColor } from '../../styles/colors';
+import matter from 'gray-matter';
 
 export const PostForm: FC = (): JSX.Element => {
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
+  const [title, setTitle] = useState('');
+  const [text, setText] = useState('');
   const [currentField, setCurrentField] = useState('');
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
   const router = useRouter();
   const loginRef = useRef<HTMLInputElement>(null);
-  //background: #166587;
-  //background: #183D61;
 
-  //border-bottom: 1px solid #166587;
-  // border: 2px solid #166587;
   const styleForm = css`
     display: flex;
     position: relative;
@@ -31,27 +28,28 @@ export const PostForm: FC = (): JSX.Element => {
 
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
+    border-left: 2px solid ${BckgColor.SKYBLUE};
     overflow: hidden;
-  
+
+    -webkit-box-shadow: -2px -1px 76px 3px rgba(0,0,0,0.23);
+    -moz-box-shadow: -2px -1px 76px 3px rgba(0,0,0,0.23);
+    box-shadow: -2px -1px 76px 3px rgba(0,0,0,0.23);
 
     .title {
       display: flex;
       justify-content: center;
-      align-items: center;
-      
-      
+      align-items: center;      
       background: ${BckgColor.BLUE};
 
       .label {
         display: flex;
         height: 100%;
         align-items: center;
-        padding-left: 1em;
+        padding: 1em 0.5em 1em 1em;
         background: ${BckgColor.SKYBLUE};
         color: ${FontColor.DEFAULT};
         
       }
-
       .addImg {
         display: flex;
         justify-content: center;
@@ -60,16 +58,12 @@ export const PostForm: FC = (): JSX.Element => {
         color: #7FA2B3;
         background: #183D61;
         border: none;
-       
-        font-size: 1em;
 
-        &:hover {
-          color: ${FontColor.GREEN};
+        .img:hover {
+          filter: hue-rotate(300deg) saturate(190%) brightness(1);
           cursor: pointer;
-          border-color: green;
         }
       }
-
     }
     .postTitle {
       width: 100%;
@@ -81,8 +75,10 @@ export const PostForm: FC = (): JSX.Element => {
       padding: 0px;
       color: ${FontColor.DEFAULT};
       
+      &:hover {
+        box-shadow: inset 0 -2px 0 ${'green'};
+      }
     }
-
     textarea {
       padding: 0px;
       width: 100%;
@@ -90,17 +86,15 @@ export const PostForm: FC = (): JSX.Element => {
       resize: none;
       border: none;
       padding: 1em;
-      border-bottom: 4px solid ${BckgColor.SKYBLUE};
+      border-bottom: 1px solid ${FontColor.DEFAULT};
+      border-top-left-radius: 4px;
       background: #183D61;
       color: ${FontColor.DEFAULT};
       font-size: 1em;
-  
     }
     textarea:focus-visible {
       outline: none;
       border-bottom: 1px solid ${error ? FontColor.RED : FontColor.GREEN};
-    }
-
     }
     input:focus-visible {
       outline: none;
@@ -110,7 +104,6 @@ export const PostForm: FC = (): JSX.Element => {
       font-size: 1em;
       opacity: .5;
       color: ${FontColor.GRAY};
-    }
     }
     input:-webkit-autofill,
     input:-webkit-autofill:hover, 
@@ -126,22 +119,20 @@ export const PostForm: FC = (): JSX.Element => {
   type GetResponse = {
     data: ErrorObj[];
   };
-  const apiConnect = (login: string, password: string) => {
-    axios.post<GetResponse>('http://localhost:3001/auth/signin', {
-      login,
-      password
+  const apiConnect = (txt: any) => {
+   
+    axios.post<GetResponse>('http://localhost:3001/article/add', {
+      title,
+      content: txt.content
     })
     .then((res) => {
-      if(login === 'admin') {
-        router.push('/admin');
-      } else {
-        router.push('/');
-      }
+      console.log('save in db')
     })
     .catch((err) => {
-      setError(true);
-      setErrMsg('Login or password incorrect');
-      loginRef.current?.focus();
+      //setError(true);
+      //setErrMsg('Login or password incorrect');
+      //loginRef.current?.focus();
+      console.log('err')
     });
   }
   const handleOnChange = (callback: () => void) => {
@@ -153,27 +144,31 @@ export const PostForm: FC = (): JSX.Element => {
     }
     callback();
   }
-  const handleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    apiConnect(login, password);
+  const createPost = () => {
+    const txt = matter(text);
+    apiConnect(txt);
   }
   return (
     <>
       <div className={styleForm}> 
         <div className="title">
           <div className="label">Title: </div>
-          <input className="postTitle" type="text"/>
+          <input className="postTitle" type="text" value={title} onChange={(e) => setTitle(e.target.value)}/>
           <div className="addImg">
             <Image
               src="/send.png"
               alt="create post icon"
-              width={50}
-              height={50}
+              width={30}
+              height={40}
+              className="img"
+              onClick={createPost}
             />
           </div>
         </div>
         <textarea 
           name="content"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
         >
         </textarea>
       </div>
