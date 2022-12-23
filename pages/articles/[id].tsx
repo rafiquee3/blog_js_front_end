@@ -1,12 +1,10 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { remark } from 'remark';
-import html from 'remark-html';
 import type { ReactElement } from 'react'
 import { Layout } from '../../components/Layout'
 import { BlogLayout } from '../../components/Layout'
 import type { NextPageWithLayout } from '../_app'
-import matter from 'gray-matter';
 import parse, { domToReact } from 'html-react-parser';
+import hljs from 'highlight.js';
 
 type ArticleType = {
   title: string;
