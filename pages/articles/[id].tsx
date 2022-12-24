@@ -5,6 +5,7 @@ import { BlogLayout } from '../../components/Layout'
 import type { NextPageWithLayout } from '../_app'
 import parse, { domToReact } from 'html-react-parser';
 import hljs from 'highlight.js';
+import 'highlight.js/styles/base16/solarized-dark.css';
 
 type ArticleType = {
   title: string;
@@ -48,4 +49,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   }
 }
+hljs.highlightAll();
 export default Article;
