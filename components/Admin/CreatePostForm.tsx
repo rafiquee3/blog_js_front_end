@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { FontColor, BckgColor } from '../../styles/colors';
 import matter from 'gray-matter';
+import {remark} from 'remark'
+import remarkHtml from 'remark-html'
 
 export const PostForm: FC = (): JSX.Element => {
   const [title, setTitle] = useState('');
@@ -119,11 +121,11 @@ export const PostForm: FC = (): JSX.Element => {
   type GetResponse = {
     data: ErrorObj[];
   };
-  const apiConnect = (txt: any) => {
+  const apiConnect = (html: any) => {
    
     axios.post<GetResponse>('http://localhost:3001/article/add', {
       title,
-      content: txt.content
+      content: html
     })
     .then((res) => {
       console.log('save in db')
@@ -145,8 +147,15 @@ export const PostForm: FC = (): JSX.Element => {
     callback();
   }
   const createPost = () => {
-    const txt = matter(text);
-    apiConnect(txt);
+    //const txt = matter(text);
+    remark()
+    //.use(remarkPresetLintMarkdownStyleGuide)
+    .use(remarkHtml)
+    .process(text)
+    .then((file) => {
+      console.log(String(file))
+      apiConnect(String(file));
+    })
   }
   return (
     <>

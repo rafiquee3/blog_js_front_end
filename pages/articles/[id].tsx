@@ -1,5 +1,5 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
-import type { ReactElement } from 'react'
+import { ReactElement, useEffect } from 'react'
 import { Layout } from '../../components/Layout'
 import { BlogLayout } from '../../components/Layout'
 import type { NextPageWithLayout } from '../_app'
@@ -13,8 +13,10 @@ type ArticleType = {
 }
 
 const Article: NextPageWithLayout = ({ article }: {article: ArticleType }) => {
-
   console.log(article)
+  useEffect(() => {
+    hljs.initHighlighting()
+  }, [])
   return (
     <>
     {parse(article.content)}
@@ -49,5 +51,4 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   }
 }
-hljs.highlightAll();
 export default Article;
