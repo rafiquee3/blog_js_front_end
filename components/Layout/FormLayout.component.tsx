@@ -6,6 +6,7 @@ export const FormLayout = ({children}: any): JSX.Element => {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 100%;
     height: calc(100vh - 70px);
   `
   return (

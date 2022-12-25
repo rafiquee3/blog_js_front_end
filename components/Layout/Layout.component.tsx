@@ -6,14 +6,15 @@ export const Layout = ({children}: any): JSX.Element => {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
     line-height: 1.5em;
   `
   return ( 
     <>
       <Navbar/>
-      <div className={style}>
-        <main>{children}</main>
-      </div>
+      <main className={style}>
+        {children}
+      </main>
     </>
   )
 }

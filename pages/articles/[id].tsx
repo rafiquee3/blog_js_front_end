@@ -36,7 +36,7 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
         <title>rafiquee3 blog</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <h1><u>{article.title}</u></h1>
+      <h1>{article.title}</h1>
       {parse(content)}
     </>
   )
