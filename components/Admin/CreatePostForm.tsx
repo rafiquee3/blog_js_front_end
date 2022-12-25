@@ -3,11 +3,10 @@ import Image from 'next/image'
 import axios from 'axios';
 import { FC, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { FontColor, BckgColor } from '../../styles/colors';
-import matter from 'gray-matter';
 import {remark} from 'remark'
 import remarkHtml from 'remark-html'
+import {escape} from 'html-escaper';
 
 export const PostForm: FC = (): JSX.Element => {
   const [title, setTitle] = useState('');
@@ -147,14 +146,17 @@ export const PostForm: FC = (): JSX.Element => {
     callback();
   }
   const createPost = () => {
+    //escape('string');
+    //unescape('escaped string');
     //const txt = matter(text);
+  
     remark()
     //.use(remarkPresetLintMarkdownStyleGuide)
     .use(remarkHtml)
     .process(text)
     .then((file) => {
-      console.log(String(file))
-      apiConnect(String(file));
+      const escapeChar = escape(String(file));
+      apiConnect(escapeChar);
     })
   }
   return (
