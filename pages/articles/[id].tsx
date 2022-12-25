@@ -25,7 +25,6 @@ const addClass = (html: any) => {
 const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
   const unescapeContent = unescape(article.content);
   const content = addClass(unescapeContent);
-  console.log(content)
   useEffect(() => {
     hljs.registerLanguage('javascript', javascript);
     hljs.highlightAll();
