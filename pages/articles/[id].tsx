@@ -19,11 +19,13 @@ type ArticleType = {
 }
 
 const addClass = (html: any) => {
-  return html.replace('<code>', '<code className="js">');
+  return html.replace(/<code>/g, '<code className="js">');
 }
 
 const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
-  const content = addClass(unescape(article.content));
+  const unescapeContent = unescape(article.content);
+  const content = addClass(unescapeContent);
+  console.log(content)
   useEffect(() => {
     hljs.registerLanguage('javascript', javascript);
     hljs.highlightAll();
