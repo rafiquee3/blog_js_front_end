@@ -5,7 +5,7 @@ export const enum FontColor {
   DEFAULT = '#ABAFB1',
   RED = '#BE5555',
   GRAY = 'gray',
-  ORANGE = '#D19A66',
+  ORANGE = '#AC9681',
   SUBTITLE = '#D5D9DC',
   TITLE = '#679CAA',
 }
