@@ -1,5 +1,5 @@
 import { css } from '@emotion/css'
-import { FontColor } from '../../styles/colors'
+import { BckgColor, FontColor } from '../../styles/colors'
 import Footer from '../Footer/Footer.component'
 
 export const BlogLayout = ({children}: any): JSX.Element => {
@@ -13,11 +13,22 @@ export const BlogLayout = ({children}: any): JSX.Element => {
     code {
       background: #1A2B3A;
       width: 780px;
+      border-left: 4px solid ${BckgColor.SKYBLUE};
+      border-top-left-radius: 2px; 
+      border-bottom-left-radius: 2px; 
     }
     h1 {
       color: ${FontColor.TITLE};
       margin: 2em 1.5em 1em 0;
       text-transform: uppercase;
+    }
+    h1::before {
+      color: ${BckgColor.SKYBLUE};
+      content: '-';
+      height: 10px;
+      width: 10px;
+      background: ${BckgColor.SKYBLUE};
+      margin-right: 0.5em;
     }
     h2 {
       color: ${FontColor.SUBTITLE}};

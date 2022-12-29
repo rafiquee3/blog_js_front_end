@@ -115,12 +115,29 @@ export const LoginForm: FC = (): JSX.Element => {
   type GetResponse = {
     data: ErrorObj[];
   };
+  type Token = {
+    accessToken: string;
+    refreshToken: string;
+  }
   const apiConnect = (login: string, password: string) => {
-    axios.post<GetResponse>('http://localhost:3001/auth/signin', {
+    axios.post('http://localhost:3001/auth/signin', {
       login,
       password
     })
     .then((res) => {
+      const tokens = res.data;
+      const {accessToken, refreshToken}: Token = tokens;
+      //store JWT in session storage
+      sessionStorage.setItem('JWT', accessToken);
+      sessionStorage.setItem('JWT-REFRESH', refreshToken);
+      console.log('My JWT is', sessionStorage.getItem('JWT'));
+
+      // remove JWT from storage
+      //sessionStorage.removeItem('JWT');
+
+      // clear whole storage
+      //sessionStorage.clear();
+    
       if(login === 'admin') {
         router.push('/admin');
       } else {
