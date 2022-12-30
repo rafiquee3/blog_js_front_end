@@ -2,8 +2,11 @@ import Image from 'next/image'
 import { css } from '@emotion/css'
 import Link from 'next/link'
 import { FC } from 'react'
+import { useRecoilState } from 'recoil'
+import { user } from '../../atoms/atoms'
 
 export const LoginBttn: FC = (): JSX.Element => {
+  const [currentUser, setUser] = useRecoilState(user);
   const style = css`
     opacity: 0.3;
     cursor: pointer;
@@ -24,6 +27,7 @@ export const LoginBttn: FC = (): JSX.Element => {
         height={40}
         className={style}
       />
+      {currentUser}
     </Link>
   )
 }

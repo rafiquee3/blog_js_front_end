@@ -2,13 +2,15 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 import { FC, ReactElement, useEffect } from 'react'
 import { Layout } from '../../components/Layout'
 import { BlogLayout } from '../../components/Layout'
-import type { NextPageWithLayout } from '../_app'
+import { NextPageWithLayout } from '../_app'
 import parse from 'html-react-parser';
 import hljs from 'highlight.js';
 import javascript from 'highlight.js/lib/languages/javascript';
 import 'highlight.js/styles/atom-one-dark.css';
 import Head from 'next/head'
 import {unescape} from 'html-escaper';
+import { useRecoilState } from 'recoil'
+import { useRouter } from 'next/router'
 
 type ArticleType = {
   content: string;
@@ -23,6 +25,7 @@ const addClass = (html: any) => {
 }
 
 const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
+  const router = useRouter();
   const unescapeContent = unescape(article.content);
   const content = addClass(unescapeContent);
   useEffect(() => {
@@ -33,7 +36,7 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
   return (
     <>
       <Head>
-        <title>rafiquee3 blog</title>
+        <title>r3 blog</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <h1>{article.title}</h1>
@@ -57,6 +60,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     params: { id: article.id.toString() },
   }))
   return { paths, fallback: false }
+  //return { paths, fallback: 'blocking' }
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }: any) => {
@@ -67,6 +71,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: any) => {
     props: {
       article,
     },
+    //revalidate: 10,
   }
 }
 

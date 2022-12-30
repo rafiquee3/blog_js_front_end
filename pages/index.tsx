@@ -2,9 +2,17 @@ import type { ReactElement } from 'react'
 import { Layout } from '../components/Layout'
 import { BlogLayout } from '../components/Layout'
 import type { NextPageWithLayout } from './_app'
-
+import { useRecoilState } from 'recoil'
+import { user } from '../atoms/atoms'
+import { useRouter } from 'next/router'
 const Index: NextPageWithLayout = () => {
-  return <p>hello word</p>
+  const [currUser, setUser] = useRecoilState(user);
+  const router = useRouter();
+  return <>
+          <p>hello word</p>
+          <input type="button" onClick={()=>router.push('/articles/1')}/>
+          {currUser}
+          </>
 }
 
 Index.getLayout = function getLayout(page: ReactElement) {

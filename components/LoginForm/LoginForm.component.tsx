@@ -5,6 +5,8 @@ import { FC, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { FontColor } from '../../styles/colors';
+import { useRecoilState } from 'recoil';
+import { user } from '../../atoms/atoms';
 
 export const LoginForm: FC = (): JSX.Element => {
   const [login, setLogin] = useState('');
@@ -14,6 +16,7 @@ export const LoginForm: FC = (): JSX.Element => {
   const [errMsg, setErrMsg] = useState('');
   const router = useRouter();
   const loginRef = useRef<HTMLInputElement>(null);
+  const [currentUser, setUser] = useRecoilState(user);
 
   const style = css`
     display: flex;
@@ -127,17 +130,12 @@ export const LoginForm: FC = (): JSX.Element => {
     .then((res) => {
       const tokens = res.data;
       const {accessToken, refreshToken}: Token = tokens;
-      //store JWT in session storage
-      sessionStorage.setItem('JWT', accessToken);
-      sessionStorage.setItem('JWT-REFRESH', refreshToken);
-      console.log('My JWT is', sessionStorage.getItem('JWT'));
 
-      // remove JWT from storage
-      //sessionStorage.removeItem('JWT');
+      localStorage.setItem('JWT', accessToken);
+      localStorage.setItem('JWT-REF', refreshToken);
+      localStorage.setItem('user', login);
+      setUser(login);
 
-      // clear whole storage
-      //sessionStorage.clear();
-    
       if(login === 'admin') {
         router.push('/admin');
       } else {
