@@ -11,6 +11,7 @@ import Head from 'next/head'
 import {unescape} from 'html-escaper';
 import { useRecoilState } from 'recoil'
 import { useRouter } from 'next/router'
+import { user } from '../../atoms/atoms'
 
 type ArticleType = {
   content: string;
@@ -26,11 +27,15 @@ const addClass = (html: any) => {
 
 const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
   const router = useRouter();
+  const [currUser, setUser] = useRecoilState(user);
   const unescapeContent = unescape(article.content);
   const content = addClass(unescapeContent);
   useEffect(() => {
     hljs.registerLanguage('javascript', javascript);
     hljs.highlightAll();
+    console.log('adsdassadsadasdsa')
+    console.log(localStorage.getItem('user'))
+    setUser(localStorage.getItem('user'));
   }, [])
 
   return (

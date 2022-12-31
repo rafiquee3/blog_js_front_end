@@ -9,9 +9,11 @@ import { user } from '../atoms/atoms'
 const Admin: NextPageWithLayout = () => {
   const [sa, setSa] = useRecoilState(user);
   useEffect(()=>{setSa('siabada')}, [setSa])
-  return <>
-    <PostForm/>{sa}
+  return (
+    <>
+      <PostForm/>
     </>
+  )
 }
 
 Admin.getLayout = function getLayout(page: ReactElement) {

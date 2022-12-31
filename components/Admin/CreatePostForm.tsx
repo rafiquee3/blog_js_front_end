@@ -1,12 +1,14 @@
 import { css } from '@emotion/css'
 import Image from 'next/image'
 import axios from 'axios';
-import { FC, useRef, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { FontColor, BckgColor } from '../../styles/colors';
 import {remark} from 'remark'
 import remarkHtml from 'remark-html'
 import {escape} from 'html-escaper';
+import { useRecoilState } from 'recoil'
+import { user } from '../../atoms/atoms';
 
 export const PostForm: FC = (): JSX.Element => {
   const [title, setTitle] = useState('');
@@ -16,7 +18,7 @@ export const PostForm: FC = (): JSX.Element => {
   const [errMsg, setErrMsg] = useState('');
   const router = useRouter();
   const loginRef = useRef<HTMLInputElement>(null);
-
+  const [currentUser, setCurrentUser] = useRecoilState(user);
   const styleForm = css`
     display: flex;
     position: relative;
@@ -149,9 +151,7 @@ export const PostForm: FC = (): JSX.Element => {
     //escape('string');
     //unescape('escaped string');
     //const txt = matter(text);
-  
     remark()
-    //.use(remarkPresetLintMarkdownStyleGuide)
     .use(remarkHtml)
     .process(text)
     .then((file) => {
@@ -159,6 +159,14 @@ export const PostForm: FC = (): JSX.Element => {
       apiConnect(escapeChar);
     })
   }
+
+  useEffect(() => {
+    if(!currentUser) {
+      const user = currentUser || (localStorage.getItem("user") || "");
+      console.log(user);
+      //setCurrentUser(userLS);
+    }
+  }, [currentUser])
   return (
     <>
       <div className={styleForm}> 

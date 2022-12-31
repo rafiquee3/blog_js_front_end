@@ -4,12 +4,6 @@ import { Navbar } from '../Navbar'
 import {
   RecoilRoot,
 } from 'recoil';
-import { atom } from "recoil";
-
-export const user = atom({
-  key: "user", 
-  default: '',
-});
 
 export const Layout = ({children}: any): JSX.Element => {
   const style = css`

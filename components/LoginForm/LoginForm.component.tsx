@@ -16,7 +16,7 @@ export const LoginForm: FC = (): JSX.Element => {
   const [errMsg, setErrMsg] = useState('');
   const router = useRouter();
   const loginRef = useRef<HTMLInputElement>(null);
-  const [currentUser, setUser] = useRecoilState(user);
+  const [currentUser, setCurrentUser] = useRecoilState(user);
 
   const style = css`
     display: flex;
@@ -134,7 +134,7 @@ export const LoginForm: FC = (): JSX.Element => {
       localStorage.setItem('JWT', accessToken);
       localStorage.setItem('JWT-REF', refreshToken);
       localStorage.setItem('user', login);
-      setUser(login);
+      setCurrentUser(login);
 
       if(login === 'admin') {
         router.push('/admin');
