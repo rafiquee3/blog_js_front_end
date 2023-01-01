@@ -8,7 +8,7 @@ import { user } from '../atoms/atoms'
 
 const Admin: NextPageWithLayout = () => {
   const [sa, setSa] = useRecoilState(user);
-  useEffect(()=>{setSa('siabada')}, [setSa])
+
   return (
     <>
       <PostForm/>

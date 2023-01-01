@@ -9,6 +9,7 @@ import remarkHtml from 'remark-html'
 import {escape} from 'html-escaper';
 import { useRecoilState } from 'recoil'
 import { user } from '../../atoms/atoms';
+import { LoginForm } from '../LoginForm';
 
 export const PostForm: FC = (): JSX.Element => {
   const [title, setTitle] = useState('');
@@ -123,11 +124,20 @@ export const PostForm: FC = (): JSX.Element => {
     data: ErrorObj[];
   };
   const apiConnect = (html: any) => {
-   
-    axios.post<GetResponse>('http://localhost:3001/article/add', {
+    const JwtToken = localStorage.getItem('JWT');
+    const config = {
+      headers:{
+        Authorization: 'Bearer ' + JwtToken,
+      }
+    };
+    const data ={
       title,
       content: html
-    })
+    }
+    const url: string = 'http://localhost:3001/article/add'
+    console.log(url, data, config)
+    //<GetResponse>
+    axios.post(url, data, config)
     .then((res) => {
       console.log('save in db')
     })
@@ -135,7 +145,7 @@ export const PostForm: FC = (): JSX.Element => {
       //setError(true);
       //setErrMsg('Login or password incorrect');
       //loginRef.current?.focus();
-      console.log('err')
+      console.log(err)
     });
   }
   const handleOnChange = (callback: () => void) => {
@@ -169,6 +179,7 @@ export const PostForm: FC = (): JSX.Element => {
   }, [currentUser])
   return (
     <>
+    {currentUser === 'admin' ?
       <div className={styleForm}> 
         <div className="title">
           <div className="label">Title: </div>
@@ -191,6 +202,11 @@ export const PostForm: FC = (): JSX.Element => {
         >
         </textarea>
       </div>
+
+      :
+
+      <LoginForm />
+    }
     </>
   )
 }

@@ -19,13 +19,9 @@ export const LoginBttn: FC = (): JSX.Element => {
   `
  
   useEffect(() => {
-      type cos = (string | null);
-      const userLS = localStorage.getItem('user');
-      const news: any= userLS;
-      console.log(typeof userLS)
-      setCurrentUser(news);
-    
-  },[])
+      const userLS = (localStorage.getItem('user') || "");
+      setCurrentUser(userLS);  
+  },[setCurrentUser])
   return (
     <>
       <Link className={styleLink} href={currentUser ? '/logout' : '/signin'}>

@@ -17,10 +17,11 @@ const Logout: NextPageWithLayout = (): JSX.Element  => {
     });
     
   }
-  //console.log(currentUser)
+  
   useEffect(() => {
     if(currentUser) {
       setCurrentUser('');
+      localStorage.clear();
       logoutApi();
     }
   }, [currentUser, setCurrentUser])
