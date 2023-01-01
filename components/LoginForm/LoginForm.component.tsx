@@ -122,11 +122,13 @@ export const LoginForm: FC = (): JSX.Element => {
     accessToken: string;
     refreshToken: string;
   }
-  const apiConnect = (login: string, password: string) => {
-    axios.post('http://localhost:3001/auth/signin', {
+  const apiConnect = async (login: string, password: string) => {
+    const data = {
       login,
       password
-    })
+    };
+    const url: string = 'http://localhost:3001/auth/signin';
+    await axios.post(url, data)
     .then((res) => {
       const tokens = res.data;
       const {accessToken, refreshToken}: Token = tokens;

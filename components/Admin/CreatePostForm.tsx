@@ -123,21 +123,21 @@ export const PostForm: FC = (): JSX.Element => {
   type GetResponse = {
     data: ErrorObj[];
   };
-  const apiConnect = (html: any) => {
+  const apiConnect = async (html: any) => {
     const JwtToken = localStorage.getItem('JWT');
     const config = {
       headers:{
         Authorization: 'Bearer ' + JwtToken,
       }
     };
-    const data ={
+    const data = {
       title,
       content: html
     }
     const url: string = 'http://localhost:3001/article/add'
     console.log(url, data, config)
     //<GetResponse>
-    axios.post(url, data, config)
+    await axios.post(url, data, config)
     .then((res) => {
       console.log('save in db')
     })

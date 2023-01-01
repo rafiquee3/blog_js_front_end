@@ -17,11 +17,11 @@ export const LoginBttn: FC = (): JSX.Element => {
   const styleLink = css`
     height: 40px;
   `
- 
   useEffect(() => {
       const userLS = (localStorage.getItem('user') || "");
       setCurrentUser(userLS);  
   },[setCurrentUser])
+
   return (
     <>
       <Link className={styleLink} href={currentUser ? '/logout' : '/signin'}>
