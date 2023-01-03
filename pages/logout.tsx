@@ -1,12 +1,14 @@
 import axios from 'axios';
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil'
 import { user } from '../atoms/atoms'
 import { BlogLayout, Layout } from '../components/Layout';
+import { Status } from '../components/Status/Status.component';
 import { NextPageWithLayout } from './_app';
 
 const Logout: NextPageWithLayout = (): JSX.Element  => {
   const [currentUser, setCurrentUser] = useRecoilState(user);
+  const [err, setErr] = useState(false);
   
   useEffect(() => {
     const logoutApi = async () => {
@@ -16,15 +18,13 @@ const Logout: NextPageWithLayout = (): JSX.Element  => {
           'Authorization': `Bearer ${JwtToken}`,
         }
       };
-      console.log(config);
       const url: string = 'http://localhost:3001/auth/logout';
       await axios.get(url, config)
       .then((res) => {
         localStorage.clear();
-        console.log(res.data);
       })
       .catch((err) => {
-        console.log(err)
+        setErr(true);
       });  
     }
 
@@ -33,9 +33,15 @@ const Logout: NextPageWithLayout = (): JSX.Element  => {
       logoutApi();
     }
   }, [currentUser, setCurrentUser])
-  return <>
-      <p>logout</p>
+  return (
+    <>
+      {err ? 
+      <Status info="Error" error /> 
+      :
+      <Status info="Logged out" error={false} /> 
+      }
     </>
+  )
 }
 
 Logout.getLayout = function getLayout(page: ReactElement) {

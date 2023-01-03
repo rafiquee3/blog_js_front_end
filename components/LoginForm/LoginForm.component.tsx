@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { FontColor } from '../../styles/colors';
 import { useRecoilState } from 'recoil';
 import { user } from '../../atoms/atoms';
+import { Status } from '../Status/Status.component';
 
 export const LoginForm: FC = (): JSX.Element => {
   const [login, setLogin] = useState('');
@@ -202,6 +203,7 @@ export const LoginForm: FC = (): JSX.Element => {
           <input type="submit" value="Login"></input>
         </div>
       </form>
+      {currentUser !== '' ? <Status info="Logged in" error={false} /> : ''}
       <Link href="/signup" className={styleLink}>create a new account</Link>
     </>
   )
