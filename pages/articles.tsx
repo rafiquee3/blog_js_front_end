@@ -1,9 +1,9 @@
 import { GetStaticProps } from 'next'
-import { useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { BlogLayout, Layout } from '../components/Layout';
 import { Status } from '../components/Status/Status.component';
 import { useRecoilState } from 'recoil';
-import { firstRender } from '../atoms/atoms';
+import { firstRender, page } from '../atoms/atoms';
 import { NextPageWithLayout } from './_app';
 
 type Props = {
@@ -14,16 +14,15 @@ type Props = {
   content:   string;
 };
 //const Index: NextPageWithLayout = (): JSX.Element => {
-  const Articles = ({ articles }: Props) => {
+  const Articles = ({ articles }: {articles: Props}): JSX.Element => {
   const [firstView, setFirstView] = useRecoilState(firstRender)
+  const [thisPage, setThisPage] = useRecoilState(page);
   useEffect(() => {
-
-    console.log(firstView);
+    setThisPage('blog');
     return () => {
-      console.log('unmount')
       setFirstView(false);
     }
-  }, [])
+  }, [setFirstView, setThisPage])
  
   return (
    <>

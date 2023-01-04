@@ -158,9 +158,6 @@ export const PostForm: FC = (): JSX.Element => {
     callback();
   }
   const createPost = () => {
-    //escape('string');
-    //unescape('escaped string');
-    //const txt = matter(text);
     remark()
     .use(remarkHtml)
     .process(text)

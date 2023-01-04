@@ -1,9 +1,12 @@
 import { css } from '@emotion/css'
-import Link from 'next/link'
 import { FC } from 'react'
 import { FontColor } from '../../styles/colors'
+import Link from 'next/link'
+import { useRecoilState } from 'recoil';
+import { page } from '../../atoms/atoms';
 
 export const Menu: FC = (): JSX.Element => {
+  const [thisPage, setThisPage] = useRecoilState(page);
   const style = css`
     display: flex;
     height: 70px;
@@ -24,12 +27,21 @@ export const Menu: FC = (): JSX.Element => {
       color: ${FontColor.BLUEE};
     }
   `
+  const linkStyleSelect = css`
+    display: block;
+    line-height: 70px;
+    padding: 0 1rem 0 1rem;
+    cursor: pointer;
+    text-decoration: none;
+    color: ${FontColor.BLUEE};
+  }
+`
   return (
     <>
         <ul className={style}>
-          <li><Link href={'/'} className={linkStyle}>HOME</Link></li>
-          <li><Link href={'/'} className={linkStyle}>BLOG</Link></li>
-          <li><Link href={'/'} className={linkStyle}>O MNIE</Link></li>
+          <li><Link href={'/'} className={thisPage === 'home' ? linkStyleSelect : linkStyle}>HOME</Link></li>
+          <li><Link href={'/'} className={thisPage === 'blog' ? linkStyleSelect : linkStyle}>BLOG</Link></li>
+          <li><Link href={'/'} className={thisPage === 'about' ? linkStyleSelect : linkStyle}>O MNIE</Link></li>
           <li><Link href={'/'} className={linkStyle}>KONTAKT</Link></li>
         </ul> 
     </>

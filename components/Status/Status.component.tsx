@@ -16,6 +16,7 @@ export const Status = ({info, error}: {info: string, error: boolean}) => {
         background: ${BckgColor.BLUE};
         border: none;
         border-left: 5px solid ${error ? BckgColor.RED : BckgColor.GREEN};
+        z-index: 999;
     ` 
     useEffect(() => {
       const timeout = setTimeout(() => {

@@ -7,7 +7,7 @@ export const user = atom({
 
 export const page = atom({
   key: "page",
-  default: '',
+  default: 'home',
 })
 
 export const firstRender = atom({

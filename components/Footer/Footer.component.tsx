@@ -34,7 +34,6 @@ const style = css`
       transition: margin-top 0.5s;
       width: 50px;
       height: 50px;
-
     }
   }
 `
