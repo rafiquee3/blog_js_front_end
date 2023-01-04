@@ -1,110 +1,79 @@
 import { css } from '@emotion/css'
 import Image from 'next/image';
 import Link from 'next/link';
+import { useLayoutEffect, useRef } from 'react';
 import { BckgColor, FontColor } from '../../styles/colors';
 
+const IMG_SIZE = 40;
+const IMG_SIZE_LARGE = '60px';
 const style = css`
   display: flex;
-  flex-direction: rows;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 180px;
   background: ${BckgColor.FOOTER};
-  border-top-left-radius: 80%;
   margin-top: 8em;
 
-  .left {
+  p {
     position: absolute;
-    padding-left: 2em;
     bottom: 0.1em;
-    left: 0;
-    color: ${FontColor.TITLE};
-    font-size: 0.8em;
-  }
-  .center {
-    width: 25%;
-    padding: 2em;
-    padding-top: 10px;
-    line-height: 1em;
+    font-size: 0.7em;
     color: ${FontColor.DEFAULT};
-    
-    & > p {
-      font-size: 0.8em;
-    }
-    p:first-child {
-      font-size: 1em;
-      color: ${FontColor.DEFAULT};
-    } 
-    p:first-child::after {
-      display: block;
-      content: '';
-      margin-top: 12px;
-      width: 47%;
-      border-bottom: 1px solid #9B59B6;
-    }
-
   }
-  .right {
+  .socialStyle {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 2em;
-    gap: 15px;
-
+    gap: 20px;
+  }
+  .imgStyle {
+    &:hover {
+      border-radius: 50%;
+      box-shadow: 0 0 50px ${BckgColor.SKYBLUE};
+      margin-top: -10px;
+      transition: margin-top 0.5s;
+    }
   }
 `
 const styleLink = css`
   height: 40px;
 `
-const styleImg = css`
-
-`
 
 const Footer = () => {
-
   return (
     <>
       <footer className={style}>
-        <div className="left">
-          <p>© 2022 Rafał Sokołowski - rafiquee3</p>
-        </div>
-        <div className="center">
-          <p>Ostatnie wpisy</p>
-          <p>Co to jest hoisting</p>
-          <p>Co nie co o obiektach</p>
-          <p>Array i mapy</p>
-          <p>Ostatnie wpisy</p>
-        </div>
-        <div className="right">
+        <div className="socialStyle">
           <Link className={styleLink} href={'/signin'}>
             <Image
               src="/linkedin.png"
               alt="linkedin icon"
-              width={40}
-              height={40}
-              className={styleImg}
+              width={IMG_SIZE}
+              height={IMG_SIZE}
+              className="imgStyle"
             />
           </Link>
           <Link className={styleLink} href={'/signin'}>
             <Image
               src="/github.png"
               alt="github icon"
-              width={40}
-              height={40}
-              className={styleImg}
+              width={IMG_SIZE}
+              height={IMG_SIZE}
+              className="imgStyle"
             />
           </Link>
           <Link className={styleLink} href={'/signin'}>
             <Image
               src="/mail.png"
               alt="email icon"
-              width={40}
-              height={40}
-              className={styleImg}
+              width={IMG_SIZE}
+              height={IMG_SIZE}
+              className="imgStyle"
             />
           </Link>
         </div>
+        <p>© 2023 Rafał Sokołowski - rafiquee3</p>
       </footer>
     </>
   )
