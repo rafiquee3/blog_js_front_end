@@ -27,7 +27,6 @@ const Logout: NextPageWithLayout = (): JSX.Element  => {
         setErr(true);
       });  
     }
-
     if(currentUser) {
       setCurrentUser('');
       logoutApi();

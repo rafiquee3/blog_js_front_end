@@ -17,7 +17,7 @@ const Index: NextPageWithLayout = (): JSX.Element => {
 
   return <>
           <p>hello word</p>
-          <input type="button" onClick={()=>router.push('/articles/1')}/>
+          <input type="button" onClick={()=>router.push('/articles/16')}/>
           {currUser}
           </>
 }

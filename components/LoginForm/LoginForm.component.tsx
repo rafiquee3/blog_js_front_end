@@ -137,12 +137,13 @@ export const LoginForm: FC = (): JSX.Element => {
       localStorage.setItem('JWT', accessToken);
       localStorage.setItem('JWT-REF', refreshToken);
       localStorage.setItem('user', login);
+      localStorage.setItem('firstView', 'true');
       setCurrentUser(login);
 
       if(login === 'admin') {
         router.push('/admin');
       } else {
-        router.push('/');
+        router.push('/articles');
       }
     })
     .catch((err) => {
@@ -164,6 +165,7 @@ export const LoginForm: FC = (): JSX.Element => {
     e.preventDefault();
     apiConnect(login, password);
   }
+
   return (
     <>
       <form 
@@ -203,7 +205,6 @@ export const LoginForm: FC = (): JSX.Element => {
           <input type="submit" value="Login"></input>
         </div>
       </form>
-      {currentUser !== '' ? <Status info="Logged in" error={false} /> : ''}
       <Link href="/signup" className={styleLink}>create a new account</Link>
     </>
   )

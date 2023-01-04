@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 import { BckgColor, FontColor } from '../../styles/colors'
 
 export const Status = ({info, error}: {info: string, error: boolean}) => {
-    const statusRef = useRef(null);
+    const statusRef: any = useRef(null);
     const styleStatus = css`
         position: fixed;
         display: flex;
@@ -19,14 +19,18 @@ export const Status = ({info, error}: {info: string, error: boolean}) => {
     ` 
     useEffect(() => {
       const timeout = setTimeout(() => {
-        statusRef.current.style.transform = 'translateX(999px)';
-        statusRef.current.style.transition = 'transform 4s ease-in-out 0s';
+        if (statusRef.current) {
+            statusRef.current.style.transform = 'translateX(999px)';
+            statusRef.current.style.transition = 'transform 2s ease-in-out 0s';
+        }
       },1000);
       () => clearTimeout(timeout);
     }, []);
     return (
-        <div id="status" ref={statusRef} className={styleStatus} >
-            <p>{info}</p>
-        </div>
+        <>
+            <div id="status" ref={statusRef} className={styleStatus} >
+                <p>{info}</p>
+            </div>
+        </>
     )
 }

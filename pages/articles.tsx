@@ -1,4 +1,10 @@
 import { GetStaticProps } from 'next'
+import { useEffect } from 'react';
+import { BlogLayout, Layout } from '../components/Layout';
+import { Status } from '../components/Status/Status.component';
+import { useRecoilState } from 'recoil';
+import { firstRender } from '../atoms/atoms';
+import { NextPageWithLayout } from './_app';
 
 type Props = {
   id: number;       
@@ -7,10 +13,23 @@ type Props = {
   title:     string;
   content:   string;
 };
+//const Index: NextPageWithLayout = (): JSX.Element => {
+  const Articles = ({ articles }: Props) => {
+  const [firstView, setFirstView] = useRecoilState(firstRender)
+  useEffect(() => {
 
-export default function Articles({ articles }: Props) {
+    console.log(firstView);
+    return () => {
+      console.log('unmount')
+      setFirstView(false);
+    }
+  }, [])
+ 
   return (
-    <div>{articles.map((article: Props) => (<p>{article.title}</p>))}</div>
+   <>
+        {firstView && <Status info="Logged in" error={false} />}
+        <div>{articles.map((article: Props) => (<p key={article.id}>{article.title}</p>))}</div>
+   </>
   )
 }
 
@@ -27,3 +46,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
     },
   }
 }
+
+Articles.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <Layout>
+      <BlogLayout>{page}</BlogLayout>
+    </Layout>
+  )
+}
+
+export default Articles;
