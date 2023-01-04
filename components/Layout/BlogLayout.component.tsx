@@ -11,7 +11,7 @@ export const BlogLayout = ({children}: any): JSX.Element => {
     color: ${FontColor.DEFAULT};
 
     code {
-      background: #1A2B3A;
+      background: ${BckgColor.CODE};
       width: 780px;
       border-left: 4px solid ${BckgColor.SKYBLUE};
       border-top-left-radius: 2px; 

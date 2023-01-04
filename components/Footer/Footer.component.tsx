@@ -5,7 +5,6 @@ import { useLayoutEffect, useRef } from 'react';
 import { BckgColor, FontColor } from '../../styles/colors';
 
 const IMG_SIZE = 40;
-const IMG_SIZE_LARGE = '60px';
 const style = css`
   display: flex;
   flex-direction: column;
@@ -16,7 +15,7 @@ const style = css`
   height: 180px;
   background: ${BckgColor.FOOTER};
   margin-top: 8em;
-
+  padding-bottom: 10px;
   p {
     position: absolute;
     bottom: 0.1em;
@@ -33,6 +32,9 @@ const style = css`
       box-shadow: 0 0 50px ${BckgColor.SKYBLUE};
       margin-top: -10px;
       transition: margin-top 0.5s;
+      width: 50px;
+      height: 50px;
+
     }
   }
 `

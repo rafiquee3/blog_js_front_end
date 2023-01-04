@@ -17,4 +17,5 @@ export const enum BckgColor {
   GREEN = 'green',
   FOOTER = '#14202C',
   RED = '#BE5555',
+  CODE = '#162531',
 }
