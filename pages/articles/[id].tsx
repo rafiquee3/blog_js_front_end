@@ -12,6 +12,7 @@ import {unescape} from 'html-escaper';
 import { useRecoilState } from 'recoil'
 import { useRouter } from 'next/router'
 import { user } from '../../atoms/atoms'
+import { CreatePost } from '../../components/Post/CreatePost.component'
 
 type ArticleType = {
   content: string;
@@ -46,6 +47,7 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
       </Head>
       <h1>{article.title}</h1>
       {parse(content)}
+      <CreatePost />
     </>
   )
 }
