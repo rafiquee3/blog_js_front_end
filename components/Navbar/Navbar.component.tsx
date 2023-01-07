@@ -16,7 +16,9 @@ export const Navbar: FC = (): JSX.Element => {
         height: '70px',
         background: '#183D61',
         fontSize: 25,
-        color: 'white'
+        color: 'white',
+        zIndex: '999',
+        boxShadow: '5px 5px 15px 5px rgba(0,0,0,0.18)',
       }}
     >
       <div style={{marginLeft: 'calc(2rem + 40px)'}}></div>

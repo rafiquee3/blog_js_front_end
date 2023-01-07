@@ -20,6 +20,7 @@ export const CreatePost: FC = (): JSX.Element => {
   const style = css`
     display: flex;
     position: relative;
+    width: 70%;
     border: 2px solid #166587;
     border-radius: 18px;
     overflow: hidden;
@@ -208,7 +209,6 @@ export const CreatePost: FC = (): JSX.Element => {
           <input type="submit" value="Create"></input>
         </div>
       </form>
-      <Link href="/signup" className={styleLink}>create a new account</Link>
     </>
   )
 }
