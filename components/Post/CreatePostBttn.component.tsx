@@ -1,5 +1,5 @@
 import { css } from '@emotion/css';
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { user } from '../../atoms/atoms';
 import { FontColor } from '../../styles/colors';
@@ -10,6 +10,7 @@ interface Show {
 
 export const CreatePostBttn = forwardRef(function CreatePostBttn({show}: Show, ref) {
     const [currentUser, setCurrentUser] = useRecoilState(user);
+    const [hide, setHide] = useState(false);
     const bttnStyle = css`
         display: flex;
         position: relative;
@@ -57,11 +58,15 @@ export const CreatePostBttn = forwardRef(function CreatePostBttn({show}: Show, r
     bottom: 0;
   `
   const handleOnClick = () => {
-    show(true);
+    setHide(prev => !prev);
+    show(!hide);
   }
   return (
       <>
-          <div className={bttnStyle}> 
+        {hide ?
+          ''
+          :
+          <div className={bttnStyle} ref={ref}> 
               <div>
                   <div className={styleCurrentField}>{currentUser}</div>
               </div>
@@ -69,6 +74,7 @@ export const CreatePostBttn = forwardRef(function CreatePostBttn({show}: Show, r
                   <input type="button" onClick={handleOnClick} value="Create new post"></input>
               </div>
           </div>
+        }     
     </>
   )
 });

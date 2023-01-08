@@ -1,5 +1,5 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { FC, ReactElement, useEffect } from 'react'
+import { FC, ReactElement, useEffect, useState } from 'react'
 import { Layout } from '../../components/Layout'
 import { BlogLayout } from '../../components/Layout'
 import { NextPageWithLayout } from '../_app'
@@ -32,6 +32,10 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
   const [currUser, setUser] = useRecoilState(user);
   const unescapeContent = unescape(article.content);
   const content = addClass(unescapeContent);
+  const [hidePostForm, setHidePostForm] = useState(false); 
+  const showBttn = (hide: boolean) => {
+    setHidePostForm(hide);
+  }
   useEffect(() => {
     hljs.registerLanguage('javascript', javascript);
     hljs.highlightAll();
@@ -48,8 +52,8 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
       </Head>
       <h1>{article.title}</h1>
       {parse(content)}
-      <CreatePostBttn />
-      <CreatePost />
+      <CreatePostBttn show={showBttn}/>
+      {hidePostForm && <CreatePost />}
     </>
   )
 }
