@@ -1,9 +1,14 @@
 import { css } from '@emotion/css';
+import { forwardRef } from 'react';
 import { useRecoilState } from 'recoil';
 import { user } from '../../atoms/atoms';
 import { FontColor } from '../../styles/colors';
 
-export const CreatePostBttn = (ref) => {
+interface Show {
+	show: (param: boolean) => boolean,
+}
+
+export const CreatePostBttn = forwardRef(function CreatePostBttn({show}: Show, ref) {
     const [currentUser, setCurrentUser] = useRecoilState(user);
     const bttnStyle = css`
         display: flex;
@@ -52,18 +57,18 @@ export const CreatePostBttn = (ref) => {
     bottom: 0;
   `
   const handleOnClick = () => {
-    alert('on click');
+    show(true);
   }
-    return (
-        <>
-            <div className={bttnStyle}> 
-                <div>
-                    <div className={styleCurrentField}>{currentUser}</div>
-                </div>
-                <div>
-                    <input type="button" onClick={handleOnClick} value="Create new post"></input>
-                </div>
-            </div>
-      </>
-    )
-}
+  return (
+      <>
+          <div className={bttnStyle}> 
+              <div>
+                  <div className={styleCurrentField}>{currentUser}</div>
+              </div>
+              <div>
+                  <input type="button" onClick={handleOnClick} value="Create new post"></input>
+              </div>
+          </div>
+    </>
+  )
+});
