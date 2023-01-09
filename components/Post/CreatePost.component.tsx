@@ -33,14 +33,37 @@ export const CreatePost: FC = (): JSX.Element => {
       padding-left: 30px;
       padding-right: 30px;
 
-      input[type="button"] {
+      .closeBttn {
         position: absolute;
         top: 10px;
         left: 10px; 
-        background: ${BckgColor.BLUE};
-        border: 1px solid white;
-        border-radius: 100%;
-        color: white;
+        background: ${'#128bab'};
+        border: 1px solid ${BckgColor.SKYBLUE};
+        border-radius: 20px;
+        padding: 0;
+        width: 20px;
+        height: 20px;
+        overflow: hidden;
+
+        &:hover {
+          opacity: 1;
+          cursor: pointer;
+          background: ${BckgColor.RED};
+        }
+        &:before, &:after {
+          position: absolute;
+          bottom: -1px;
+          content: ' ';
+          height: 20px;
+          width: 2px;
+          background-color: ${BckgColor.SKYBLUE};
+        }
+        &:before {
+          transform: rotate(45deg);
+        }
+        &:after {
+          transform: rotate(-45deg);
+        }
       }
 
       .fakeElem {
@@ -194,7 +217,7 @@ export const CreatePost: FC = (): JSX.Element => {
         onSubmit={handleSubmit}
       >
         <div>
-          <input type="button" value="x" />
+          <div className='closeBttn'></div>
           <div className='fakeElem'></div>
           <Image
             src="/login.png"
