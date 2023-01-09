@@ -2,7 +2,6 @@ import { css } from '@emotion/css'
 import Image from 'next/image'
 import axios from 'axios';
 import { FC, useRef, useState } from 'react';
-import Link from 'next/link';
 import { BckgColor, FontColor } from '../../styles/colors';
 import { useRecoilState } from 'recoil';
 import { user } from '../../atoms/atoms';
@@ -28,10 +27,26 @@ export const CreatePost: FC = (): JSX.Element => {
     div:nth-child(1) {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       background: #166587;
-      padding: 30px;
+      padding-left: 30px;
+      padding-right: 30px;
+
+      input[type="button"] {
+        position: absolute;
+        top: 10px;
+        left: 10px; 
+        background: ${BckgColor.BLUE};
+        border: 1px solid white;
+        border-radius: 100%;
+        color: white;
+      }
+
+      .fakeElem {
+        height: 30px;
+        background-color: ${BckgColor.SKYBLUE};
+      }
     }
     div:nth-child(2) {
       display: flex;
@@ -116,7 +131,7 @@ export const CreatePost: FC = (): JSX.Element => {
     opacity: 0.4;
   `
   const styleCurrentField = css`
-    position: absolute;
+    text-align: center;
     padding-bottom: 27px;
     color: ${FontColor.DEFAULT};
     bottom: 0;
@@ -179,7 +194,8 @@ export const CreatePost: FC = (): JSX.Element => {
         onSubmit={handleSubmit}
       >
         <div>
-          <div className={styleCurrentField}>{currentUser}</div>
+          <input type="button" value="x" />
+          <div className='fakeElem'></div>
           <Image
             src="/login.png"
             alt="Picture of the author"
@@ -187,6 +203,7 @@ export const CreatePost: FC = (): JSX.Element => {
             height={110}
             className={styleImg}
           />
+          <div className={styleCurrentField}>{currentUser}</div>
         </div>
         <div>
           <input 
