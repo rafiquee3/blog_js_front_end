@@ -8,7 +8,7 @@ interface Show {
 	show: (param: boolean) => void,
 }
 
-export const CreatePostBttn = forwardRef(function CreatePostBttn({show}: Show, ref) {
+export const CreatePostBttn = ({show}: Show): JSX.Element => {
     const [currentUser, setCurrentUser] = useRecoilState(user);
     const [hide, setHide] = useState(false);
     const bttnStyle = css`
@@ -64,7 +64,7 @@ export const CreatePostBttn = forwardRef(function CreatePostBttn({show}: Show, r
   return (
       <>
         {currentUser &&
-        <div className={bttnStyle} ref={ref}> 
+        <div className={bttnStyle}> 
             <div>
                 <div className={styleCurrentField}>{currentUser}</div>
             </div>
@@ -75,4 +75,4 @@ export const CreatePostBttn = forwardRef(function CreatePostBttn({show}: Show, r
         }    
     </>
   )
-});
+};

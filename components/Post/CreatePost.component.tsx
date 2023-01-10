@@ -15,9 +15,10 @@ export const CreatePost = ({show}: Show): JSX.Element => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [currentField, setCurrentField] = useState('');
-  const [error, setError] = useState(false);
+  const [errorFields, setErrorFields] = useState([]);
   const [errMsg, setErrMsg] = useState('');
-  const loginRef = useRef<HTMLInputElement>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
   const [currentUser, setCurrentUser] = useRecoilState(user);
 
   const style = css`
@@ -86,7 +87,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
 
       input {
         font-size: 1em;
-        color: ${error ? FontColor.RED : FontColor.DEFAULT};
+        color: ${errorFields.length ? FontColor.RED : FontColor.DEFAULT};
       }
       span {
         color: ${FontColor.RED};
@@ -117,7 +118,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
       }
       textarea:focus-visible {
         outline: none;
-        border-bottom: 1px solid ${error ? FontColor.RED : FontColor.GREEN};
+        border-bottom: 1px solid ${errorFields.length ? FontColor.RED : FontColor.GREEN};
       }
       input[type="submit"] {
         height: 50px;
@@ -138,7 +139,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
       }
       input:focus-visible {
         outline: none;
-        border-bottom: 1px solid ${error ? FontColor.RED : FontColor.GREEN};
+        border-bottom: 1px solid ${errorFields.length ? FontColor.RED : FontColor.GREEN};
       }
       input::placeholder {
         font-size: 1em;
@@ -162,54 +163,83 @@ export const CreatePost = ({show}: Show): JSX.Element => {
     color: ${FontColor.DEFAULT};
     bottom: 0;
   `
-  const styleLink = css`
-    margin: 1em;
-    margin-left: 260px;
-    color: ${FontColor.DEFAULT};
-    
-    &:hover {
-      color: ${FontColor.BLUEE};
-    }
-  `
+  const styleErrField = {
+    color: FontColor.RED, 
+    borderBottom: `1px solid ${FontColor.RED}`
+  }
   type ErrorObj = {
     field: string;
     error: string;
   }
-  type GetResponse = {
-    data: ErrorObj[];
-  };
-  type Token = {
-    accessToken: string;
-    refreshToken: string;
-  }
-  const apiConnect = async (login: string, password: string) => {
+  const apiConnect = async (title: string, content: string) => {
     const data = {
-      login,
-      password
+      title,
+      content
     };
-    const url: string = 'http://localhost:3001/auth/signin';
+    const url: string = 'http://localhost:3001/post/add';
     await axios.post(url, data)
     .then((res) => {
     
     })
     .catch((err) => {
-      setError(true);
-      setErrMsg('Login or password incorrect');
-      loginRef.current?.focus();
+      const validationErrors = err.response.data.errors;
+      setErrorFields(validationErrors);
+      focusOnErrField(validationErrors);
     });
   }
+  const postValidator = (title: string, content: string): ErrorObj[] => {
+    const errors: ErrorObj[] = [];
+    if (!title) {
+      errors.push({ field: 'title', error: 'field "title" cannot be empty' })
+    }
+    if (!content) {
+      errors.push({ field: 'content', error: 'field "content" cannot be empty' })
+    }
+    return errors;
+  }
   const handleOnChange = (callback: () => void) => {
-    if(error) {
-      if(currentField === 'login') {
-        setError(false);
-        setErrMsg('');
+    if(errorFields.length) {
+      console.log(currentField)
+      if(currentField === 'title') {
+        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'title'));
+      }
+      if(currentField === 'content') {
+        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'content'));
       }
     }
     callback();
   }
+  const focusOnErrField = (validationErrors: ErrorObj[]): void => {
+    const [firstErrField] = validationErrors;
+    const {field} = firstErrField;
+
+    if(field === 'title') {
+      titleRef.current?.focus();
+    } else if(field === 'content') {
+      contentRef.current?.focus();
+    } 
+  }
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    apiConnect('login', 'password');
+    const validationErrors: any = postValidator(title, content);
+    console.log(validationErrors)
+    if(validationErrors.length) {
+      setErrorFields(validationErrors);
+      focusOnErrField(validationErrors);
+    } else {
+      apiConnect(title, content);
+    }
+  }
+  type ValidationField = {
+    res: Boolean;
+    elem: ErrorObj | undefined;
+  }
+  const isValid = (formField: string): ValidationField => {
+    const result = errorFields?.find((elem: ErrorObj) => elem.field === formField);
+    return {
+      res: !Boolean(result),
+      elem: result
+    }
   }
   const handleOnClick = () => {
     show(false);
@@ -241,15 +271,18 @@ export const CreatePost = ({show}: Show): JSX.Element => {
             name="title" 
             onChange={e => handleOnChange(() => setTitle(e.target.value))}
             onFocus={() => setCurrentField('title')}
-            ref={loginRef}
+            ref={titleRef}
             placeholder="title..."
+            style={isValid('title').res ? {} : styleErrField} 
           />
           <textarea  
             value={content} 
             name="content" 
             onChange={e => handleOnChange(() => setContent(e.target.value))}
             onFocus={() => setCurrentField('content')}
+            ref={contentRef}
             placeholder="comment..."
+            style={isValid('content').res ? {} : styleErrField} 
           ></textarea> 
           <span>{errMsg}</span>
           <input type="submit" value="Create"></input>

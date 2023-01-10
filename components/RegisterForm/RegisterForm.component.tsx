@@ -241,7 +241,7 @@ const RegisterForm: FC = (): JSX.Element => {
   const focusOnErrField = (validationErrors: ErrorObj[]): void => {
     const [firstErrField] = validationErrors;
     const {field} = firstErrField;
-    console.log(field)
+    
     if(field === 'login') {
       loginRef.current?.focus();
     } else if(field === 'password') {
