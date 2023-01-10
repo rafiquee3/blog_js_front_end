@@ -42,11 +42,10 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
   useEffect(() => {
     hljs.registerLanguage('javascript', javascript);
     hljs.highlightAll();
-    console.log('adsdassadsadasdsa')
     console.log(localStorage.getItem('user'))
     setUser(localStorage.getItem('user'));
-  }, [])
-
+  }, [setUser])
+  //console.log(currUser)
   return (
     <>
       <Head>

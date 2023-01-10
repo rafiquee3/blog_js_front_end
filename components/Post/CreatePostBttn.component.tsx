@@ -5,7 +5,7 @@ import { user } from '../../atoms/atoms';
 import { FontColor } from '../../styles/colors';
 
 interface Show {
-	show: (param: boolean) => boolean,
+	show: (param: boolean) => void,
 }
 
 export const CreatePostBttn = forwardRef(function CreatePostBttn({show}: Show, ref) {
@@ -63,14 +63,16 @@ export const CreatePostBttn = forwardRef(function CreatePostBttn({show}: Show, r
   }
   return (
       <>
+        {currentUser &&
         <div className={bttnStyle} ref={ref}> 
             <div>
                 <div className={styleCurrentField}>{currentUser}</div>
             </div>
             <div>
-                <input type="button" onClick={handleOnClick} value="Create new post"></input>
+                <input type="button" onClick={handleOnClick} value="Add comment"></input>
             </div>
-        </div>    
+        </div>
+        }    
     </>
   )
 });

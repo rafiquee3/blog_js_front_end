@@ -18,7 +18,7 @@ export const Navbar: FC = (): JSX.Element => {
         fontSize: 25,
         color: 'white',
         zIndex: '999',
-        boxShadow: '5px 5px 15px 5px rgba(0,0,0,0.18)',
+        boxShadow: '-1px 4px 3px 0px rgba(0,0,0,0.08)',
       }}
     >
       <div style={{marginLeft: 'calc(2rem + 40px)'}}></div>

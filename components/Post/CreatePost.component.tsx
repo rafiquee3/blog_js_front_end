@@ -8,7 +8,7 @@ import { user } from '../../atoms/atoms';
 import { Status } from '../Status/Status.component';
 
 interface Show {
-	show: (param: boolean) => boolean,
+	show: (param: boolean) => void,
 }
 
 export const CreatePost = ({show}: Show): JSX.Element => {
