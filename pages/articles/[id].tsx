@@ -36,6 +36,9 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
   const showBttn = (hide: boolean) => {
     setHidePostForm(hide);
   }
+  const showForm = (hide: boolean) => {
+    setHidePostForm(hide);
+  }
   useEffect(() => {
     hljs.registerLanguage('javascript', javascript);
     hljs.highlightAll();
@@ -52,8 +55,7 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
       </Head>
       <h1>{article.title}</h1>
       {parse(content)}
-      <CreatePostBttn show={showBttn}/>
-      {hidePostForm && <CreatePost />}
+      {hidePostForm ? <CreatePost show={showBttn}/> : <CreatePostBttn show={showForm}/>}
     </>
   )
 }

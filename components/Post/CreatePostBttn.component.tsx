@@ -63,18 +63,14 @@ export const CreatePostBttn = forwardRef(function CreatePostBttn({show}: Show, r
   }
   return (
       <>
-        {hide ?
-          ''
-          :
-          <div className={bttnStyle} ref={ref}> 
-              <div>
-                  <div className={styleCurrentField}>{currentUser}</div>
-              </div>
-              <div>
-                  <input type="button" onClick={handleOnClick} value="Create new post"></input>
-              </div>
-          </div>
-        }     
+        <div className={bttnStyle} ref={ref}> 
+            <div>
+                <div className={styleCurrentField}>{currentUser}</div>
+            </div>
+            <div>
+                <input type="button" onClick={handleOnClick} value="Create new post"></input>
+            </div>
+        </div>    
     </>
   )
 });

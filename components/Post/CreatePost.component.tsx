@@ -7,7 +7,11 @@ import { useRecoilState } from 'recoil';
 import { user } from '../../atoms/atoms';
 import { Status } from '../Status/Status.component';
 
-export const CreatePost: FC = (): JSX.Element => {
+interface Show {
+	show: (param: boolean) => boolean,
+}
+
+export const CreatePost = ({show}: Show): JSX.Element => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [currentField, setCurrentField] = useState('');
@@ -65,7 +69,6 @@ export const CreatePost: FC = (): JSX.Element => {
           transform: rotate(-45deg);
         }
       }
-
       .fakeElem {
         height: 30px;
         background-color: ${BckgColor.SKYBLUE};
@@ -208,6 +211,9 @@ export const CreatePost: FC = (): JSX.Element => {
     e.preventDefault();
     apiConnect('login', 'password');
   }
+  const handleOnClick = () => {
+    show(false);
+  }
 
   return (
     <>
@@ -217,7 +223,7 @@ export const CreatePost: FC = (): JSX.Element => {
         onSubmit={handleSubmit}
       >
         <div>
-          <div className='closeBttn'></div>
+          <div className='closeBttn' onClick={handleOnClick}></div>
           <div className='fakeElem'></div>
           <Image
             src="/login.png"
