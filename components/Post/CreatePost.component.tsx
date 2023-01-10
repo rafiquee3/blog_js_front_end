@@ -198,6 +198,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
     return errors;
   }
   const handleOnChange = (callback: () => void) => {
+    console.log(errorFields)
     if(errorFields.length) {
       console.log(currentField)
       if(currentField === 'title') {
