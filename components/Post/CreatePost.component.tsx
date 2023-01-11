@@ -87,7 +87,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
 
       input {
         font-size: 1em;
-        color: ${errorFields.length ? FontColor.RED : FontColor.DEFAULT};
+        color: ${FontColor.DEFAULT};
       }
       span {
         color: ${FontColor.RED};
@@ -118,7 +118,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
       }
       textarea:focus-visible {
         outline: none;
-        border-bottom: 1px solid ${errorFields.length ? FontColor.RED : FontColor.GREEN};
+        border-bottom: 1px solid ${FontColor.GREEN};
       }
       input[type="submit"] {
         height: 50px;
@@ -139,7 +139,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
       }
       input:focus-visible {
         outline: none;
-        border-bottom: 1px solid ${errorFields.length ? FontColor.RED : FontColor.GREEN};
+        border-bottom: 1px solid ${FontColor.GREEN};
       }
       input::placeholder {
         font-size: 1em;
@@ -245,7 +245,8 @@ export const CreatePost = ({show}: Show): JSX.Element => {
   const handleOnClick = () => {
     show(false);
   }
-
+  console.log('content res: ', isValid('content').res)
+  console.log('title res: ', isValid('title').res)
   return (
     <>
       <form 
@@ -269,21 +270,21 @@ export const CreatePost = ({show}: Show): JSX.Element => {
           <input 
             type="text" 
             value={title} 
-            name="title" 
+            name="title"
+            style={isValid('title').res ? {} : styleErrField}
             onChange={e => handleOnChange(() => setTitle(e.target.value))}
             onFocus={() => setCurrentField('title')}
             ref={titleRef}
             placeholder="title..."
-            style={isValid('title').res ? {} : styleErrField} 
           />
           <textarea  
             value={content} 
-            name="content" 
+            name="content"
+            style={isValid('content').res ? {} : styleErrField}
             onChange={e => handleOnChange(() => setContent(e.target.value))}
             onFocus={() => setCurrentField('content')}
             ref={contentRef}
-            placeholder="comment..."
-            style={isValid('content').res ? {} : styleErrField} 
+            placeholder="comment..." 
           ></textarea> 
           <span>{errMsg}</span>
           <input type="submit" value="Create"></input>
