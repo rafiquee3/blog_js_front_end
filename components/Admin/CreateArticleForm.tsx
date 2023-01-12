@@ -135,7 +135,6 @@ export const PostForm: FC = (): JSX.Element => {
       content: html
     }
     const url: string = 'http://localhost:3001/article/add'
-    console.log(url, data, config)
     //<GetResponse>
     await axios.post(url, data, config)
     .then((res) => {

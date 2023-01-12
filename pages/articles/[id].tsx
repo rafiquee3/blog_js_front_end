@@ -14,6 +14,7 @@ import { useRouter } from 'next/router'
 import { user } from '../../atoms/atoms'
 import { CreatePost } from '../../components/Post/CreatePost.component'
 import { CreatePostBttn } from '../../components/Post/CreatePostBttn.component'
+import { PostsList } from '../../components/Post/PostsList.component'
 
 type ArticleType = {
   content: string;
@@ -55,6 +56,7 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
       <h1>{article.title}</h1>
       {parse(content)}
       {hidePostForm ? <CreatePost show={showBttn}/> : <CreatePostBttn show={showForm}/>}
+      <PostsList />
     </>
   )
 }

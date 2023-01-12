@@ -1,1 +1,1 @@
-export * from './CreatePostForm';
+export * from './CreateArticleForm';

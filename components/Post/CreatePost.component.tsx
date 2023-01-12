@@ -16,7 +16,6 @@ export const CreatePost = ({show}: Show): JSX.Element => {
   const [content, setContent] = useState('');
   const [currentField, setCurrentField] = useState('');
   const [errorFields, setErrorFields] = useState([]);
-  const [errMsg, setErrMsg] = useState('');
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const [currentUser, setCurrentUser] = useRecoilState(user);
@@ -41,7 +40,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
       .closeBttn {
         position: absolute;
         top: 10px;
-        left: 10px; 
+        left: 13px; 
         background: ${'#128bab'};
         border: 1px solid ${BckgColor.SKYBLUE};
         border-radius: 20px;
@@ -176,10 +175,16 @@ export const CreatePost = ({show}: Show): JSX.Element => {
       title,
       content
     };
+    const JwtToken = localStorage.getItem('JWT');
+    const config = {
+      headers:{
+        Authorization: 'Bearer ' + JwtToken,
+      }
+    };
     const url: string = 'http://localhost:3001/post/add';
-    await axios.post(url, data)
+    await axios.post(url, data, config)
     .then((res) => {
-    
+      console.log('post added');
     })
     .catch((err) => {
       const validationErrors = err.response.data.errors;
@@ -195,6 +200,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
     if (!content) {
       errors.push({ field: 'content', error: 'field "content" cannot be empty' })
     }
+
     return errors;
   }
   const handleOnChange = (callback: () => void) => {
@@ -245,8 +251,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
   const handleOnClick = () => {
     show(false);
   }
-  console.log('content res: ', isValid('content').res)
-  console.log('title res: ', isValid('title').res)
+  console.log(localStorage.getItem('JWT'))
   return (
     <>
       <form 
@@ -277,6 +282,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
             ref={titleRef}
             placeholder="title..."
           />
+          <span>{isValid('title').elem?.error}</span>
           <textarea  
             value={content} 
             name="content"
@@ -286,7 +292,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
             ref={contentRef}
             placeholder="comment..." 
           ></textarea> 
-          <span>{errMsg}</span>
+          <span>{isValid('content').elem?.error}</span>
           <input type="submit" value="Create"></input>
         </div>
       </form>
