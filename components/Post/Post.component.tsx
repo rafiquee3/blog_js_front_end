@@ -1,4 +1,5 @@
 import { css } from '@emotion/css'
+import axios from 'axios'
 import { BckgColor } from '../../styles/colors'
 
 export const Post = ({authorId, content}: {authorId: number, content: string}): JSX.Element => {
@@ -25,15 +26,25 @@ export const Post = ({authorId, content}: {authorId: number, content: string}): 
             border-bottom: 3px solid ${BckgColor.SKYBLUE};
         }
     `
-    const findAuthor = (id: number) => {
-        return 'author'
+    const apiConnect = async (id: number) => {
+        const url: string = 'http://localhost:3001/post/all';
+        await axios.get(url)
+        .then((res) => {
+            
+        })
+        .catch((err) => {
+            console.log(err);
+        });
     }
-    const author = findAuthor(authorId);
+    const author = useCallbeack((id: number) => {
+        return 'author'
+    }, []);
+
     return (
         <>
             <div className={style}>
                 <div className='author'>
-                    {author}
+                    {author(authorId)}
                 </div>
                 <div className='content'>
                     {content}
@@ -41,4 +52,8 @@ export const Post = ({authorId, content}: {authorId: number, content: string}): 
             </div>
         </>
     )
+}
+
+function useCallbeack(id: any, number: any) {
+    throw new Error('Function not implemented.')
 }
