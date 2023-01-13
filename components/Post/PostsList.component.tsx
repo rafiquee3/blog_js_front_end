@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import { Post } from "./Post.component";
 
-export const PostsList = (): JSX.Element => {
+export const PostsList = () => {
     const [posts, setPosts] = useState(null);
     const [loading, setLoading] = useState(true);
     
@@ -11,6 +12,7 @@ export const PostsList = (): JSX.Element => {
             await axios.get(url)
             .then((res) => {
                 setLoading(false);
+                console.log(res.data)
                 setPosts(res.data);
             })
             .catch((err) => {
@@ -22,7 +24,8 @@ export const PostsList = (): JSX.Element => {
     return (
         <>
            {loading && <div>Loading...</div>}
-           {!loading && <div>{posts.map((post) => {(<div>{post.content}</div>)})}</div>}
+           {!loading && <>{posts.map((post) => <Post key={post.id} authorId={post.authorId} content={post.content} />)}</>}
+           asdsadsa
         </>
     )
 }

@@ -251,7 +251,6 @@ export const CreatePost = ({show}: Show): JSX.Element => {
   const handleOnClick = () => {
     show(false);
   }
-  console.log(localStorage.getItem('JWT'))
   return (
     <>
       <form 
