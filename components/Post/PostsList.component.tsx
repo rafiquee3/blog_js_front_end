@@ -23,9 +23,10 @@ export const PostsList = () => {
     }, []);
     return (
         <>
-           {loading && <div>Loading...</div>}
-           {!loading && <>{posts.map((post) => <Post key={post.id} authorId={post.authorId} content={post.content} />)}</>}
-           asdsadsa
+            <div style={{marginTop: '30px'}}>
+                {loading && <div>Loading...</div>}
+                {!loading && <>{posts.map((post) => <Post key={post.id} authorId={post.authorId} content={post.content} />)}</>}
+            </div>
         </>
     )
 }
