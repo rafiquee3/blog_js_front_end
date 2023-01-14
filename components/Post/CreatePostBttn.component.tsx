@@ -13,8 +13,9 @@ export const CreatePostBttn = ({show}: Show): JSX.Element => {
     const [hide, setHide] = useState(false);
     const bttnStyle = css`
         display: flex;
+        align-content: flex-start;
         position: relative;
-        width: 30%;
+        max-width: 35%;
         border: 2px solid #166587;
         border-radius: 18px;
         overflow: hidden;

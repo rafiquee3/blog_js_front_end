@@ -10,10 +10,11 @@ import 'highlight.js/styles/atom-one-dark.css';
 import Head from 'next/head'
 import {unescape} from 'html-escaper';
 import { useRecoilState } from 'recoil'
-import { user } from '../../atoms/atoms'
+import { page, user } from '../../atoms/atoms'
 import { CreatePost } from '../../components/Post/CreatePost.component'
 import { CreatePostBttn } from '../../components/Post/CreatePostBttn.component'
 import { PostsList } from '../../components/Post/PostsList.component'
+import { Status } from '../../components/Status/Status.component'
 
 type ArticleType = {
   content: string;
@@ -29,22 +30,30 @@ const addClass = (html: any) => {
 
 const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
   const [currUser, setUser] = useRecoilState(user);
+  const [currPage, setPage] = useRecoilState(page);
   const unescapeContent = unescape(article.content);
   const content = addClass(unescapeContent);
-  const [hidePostForm, setHidePostForm] = useState(false); 
+  const [hidePostForm, setHidePostForm] = useState(false);
+  const [postAdded, setPostAdded] = useState(false); 
   const showBttn = (hide: boolean) => {
     setHidePostForm(hide);
+    setPostAdded(true)
   }
   const showForm = (hide: boolean) => {
     setHidePostForm(hide);
   }
   useEffect(() => {
+    if (postAdded) {
+      setPostAdded(false);
+    }
+  }, [])
+  useEffect(() => {
     hljs.registerLanguage('javascript', javascript);
     hljs.highlightAll();
     console.log(localStorage.getItem('user'))
     setUser(localStorage.getItem('user') || '');
+    setPage('blog');
   }, [setUser])
-  //console.log(currUser)
   return (
     <>
       <Head>
@@ -54,7 +63,8 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
       <h1>{article.title}</h1>
       {parse(content)}
       {hidePostForm ? <CreatePost show={showBttn}/> : <CreatePostBttn show={showForm}/>}
-      <PostsList />
+      {postAdded ? <div><PostsList /></div> : <PostsList />}
+      {postAdded && <Status info={'comment added'} error={false} />}
     </>
   )
 }

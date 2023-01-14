@@ -12,11 +12,9 @@ interface Show {
 }
 
 export const CreatePost = ({show}: Show): JSX.Element => {
-  const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [currentField, setCurrentField] = useState('');
   const [errorFields, setErrorFields] = useState([]);
-  const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const [currentUser, setCurrentUser] = useRecoilState(user);
 
@@ -176,6 +174,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
     await axios.post(url, data, config)
     .then((res) => {
       console.log('post added');
+      show(false);
     })
     .catch((err) => {
       const validationErrors = err.response.data.errors;

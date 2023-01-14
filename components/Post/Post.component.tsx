@@ -1,4 +1,5 @@
 import { css } from '@emotion/css'
+import { useState } from 'react'
 import { BckgColor } from '../../styles/colors'
 
 export const Post = ({authorLogin, content}: {authorLogin: string, content: string}): JSX.Element => {
@@ -6,23 +7,22 @@ export const Post = ({authorLogin, content}: {authorLogin: string, content: stri
         display: flex;
         align-items: flex-start;
         margin-top: 30px;
+        width: 100%;
         .author {
-          padding: 0;
-          margin-right: 30px;
+            display: flex;
+            justify-content: flex-end;
+            width: 16%;
+            padding: 0;
+            margin-right: 30px;
 
-          p {
+          div {
             background-color: ${BckgColor.SKYBLUE};
             margin: 5px;
             padding: 5px 10px;
           }     
         }
-        .author:before {
-            content: '';
-            width: 5px;
-            height: 5px;
-            background-color: ${BckgColor.RED};
-        }
         .content {
+            width: 84%;
             margin-top: 1px;
             padding-bottom: 29px;
             border-bottom: 1px solid ${BckgColor.SKYBLUE};
@@ -32,7 +32,7 @@ export const Post = ({authorLogin, content}: {authorLogin: string, content: stri
         <>
             <div className={style}>
                 <div className='author'>
-                    <p>{authorLogin}</p>
+                    <div>{authorLogin}</div>
                 </div>
                 <div className='content'>
                     {content}

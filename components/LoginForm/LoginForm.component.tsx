@@ -56,7 +56,7 @@ export const LoginForm: FC = (): JSX.Element => {
       }
       input[type="text"], input[type="password"] {
         height: 50px;
-        margin-top: 8px;
+        margin-top: 20px;
         border: none;
         border-bottom: 1px solid #166587;
         background: #183D61;
