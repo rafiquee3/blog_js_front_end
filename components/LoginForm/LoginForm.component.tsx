@@ -43,6 +43,8 @@ export const LoginForm: FC = (): JSX.Element => {
       background: #183D61;
 
       input {
+        padding: 0;
+        margin: 0;
         font-size: 1em;
         color: ${error ? FontColor.RED : FontColor.DEFAULT};
       }
@@ -50,12 +52,11 @@ export const LoginForm: FC = (): JSX.Element => {
         color: ${FontColor.RED};
         font-size: 0.7em;
         align-self: flex-start;
-        padding-left: 0.5em;
         flex-wrap: wrap;
       }
       input[type="text"], input[type="password"] {
         height: 50px;
-        margin: 5px;
+        margin-top: 8px;
         border: none;
         border-bottom: 1px solid #166587;
         background: #183D61;
@@ -69,7 +70,7 @@ export const LoginForm: FC = (): JSX.Element => {
         border: 1px solid #166587;
         border-radius: 14px;
         padding: 12px 12px;
-        margin-top: 30px;
+        margin-top: 40px;
 
         &:hover {
           color: ${FontColor.GREEN};
@@ -104,12 +105,13 @@ export const LoginForm: FC = (): JSX.Element => {
     bottom: 0;
   `
   const styleLink = css`
-    margin: 1em;
-    margin-left: 260px;
-    color: ${FontColor.DEFAULT};
+    margin-top: 3px;
+    font-size: 12px;
+    align-self: flex-end;
+    color: ${FontColor.BLUEE};
     
     &:hover {
-      color: ${FontColor.BLUEE};
+      color: ${FontColor.DEFAULT};
     }
   `
   type ErrorObj = {
@@ -193,6 +195,7 @@ export const LoginForm: FC = (): JSX.Element => {
             ref={loginRef}
             placeholder="login"
           />
+          <span>{errMsg}</span>
           <input 
             type="password" 
             value={password} 
@@ -200,12 +203,12 @@ export const LoginForm: FC = (): JSX.Element => {
             onFocus={() => setCurrentField('password')}
             name="password" 
             placeholder="password"
-          /> 
-          <span>{errMsg}</span>
+          />
+          <Link href="/signup" className={styleLink}>create a new account</Link> 
           <input type="submit" value="Login"></input>
         </div>
       </form>
-      <Link href="/signup" className={styleLink}>create a new account</Link>
+      
     </>
   )
 }

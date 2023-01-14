@@ -10,7 +10,6 @@ import 'highlight.js/styles/atom-one-dark.css';
 import Head from 'next/head'
 import {unescape} from 'html-escaper';
 import { useRecoilState } from 'recoil'
-import { useRouter } from 'next/router'
 import { user } from '../../atoms/atoms'
 import { CreatePost } from '../../components/Post/CreatePost.component'
 import { CreatePostBttn } from '../../components/Post/CreatePostBttn.component'
@@ -29,7 +28,6 @@ const addClass = (html: any) => {
 }
 
 const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
-  const router = useRouter();
   const [currUser, setUser] = useRecoilState(user);
   const unescapeContent = unescape(article.content);
   const content = addClass(unescapeContent);
@@ -44,7 +42,7 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
     hljs.registerLanguage('javascript', javascript);
     hljs.highlightAll();
     console.log(localStorage.getItem('user'))
-    setUser(localStorage.getItem('user'));
+    setUser(localStorage.getItem('user') || '');
   }, [setUser])
   //console.log(currUser)
   return (
@@ -76,7 +74,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
     params: { id: article.id.toString() },
   }))
   return { paths, fallback: false }
-  //return { paths, fallback: 'blocking' }
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }: any) => {
@@ -87,7 +84,6 @@ export const getStaticProps: GetStaticProps = async ({ params }: any) => {
     props: {
       article,
     },
-    //revalidate: 10,
   }
 }
 

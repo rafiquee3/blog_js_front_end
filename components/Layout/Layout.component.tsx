@@ -10,7 +10,7 @@ export const Layout = ({children}: any): JSX.Element => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100vw;
+    width: 100%;
     overflow: hidden;
     line-height: 1.5em;
   `
