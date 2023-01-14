@@ -95,18 +95,10 @@ export const CreatePost = ({show}: Show): JSX.Element => {
         padding-left: 0.5em;
         flex-wrap: wrap;
       }
-      input[name="title"] {
-        height: 50px;
-        width: 80%;
-        margin: 5px;
-        border: none;
-        border-bottom: 1px solid #166587;
-        background: #183D61;
-      }
       textarea[name="content"] {
-        height: 200px;
+        height: 250px;
         width: 100%;
-        margin-top: 10px;
+        margin-top: 20px;
         border: 1px solid #166587;
         border-radius: 18px;
         background: ${BckgColor.BLUE};
@@ -170,9 +162,8 @@ export const CreatePost = ({show}: Show): JSX.Element => {
     field: string;
     error: string;
   }
-  const apiConnect = async (title: string, content: string) => {
+  const apiConnect = async (content: string) => {
     const data = {
-      title,
       content
     };
     const JwtToken = localStorage.getItem('JWT');
@@ -192,11 +183,8 @@ export const CreatePost = ({show}: Show): JSX.Element => {
       focusOnErrField(validationErrors);
     });
   }
-  const postValidator = (title: string, content: string): ErrorObj[] => {
+  const postValidator = (content: string): ErrorObj[] => {
     const errors: ErrorObj[] = [];
-    if (!title) {
-      errors.push({ field: 'title', error: 'field "title" cannot be empty' })
-    }
     if (!content) {
       errors.push({ field: 'content', error: 'field "content" cannot be empty' })
     }
@@ -206,10 +194,6 @@ export const CreatePost = ({show}: Show): JSX.Element => {
   const handleOnChange = (callback: () => void) => {
     console.log(errorFields)
     if(errorFields.length) {
-      console.log(currentField)
-      if(currentField === 'title') {
-        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'title'));
-      }
       if(currentField === 'content') {
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'content'));
       }
@@ -220,21 +204,18 @@ export const CreatePost = ({show}: Show): JSX.Element => {
     const [firstErrField] = validationErrors;
     const {field} = firstErrField;
 
-    if(field === 'title') {
-      titleRef.current?.focus();
-    } else if(field === 'content') {
+    if (field === 'content') {
       contentRef.current?.focus();
     } 
   }
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const validationErrors: any = postValidator(title, content);
-    console.log(validationErrors)
+    const validationErrors: any = postValidator(content);
     if(validationErrors.length) {
       setErrorFields(validationErrors);
       focusOnErrField(validationErrors);
     } else {
-      apiConnect(title, content);
+      apiConnect(content);
     }
   }
   type ValidationField = {
@@ -271,17 +252,6 @@ export const CreatePost = ({show}: Show): JSX.Element => {
           <div className={styleCurrentField}>{currentUser}</div>
         </div>
         <div>
-          <input 
-            type="text" 
-            value={title} 
-            name="title"
-            style={isValid('title').res ? {} : styleErrField}
-            onChange={e => handleOnChange(() => setTitle(e.target.value))}
-            onFocus={() => setCurrentField('title')}
-            ref={titleRef}
-            placeholder="title..."
-          />
-          <span>{isValid('title').elem?.error}</span>
           <textarea  
             value={content} 
             name="content"

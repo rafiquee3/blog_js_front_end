@@ -25,7 +25,7 @@ export const PostsList = () => {
         <>
             <div style={{marginTop: '30px'}}>
                 {loading && <div>Loading...</div>}
-                {!loading && <>{posts.map((post) => <Post key={post.id} authorId={post.authorId} content={post.content} />)}</>}
+                {!loading && <>{posts.map((post) => <Post key={post.id} authorLogin={post.authorLogin} content={post.content} />)}</>}
             </div>
         </>
     )

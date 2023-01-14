@@ -98,7 +98,7 @@ const RegisterForm: FC = (): JSX.Element => {
   `
   const styleImg = css`
     opacity: ${success ? 0.5 : 0.4};
-    filter: ${success ? 'hue-rotate(340deg) saturate(130%) brightness(0.3)' : ''};
+    filter: ${success ? 'hue-rotate(340deg) saturate(130%) brightness(1.9)' : ''};
   `
   const styleCurrentField = css`
     position: absolute;
@@ -108,7 +108,7 @@ const RegisterForm: FC = (): JSX.Element => {
   const styleSuccess = css`
     color: ${FontColor.DEFAULT};
     & p {
-      text-align: center;
+      text-align: left;
     }
     & b {
       color: #166587;
@@ -334,12 +334,12 @@ const RegisterForm: FC = (): JSX.Element => {
               />
             </div>
             <div className={styleSuccess}>
-              <p>User <b>{login}</b> has been successfully registered</p>
+              <p>User <b>{login}</b> has been successfully registered.</p>
               <input 
                 type="button" 
                 value="Login" 
                 name="goLogin"
-                onClick={() => router.push('/login')}>
+                onClick={() => router.push('/signin')}>
               </input>
             </div>
           </div>

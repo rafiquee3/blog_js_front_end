@@ -69,7 +69,7 @@ export const LoginForm: FC = (): JSX.Element => {
         border: 1px solid #166587;
         border-radius: 14px;
         padding: 12px 12px;
-        margin-top: 20px;
+        margin-top: 30px;
 
         &:hover {
           color: ${FontColor.GREEN};
