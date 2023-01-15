@@ -6,7 +6,7 @@ import { BlogLayout, Layout } from '../components/Layout';
 import { Status } from '../components/Status/Status.component';
 import { NextPageWithLayout } from './_app';
 
-const Logout: NextPageWithLayout = (): JSX.Element  => {
+const Logout: NextPageWithLayout = ({children}: {children: JSX.Element}): JSX.Element  => {
   const [currentUser, setCurrentUser] = useRecoilState(user);
   const [err, setErr] = useState(false);
   
@@ -39,6 +39,7 @@ const Logout: NextPageWithLayout = (): JSX.Element  => {
       :
       <Status info="Logged out" error={false} /> 
       }
+      {children}
     </>
   )
 }

@@ -34,15 +34,14 @@ export const Menu: FC = (): JSX.Element => {
     cursor: pointer;
     text-decoration: none;
     color: ${FontColor.BLUEE};
-  }
 `
   return (
     <>
         <ul className={style}>
           <li><Link href={'/'} className={thisPage === 'home' ? linkStyleSelect : linkStyle}>HOME</Link></li>
-          <li><Link href={'/'} className={thisPage === 'blog' ? linkStyleSelect : linkStyle}>BLOG</Link></li>
-          <li><Link href={'/'} className={thisPage === 'about' ? linkStyleSelect : linkStyle}>O MNIE</Link></li>
-          <li><Link href={'/'} className={linkStyle}>KONTAKT</Link></li>
+          <li><Link href={'/articles'} className={thisPage === 'blog' ? linkStyleSelect : linkStyle}>BLOG</Link></li>
+          <li><Link href={'/about'} className={thisPage === 'about' ? linkStyleSelect : linkStyle}>O MNIE</Link></li>
+          <li><Link href={'/contact'} className={thisPage === 'contact' ? linkStyleSelect : linkStyle}>KONTAKT</Link></li>
         </ul> 
     </>
   )

@@ -8,11 +8,11 @@ const Admin: NextPageWithLayout = () => {
   const [isAdmin, setIsAdmin] = useRecoilState(user);
   const [thisPage, setThisPage] = useRecoilState(page);
   useEffect(() => {
-    setThisPage('about');
+    setThisPage('contact');
   },[]);
   return (
     <>
-      <p>to ja rafalski</p>
+      <p>contact</p>
     </>
   )
 }
