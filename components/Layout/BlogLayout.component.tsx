@@ -6,7 +6,7 @@ export const BlogLayout = ({children}: any): JSX.Element => {
   const style = css`
     display: flex;
     flex-direction: column;
-    height-min: calc(100vh - 70px);
+    min-height: calc(100vh - 128px - 70px - 180px);
     max-width: 780px;
     color: ${FontColor.DEFAULT};
 
@@ -31,7 +31,7 @@ export const BlogLayout = ({children}: any): JSX.Element => {
       margin-right: 0.5em;
     }
     h2 {
-      color: ${FontColor.SUBTITLE}};
+      color: ${FontColor.SUBTITLE};
     }
   `
   return (

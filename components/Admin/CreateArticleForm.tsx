@@ -10,6 +10,7 @@ import {escape} from 'html-escaper';
 import { useRecoilState } from 'recoil'
 import { user } from '../../atoms/atoms';
 import { LoginForm } from '../LoginForm';
+import { Status } from '../Status/Status.component';
 
 export const PostForm: FC = (): JSX.Element => {
   const [title, setTitle] = useState('');
@@ -17,6 +18,7 @@ export const PostForm: FC = (): JSX.Element => {
   const [currentField, setCurrentField] = useState('');
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState('');
+  const [bttnClicked, setBttnClicked] = useState(false);
   const router = useRouter();
   const loginRef = useRef<HTMLInputElement>(null);
   const [currentUser, setCurrentUser] = useRecoilState(user);
@@ -60,7 +62,7 @@ export const PostForm: FC = (): JSX.Element => {
         align-items: center;
         width: 10%;
         color: #7FA2B3;
-        background: #183D61;
+        background: ${BckgColor.BLUE};
         border: none;
 
         .img:hover {
@@ -72,7 +74,7 @@ export const PostForm: FC = (): JSX.Element => {
     .postTitle {
       width: 100%;
       height: 100%;
-      background: ${'#166587'};
+      background: ${BckgColor.SKYBLUE};
       border: none;
       border-bottom-right-radius: 8px;
       font-size: 1em;
@@ -92,7 +94,7 @@ export const PostForm: FC = (): JSX.Element => {
       padding: 1em;
       border-bottom: 1px solid ${FontColor.DEFAULT};
       border-top-left-radius: 4px;
-      background: #183D61;
+      background: ${BckgColor.BLUE};
       color: ${FontColor.DEFAULT};
       font-size: 1em;
     }
@@ -138,10 +140,13 @@ export const PostForm: FC = (): JSX.Element => {
     //<GetResponse>
     await axios.post(url, data, config)
     .then((res) => {
+      setTitle('');
+      setText('');
+      setError(false);
       console.log('save in db')
     })
     .catch((err) => {
-      //setError(true);
+      setError(true);
       //setErrMsg('Login or password incorrect');
       //loginRef.current?.focus();
       console.log(err)
@@ -157,6 +162,8 @@ export const PostForm: FC = (): JSX.Element => {
     callback();
   }
   const createPost = () => {
+    setBttnClicked(true);
+    //setTimeout(() => setBttnClicked(false), 2000);
     remark()
     .use(remarkHtml)
     .process(text)
@@ -203,6 +210,7 @@ export const PostForm: FC = (): JSX.Element => {
 
       <LoginForm />
     }
+    { bttnClicked && !error ? <Status info={'new post added'} error={false} /> : error ? <Status info={'error'} error={true} /> : '' }
     </>
   )
 }
