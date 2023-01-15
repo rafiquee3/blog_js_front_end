@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { Post } from "./Post.component";
 
 export const PostsList = ({refresh}: {refresh: object}) => {
-    const [posts, setPosts] = useState(null);
+    const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
     const forceRefresh = refresh;
     useEffect(() => {
@@ -24,9 +24,9 @@ export const PostsList = ({refresh}: {refresh: object}) => {
     console.log('postList render');
     return (
         <>
-            <div style={{marginTop: '30px'}}>
+            <div style={{marginTop: '20px'}}>
                 {loading && <div>Loading...</div>}
-                {!loading && <>{posts.map((post) => <Post key={post.id} authorLogin={post.authorLogin} content={post.content} />)}</>}
+                {!loading && <>{posts.map((post) => <Post key={post.id} authorLogin={post.authorLogin} content={post.content} date={post.createdAt} />).reverse()}</>}
             </div>
         </>
     )

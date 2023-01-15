@@ -2,9 +2,11 @@ import { css } from '@emotion/css'
 import { useState } from 'react'
 import { BckgColor } from '../../styles/colors'
 
-export const Post = ({authorLogin, content}: {authorLogin: string, content: string}): JSX.Element => {
+export const Post = ({authorLogin, content, date}: {authorLogin: string, content: string, date: string}): JSX.Element => {
+    const dateFormat = `${date.split('T')[0]} ${date.split('T')[1].slice(0, 5)}`
     const style = css`
         display: flex;
+        position: relative;
         align-items: flex-start;
         margin-top: 30px;
         width: 100%;
@@ -27,6 +29,12 @@ export const Post = ({authorLogin, content}: {authorLogin: string, content: stri
             padding-bottom: 29px;
             border-bottom: 1px solid ${BckgColor.SKYBLUE};
         }
+        .date {
+            position: absolute;
+            font-size: 12px;
+            right: 0;
+            bottom: 0;
+        }
     `
     return (
         <>
@@ -37,6 +45,7 @@ export const Post = ({authorLogin, content}: {authorLogin: string, content: stri
                 <div className='content'>
                     {content}
                 </div>
+                <div className='date'>{dateFormat}</div>
             </div>
         </>
     )

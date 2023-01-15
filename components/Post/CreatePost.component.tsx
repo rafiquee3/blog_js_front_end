@@ -8,7 +8,7 @@ import { user } from '../../atoms/atoms';
 import { Status } from '../Status/Status.component';
 
 interface Show {
-	show: (param: boolean) => void,
+	show: (param: string) => void,
 }
 
 export const CreatePost = ({show}: Show): JSX.Element => {
@@ -174,7 +174,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
     await axios.post(url, data, config)
     .then((res) => {
       console.log('post added');
-      show(false);
+      show('addBttn');
     })
     .catch((err) => {
       const validationErrors = err.response.data.errors;
@@ -187,7 +187,6 @@ export const CreatePost = ({show}: Show): JSX.Element => {
     if (!content) {
       errors.push({ field: 'content', error: 'field "content" cannot be empty' })
     }
-
     return errors;
   }
   const handleOnChange = (callback: () => void) => {
@@ -229,7 +228,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
     }
   }
   const handleOnClick = () => {
-    show(false);
+    show('closeBttn');
   }
   return (
     <>

@@ -5,7 +5,7 @@ import { user } from '../../atoms/atoms';
 import { FontColor } from '../../styles/colors';
 
 interface Show {
-	show: (param: boolean) => void,
+	show: (param: string) => void,
 }
 
 export const CreatePostBttn = ({show}: Show): JSX.Element => {
@@ -19,6 +19,7 @@ export const CreatePostBttn = ({show}: Show): JSX.Element => {
         border: 2px solid #166587;
         border-radius: 18px;
         overflow: hidden;
+        margin-top: 30px;
 
     div:nth-child(1) {
       display: flex;
@@ -60,7 +61,7 @@ export const CreatePostBttn = ({show}: Show): JSX.Element => {
   `
   const handleOnClick = () => {
     setHide(prev => !prev);
-    show(!hide);
+    show('openBttn');
   }
   return (
       <>

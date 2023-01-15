@@ -33,15 +33,21 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
   const [currPage, setPage] = useRecoilState(page);
   const unescapeContent = unescape(article.content);
   const content = addClass(unescapeContent);
-  const [hidePostForm, setHidePostForm] = useState(false);
+  const [hidePostForm, setHidePostForm] = useState(true);
   const [postAdded, setPostAdded] = useState(false); 
-  const showBttn = (hide: boolean) => {
-    setHidePostForm(hide);
-    setPostAdded(true)
-    setTimeout(() => setPostAdded(false), 2000);
+  const showBttn = (from: string) => {
+    if (from === 'addBttn') {
+      setHidePostForm(true);
+      setPostAdded(true)
+      setTimeout(() => setPostAdded(false), 2000);
+    } else if (from === 'closeBttn') {
+      setHidePostForm(true);
+    }
   }
-  const showForm = (hide: boolean) => {
-    setHidePostForm(hide);
+  const showForm = (from: string) => {
+    if (from === 'openBttn') {
+      setHidePostForm(false);
+    }
   }
   useEffect(() => {
     if (postAdded) {
@@ -63,7 +69,7 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
       </Head>
       <h1>{article.title}</h1>
       {parse(content)}
-      {hidePostForm ? <CreatePost show={showBttn}/> : <CreatePostBttn show={showForm}/>}
+      {hidePostForm ? <CreatePostBttn show={showForm}/> : <CreatePost show={showBttn}/> }
       <PostsList refresh={{}}/>
       {postAdded && <Status info={'comment added'} error={false} />}
     </>
