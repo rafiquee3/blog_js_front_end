@@ -22,7 +22,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
     display: flex;
     position: relative;
     width: 70%;
-    border: 2px solid #166587;
+    border: 2px solid ${BckgColor.SKYBLUE};
     border-radius: 18px;
     overflow: hidden;
 
@@ -31,7 +31,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      background: #166587;
+      background: ${BckgColor.SKYBLUE};
       padding-left: 30px;
       padding-right: 30px;
 
@@ -80,7 +80,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
       align-items: flex-start;
       padding: 25px;
       padding-top: 0px;
-      background: #183D61;
+      background: ${BckgColor.BLUE};
 
       input {
         font-size: 1em;
@@ -97,7 +97,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
         height: 250px;
         width: 100%;
         margin-top: 20px;
-        border: 1px solid #166587;
+        border: 1px solid ${BckgColor.SKYBLUE};
         border-radius: 18px;
         background: ${BckgColor.BLUE};
         resize: none;
@@ -114,8 +114,8 @@ export const CreatePost = ({show}: Show): JSX.Element => {
         bottom: 12px;
         align-self: flex-end;
         color: #7FA2B3;
-        background: #183D61;
-        border: 1px solid #166587;
+        background: ${BckgColor.BLUE};
+        border: 1px solid ${BckgColor.SKYBLUE};
         border-radius: 14px;
         padding: 12px 12px;
         margin-top: 20px;
@@ -123,7 +123,7 @@ export const CreatePost = ({show}: Show): JSX.Element => {
         &:hover {
           color: ${FontColor.GREEN};
           cursor: pointer;
-          border-color: green;
+          border-color: ${BckgColor.GREEN};
         }
       }
       input:focus-visible {

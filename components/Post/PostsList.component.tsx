@@ -3,7 +3,21 @@ import { useEffect, useState } from "react"
 import { Post } from "./Post.component";
 
 export const PostsList = ({refresh}: {refresh: object}) => {
-    const [posts, setPosts] = useState([]);
+    type PostType = {
+        id: number;
+        authorLogin: string;
+        content: string;
+        createdAt: string;
+    }
+    const initial: PostType[] = [
+        {
+            id: 0,
+            authorLogin: '',
+            content: '',
+            createdAt: '',
+        }
+    ]
+    const [posts, setPosts] = useState(initial);
     const [loading, setLoading] = useState(true);
     const forceRefresh = refresh;
     useEffect(() => {
@@ -12,7 +26,6 @@ export const PostsList = ({refresh}: {refresh: object}) => {
             await axios.get(url)
             .then((res) => {
                 setLoading(false);
-                console.log(res.data)
                 setPosts(res.data);
             })
             .catch((err) => {
@@ -21,7 +34,6 @@ export const PostsList = ({refresh}: {refresh: object}) => {
         }
        apiConnect();
     }, [forceRefresh]);
-    console.log('postList render');
     return (
         <>
             <div style={{marginTop: '20px'}}>
