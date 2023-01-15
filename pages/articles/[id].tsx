@@ -38,6 +38,7 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
   const showBttn = (hide: boolean) => {
     setHidePostForm(hide);
     setPostAdded(true)
+    setTimeout(() => setPostAdded(false), 2000);
   }
   const showForm = (hide: boolean) => {
     setHidePostForm(hide);
