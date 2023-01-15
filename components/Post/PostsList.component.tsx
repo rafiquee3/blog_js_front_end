@@ -2,10 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { Post } from "./Post.component";
 
-export const PostsList = () => {
+export const PostsList = ({refresh}: {refresh: object}) => {
     const [posts, setPosts] = useState(null);
     const [loading, setLoading] = useState(true);
-    
+    const forceRefresh = refresh;
     useEffect(() => {
         const apiConnect = async () => {
             const url: string = 'http://localhost:3001/post/all';
@@ -20,7 +20,8 @@ export const PostsList = () => {
             });
         }
        apiConnect();
-    }, []);
+    }, [forceRefresh]);
+    console.log('postList render');
     return (
         <>
             <div style={{marginTop: '30px'}}>

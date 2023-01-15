@@ -63,7 +63,7 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
       <h1>{article.title}</h1>
       {parse(content)}
       {hidePostForm ? <CreatePost show={showBttn}/> : <CreatePostBttn show={showForm}/>}
-      {postAdded ? <div><PostsList /></div> : <PostsList />}
+      <PostsList refresh={{}}/>
       {postAdded && <Status info={'comment added'} error={false} />}
     </>
   )

@@ -102,6 +102,7 @@ const RegisterForm: FC = (): JSX.Element => {
   `
   const styleCurrentField = css`
     position: absolute;
+    padding: 10px;
     color: ${success ?  '#BABFBF' : FontColor.DEFAULT};
     bottom: 0;
   `
@@ -324,7 +325,7 @@ const RegisterForm: FC = (): JSX.Element => {
   const SuccessMsg = (
           <div className={style}>
             <div>
-              <div className={styleCurrentField}>{currentField}</div>
+              <div style={{position: 'absolute', bottom: '0', padding: '30px 0px', color: '#BABFBF'}}>{currentField}</div>
               <Image
                 src="/login.png"
                 alt="Picture of the author"
