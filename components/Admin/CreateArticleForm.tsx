@@ -13,11 +13,24 @@ import { LoginForm } from '../LoginForm';
 import { Status } from '../Status/Status.component';
 
 export const PostForm: FC = (): JSX.Element => {
+  type ErrorObj = {
+    field: string;
+    error: string;
+  }
+  type Article = {
+    title: string;
+    content: string;
+  }
+  type GetResponse = {
+    data: ErrorObj[];
+  };
+  type ErrorsArrays = ErrorObj[];
+
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [currentField, setCurrentField] = useState('');
   const [error, setError] = useState(false);
-  const [errMsg, setErrMsg] = useState('');
+  const [errMsg, setErrMsg] = useState<ErrorsArrays>([{field: '', error: ''}]);
   const [bttnClicked, setBttnClicked] = useState(false);
   const router = useRouter();
   const loginRef = useRef<HTMLInputElement>(null);
@@ -111,6 +124,9 @@ export const PostForm: FC = (): JSX.Element => {
       opacity: .5;
       color: ${FontColor.GRAY};
     }
+    span {
+      padding-left: .5em;
+    }
     input:-webkit-autofill,
     input:-webkit-autofill:hover, 
     input:-webkit-autofill:focus, 
@@ -118,13 +134,6 @@ export const PostForm: FC = (): JSX.Element => {
       -webkit-box-shadow: 0 0 0 30px #183D61 inset !important;
     }
   `
-  type ErrorObj = {
-    field: string;
-    error: string;
-  }
-  type GetResponse = {
-    data: ErrorObj[];
-  };
   const apiConnect = async (html: any) => {
     const JwtToken = localStorage.getItem('JWT');
     const config = {
@@ -156,14 +165,43 @@ export const PostForm: FC = (): JSX.Element => {
     if(error) {
       if(currentField === 'login') {
         setError(false);
-        setErrMsg('');
+        //setErrMsg('');
       }
     }
     callback();
   }
+  const articleValidator = (article: Article): ErrorObj[] => {
+    const errors: ErrorObj[] = [];
+    if (!article.title) {
+      errors.push({
+        field: 'title',
+        error: 'the title field cannot be empty',
+      });
+    }
+    if (!article.content) {
+      errors.push({
+        field: 'content',
+        error: 'the content field cannot be empty',
+      });
+    }
+    return errors;
+  }
   const createPost = () => {
     setBttnClicked(true);
-    //setTimeout(() => setBttnClicked(false), 2000);
+    setTimeout(() => setBttnClicked(false), 1700);
+    setErrMsg([{
+      field: '',
+      error: ''
+    }]);
+    const article = {
+      title,
+      content: text
+    }
+    const validatorErr = articleValidator(article);
+    if (validatorErr.length) {
+      setErrMsg(validatorErr);
+      return setError(true);
+    }
     remark()
     .use(remarkHtml)
     .process(text)
@@ -204,13 +242,15 @@ export const PostForm: FC = (): JSX.Element => {
           onChange={(e) => setText(e.target.value)}
         >
         </textarea>
+        {errMsg.length && errMsg.map((msg) => <span>{msg.error}</span>)}
       </div>
 
       :
 
       <LoginForm />
     }
-    { bttnClicked && !error ? <Status info={'new post added'} error={false} /> : error ? <Status info={'error'} error={true} /> : '' }
+    { bttnClicked && !error && <Status info={'new post added'} error={false} /> }
+    { bttnClicked && error && <Status info={'error'} error={true} /> }
     </>
   )
 }
