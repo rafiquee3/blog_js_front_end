@@ -10,12 +10,19 @@ export const ArticleLink: FC = (): JSX.Element => {
         height: 300px;
         .up {
             display: flex;
-            background: ${BckgColor.SKYBLUE}
+            
             .left {
-                
+                background: ${BckgColor.SKYBLUE};
+                .title {
+                    font-size: 22px;
+                }
+                .author {
+                    display: flex;
+                    font-size: 12px;
+                }
             }
             .right {
-                background: red;
+                background: ${BckgColor.RED};
             }
         }
         .down {
@@ -26,7 +33,10 @@ export const ArticleLink: FC = (): JSX.Element => {
         <>
             <div className={style}>
                 <div className="up">
-                    <div className="left">TypeScript 4.9 – pierwsza wersja beta, nowy operator</div>
+                    <div className="left">
+                       <div className="title">TypeScript 4.9 – pierwsza wersja beta, nowy operator</div>
+                       <div className="author"><div>Rafał Sokołowski</div><div>5 minut czytania</div></div>
+                    </div>
                     <div className="right"><div>14</div><div>grudzien</div><div>2022</div></div>
                 </div>
                 <div className="down">
