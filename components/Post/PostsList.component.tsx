@@ -2,7 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { Post } from "./Post.component";
 
-export const PostsList = ({refresh}: {refresh: object}) => {
+type ArticleType = {
+    content: string;
+    createdAt: string;
+    id: number;
+    title: string;
+    updatedAt: string;  
+}
+  
+export const PostsList = ({article, refresh}: {article: ArticleType, refresh: object} ) => {
     type PostType = {
         id: number;
         authorLogin: string;
@@ -21,9 +29,11 @@ export const PostsList = ({refresh}: {refresh: object}) => {
     const [loading, setLoading] = useState(true);
     const forceRefresh = refresh;
     useEffect(() => {
+        console.log('useEffect PostList render')
         const apiConnect = async () => {
+            const data = article;
             const url: string = 'http://localhost:3001/post/all';
-            await axios.get(url)
+            await axios.post(url, data)
             .then((res) => {
                 setLoading(false);
                 setPosts(res.data);
@@ -34,6 +44,7 @@ export const PostsList = ({refresh}: {refresh: object}) => {
         }
        apiConnect();
     }, [forceRefresh]);
+    console.log('PostList render')
     return (
         <>
             <div style={{marginTop: '20px'}}>

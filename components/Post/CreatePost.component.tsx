@@ -7,11 +7,14 @@ import { useRecoilState } from 'recoil';
 import { user } from '../../atoms/atoms';
 import { Status } from '../Status/Status.component';
 
-interface Show {
-	show: (param: string) => void,
+type ArticleType = {
+  content: string;
+  createdAt: string;
+  id: number;
+  title: string;
+  updatedAt: string;  
 }
-
-export const CreatePost = ({show}: Show): JSX.Element => {
+export const CreatePost = ({article, show}: {article: any, show: (param: string) => void}): JSX.Element => {
   const [content, setContent] = useState('');
   const [currentField, setCurrentField] = useState('');
   const [errorFields, setErrorFields] = useState([]);
@@ -162,7 +165,8 @@ export const CreatePost = ({show}: Show): JSX.Element => {
   }
   const apiConnect = async (content: string) => {
     const data = {
-      content
+      content,
+      article
     };
     const JwtToken = localStorage.getItem('JWT');
     const config = {

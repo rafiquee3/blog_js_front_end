@@ -5,6 +5,7 @@ import { Status } from '../components/Status/Status.component';
 import { useRecoilState } from 'recoil';
 import { firstRender, page } from '../atoms/atoms';
 import { NextPageWithLayout } from './_app';
+import { ArticleLink } from '../components/Article/ArticleLink.component';
 
 type Props = {
   id: number;       
@@ -28,6 +29,7 @@ type Props = {
    <>
         {firstView && <Status info="Logged in" error={false} />}
         <div>{articles.map((article: Props) => (<p key={article.id}>{article.title}</p>))}</div>
+        <ArticleLink />
    </>
   )
 }

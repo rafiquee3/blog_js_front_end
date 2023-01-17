@@ -23,7 +23,13 @@ type ArticleType = {
   title: string;
   updatedAt: string;  
 }
-
+type Props = {
+  id: any;       
+  createdAt: any;
+  updatedAt: any;
+  title:     any;
+  content:   any;
+};
 const addClass = (html: any) => {
   return html.replace(/<code>/g, '<code className="js">');
 }
@@ -61,16 +67,19 @@ const Article: NextPageWithLayout = ({ article }: any): JSX.Element => {
     setUser(localStorage.getItem('user') || '');
     setPage('blog');
   }, [setUser])
+  
+  console.log('id tsx render');
+  console.log(typeof article.id, typeof article.createdAt, typeof article.updatedAt, typeof article.content, typeof article.title)
   return (
     <>
       <Head>
-        <title>r3 blog</title>
+        <title>{article.title}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <h1>{article.title}</h1>
       {parse(content)}
-      {hidePostForm ? <CreatePostBttn show={showForm}/> : <CreatePost show={showBttn}/> }
-      <PostsList refresh={{}}/>
+      {hidePostForm ? <CreatePostBttn show={showForm}/> : <CreatePost show={showBttn} article={article}/> }
+      <PostsList article={article} refresh={{}}/>
       {postAdded && <Status info={'comment added'} error={false} />}
     </>
   )
