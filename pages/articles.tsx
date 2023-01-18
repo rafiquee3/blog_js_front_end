@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil';
 import { firstRender, page } from '../atoms/atoms';
 import { NextPageWithLayout } from './_app';
 import { ArticleLink } from '../components/Article/ArticleLink.component';
+import { ArticlesListLayout } from '../components/Layout/ArticlesListLayout.component';
 
 type Props = {
   id: number;       
@@ -28,8 +29,7 @@ type Props = {
   return (
    <>
         {firstView && <Status info="Logged in" error={false} />}
-        <div>{articles.map((article: Props) => (<p key={article.id}>{article.title}</p>))}</div>
-        <ArticleLink />
+        {articles.map((article: Props) => (<ArticleLink />))}
    </>
   )
 }
@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 Articles.getLayout = function getLayout(page: ReactElement) {
   return (
     <Layout>
-      <BlogLayout>{page}</BlogLayout>
+      <ArticlesListLayout>{page}</ArticlesListLayout>
     </Layout>
   )
 }

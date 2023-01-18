@@ -8,7 +8,6 @@ export const ArticleLink: FC = (): JSX.Element => {
         display: flex;
         flex-direction: column;
         width: 400px;
-        height: 300px;
         .up {
             display: flex;
             
@@ -56,20 +55,18 @@ export const ArticleLink: FC = (): JSX.Element => {
         }
     `
     return (
-        <>
-            <div className={style}>
-                <div className="up">
-                    <div className="left">
-                       <div className="title">TypeScript 4.9 – pierwsza wersja beta, nowy operator</div>
-                       <div className="author"><div>Rafał Sokołowski</div><div>5 minut czytania</div></div>
-                    </div>
-                    <div className="right"><div>14</div><div>grudzien</div><div>2022</div></div>
+        <div className={style}>
+            <div className="up">
+                <div className="left">
+                    <div className="title">TypeScript 4.9 – pierwsza wersja beta, nowy operator</div>
+                    <div className="author"><div>Rafał Sokołowski</div><div>5 minut czytania</div></div>
                 </div>
-                <div className="down">
-                    <div>Na finalną wersję TypeScript 5.0 poczekać trzeba będzie najprawdopodobniej do 14 marca, ale wczesna beta do testowania powinna pojawić się już pod koniec stycznia. Będący nadzbiorem języka JavaScript TypeScript wprowadza do niego mechanizmy, które charakterystyczne są dla obiektowych języków programowania. Najważniejszym z nich jest bez wątpienia statyczne typowanie zmiennych. Z tego właśnie powodu w wersji…</div>
-                    <Link href="/signup" className={styleLink}>czytaj artykul</Link>
-                </div>
+                <div className="right"><div>14</div><div>grudzien</div><div>2022</div></div>
             </div>
-        </>
+            <div className="down">
+                <div>Na finalną wersję TypeScript 5.0 poczekać trzeba będzie najprawdopodobniej do 14 marca, ale wczesna beta do testowania powinna pojawić się już pod koniec stycznia. Będący nadzbiorem języka JavaScript TypeScript wprowadza do niego mechanizmy, które charakterystyczne są dla obiektowych języków programowania. Najważniejszym z nich jest bez wątpienia statyczne typowanie zmiennych. Z tego właśnie powodu w wersji…</div>
+                <Link href="/signup" className={styleLink}>czytaj artykul</Link>
+            </div>
+        </div>
     )
 }
