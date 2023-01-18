@@ -1,5 +1,5 @@
 export const enum FontColor {
-  BLUEE = '#128BAB',
+  BLUE = '#128BAB',
   GREEN = 'green',
   WHITE = 'white',
   DEFAULT = '#ABAFB1',

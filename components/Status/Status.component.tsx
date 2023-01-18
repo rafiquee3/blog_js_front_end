@@ -24,8 +24,17 @@ export const Status = ({info, error}: {info: string, error: boolean}) => {
             statusRef.current.style.transform = 'translateX(999px)';
             statusRef.current.style.transition = 'transform 2s ease-in-out 0s';
         }
-      },1000);
-      () => clearTimeout(timeout);
+      }, 1100);
+      const hide = setTimeout(() => {
+        if (statusRef.current) {
+            statusRef.current.style.display = 'none';  
+        }
+      }
+      ,1700);
+      () => {
+        clearTimeout(timeout);
+        clearTimeout(hide);
+      }
     }, []);
     return (
         <>

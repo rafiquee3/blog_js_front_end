@@ -1,12 +1,13 @@
 import { FC } from "react";
 import { css } from '@emotion/css'
-import { BckgColor } from "../../styles/colors";
+import { BckgColor, FontColor } from "../../styles/colors";
+import Link from "next/link";
 
 export const ArticleLink: FC = (): JSX.Element => {
     const style = css`
         display: flex;
         flex-direction: column;
-        width: 300px;
+        width: 400px;
         height: 300px;
         .up {
             display: flex;
@@ -15,18 +16,43 @@ export const ArticleLink: FC = (): JSX.Element => {
                 background: ${BckgColor.SKYBLUE};
                 .title {
                     font-size: 22px;
+                    color: #b9d1cd;
+                    padding: 20px;
                 }
                 .author {
                     display: flex;
+                    justify-content: space-between;
+                    padding: 0 20px;
                     font-size: 12px;
+                    color: ${BckgColor.BLUE};
+                    font-weight: bold;
                 }
             }
             .right {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
                 background: ${BckgColor.RED};
+                text-align: center;
+                padding: 20px;
+                color: ${BckgColor.FOOTER};
+                font-weight: bold;
             }
         }
         .down {
-            background: ${BckgColor.BLUE}
+            display: flex;
+            flex-direction: column;
+            background: ${BckgColor.BLUE};
+            padding: 30px 20px 20px 20px;
+            text-align: justify;
+        }
+    `
+    const styleLink = css`
+        align-self: flex-end;
+        color: ${FontColor.BLUE};
+        margin-top: 25px;
+        &:hover {
+            text-decoration: underline;
         }
     `
     return (
@@ -41,7 +67,7 @@ export const ArticleLink: FC = (): JSX.Element => {
                 </div>
                 <div className="down">
                     <div>Na finalną wersję TypeScript 5.0 poczekać trzeba będzie najprawdopodobniej do 14 marca, ale wczesna beta do testowania powinna pojawić się już pod koniec stycznia. Będący nadzbiorem języka JavaScript TypeScript wprowadza do niego mechanizmy, które charakterystyczne są dla obiektowych języków programowania. Najważniejszym z nich jest bez wątpienia statyczne typowanie zmiennych. Z tego właśnie powodu w wersji…</div>
-                    <div>czytaj artykul</div>
+                    <Link href="/signup" className={styleLink}>czytaj artykul</Link>
                 </div>
             </div>
         </>
