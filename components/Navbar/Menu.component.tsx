@@ -23,8 +23,8 @@ export const Menu: FC = (): JSX.Element => {
     text-decoration: none;
 
     &:hover {
-      box-shadow: inset 0 -5px 0 ${FontColor.BLUEE};
-      color: ${FontColor.BLUEE};
+      box-shadow: inset 0 -5px 0 ${FontColor.BLUE};
+      color: ${FontColor.BLUE};
     }
   `
   const linkStyleSelect = css`
@@ -33,7 +33,7 @@ export const Menu: FC = (): JSX.Element => {
     padding: 0 1rem 0 1rem;
     cursor: pointer;
     text-decoration: none;
-    color: ${FontColor.BLUEE};
+    color: ${FontColor.BLUE};
 `
   return (
     <>

@@ -108,7 +108,7 @@ export const LoginForm: FC = (): JSX.Element => {
     margin-top: 3px;
     font-size: 12px;
     align-self: flex-end;
-    color: ${FontColor.BLUEE};
+    color: ${FontColor.BLUE};
     
     &:hover {
       color: ${FontColor.DEFAULT};

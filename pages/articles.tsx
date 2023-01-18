@@ -29,7 +29,7 @@ type Props = {
   return (
    <>
         {firstView && <Status info="Logged in" error={false} />}
-        {articles.map((article: Props) => (<ArticleLink key={article.id} title={article.title} date={article.createdAt} content={article.content} id={article.id} />))}
+        {articles.map((article: Props) => (<ArticleLink key={article.id} title={article.title} date={article.createdAt} content={article.content} id={article.id.toString()} />))}
    </>
   )
 }

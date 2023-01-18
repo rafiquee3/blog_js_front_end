@@ -7,12 +7,16 @@ import { page, user } from '../atoms/atoms'
 const Admin: NextPageWithLayout = () => {
   const [isAdmin, setIsAdmin] = useRecoilState(user);
   const [thisPage, setThisPage] = useRecoilState(page);
+  const sendEmail = () => {
+ 
+  };
   useEffect(() => {
     setThisPage('contact');
   },[]);
   return (
     <>
       <p>contact</p>
+      <button onClick={sendEmail}>send</button>
     </>
   )
 }

@@ -44,7 +44,6 @@ export const ArticleLink = ({title, date, content, id}: {title: string, date: st
                 text-align: center;
                 padding: 20px 20px;
                 color: ${BckgColor.FOOTER};
-                
                 font-weight: bold;
             }
         }
@@ -59,13 +58,13 @@ export const ArticleLink = ({title, date, content, id}: {title: string, date: st
     const styleLink = css`
         align-self: flex-end;
         color: ${FontColor.BLUE};
-        margin-top: 25px;
+        margin-top: 45px;
         &:hover {
             text-decoration: underline;
         }
     `
     const sanitize = (text: string) => {
-        const txt = text.split(' ').slice(0, 60).join(' ');
+        const txt = text.split(' ').slice(0, 70).join(' ');
         return txt
             .replace(/&lt;p&gt;/g, '')
             .replace(/&lt;\/p&gt;/g, '')

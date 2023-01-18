@@ -39,7 +39,7 @@ export const CreatePostBttn = ({show}: Show): JSX.Element => {
       input[type="button"] {
         height: 50px;
         bottom: 12px;
-        color: ${FontColor.BLUEE};
+        color: ${FontColor.BLUE};
         background: #183D61;
         border: none;
         padding: 12px 12px;
