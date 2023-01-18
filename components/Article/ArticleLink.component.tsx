@@ -4,7 +4,7 @@ import { BckgColor, FontColor } from "../../styles/colors";
 import Link from "next/link";
 import DOMPurify from 'isomorphic-dompurify';
 
-export const ArticleLink = ({title, date, content, id}): JSX.Element => {
+export const ArticleLink = ({title, date, content, id}: {title: string, date: string, content: string, id: string}): JSX.Element => {
     const style = css`
         display: flex;
         flex-direction: column;
@@ -64,16 +64,25 @@ export const ArticleLink = ({title, date, content, id}): JSX.Element => {
             text-decoration: underline;
         }
     `
-    const sanitize = (text) => {
+    const sanitize = (text: string) => {
         const txt = text.split(' ').slice(0, 60).join(' ');
         return txt
             .replace(/&lt;p&gt;/g, '')
             .replace(/&lt;\/p&gt;/g, '')
             .replace(/&lt;h2&gt;/g, '')
-            .replace(/&lt;\/h2&gt;/g, '')
+            .replace(/&lt;\/h2&gt;/g, '') + '...'
     } 
-    const formatDate = (date: string): string => {
-        return date;
+    const formatDate = (date: string): {day: string, month: string, year: string} => {
+        const fullDate = date.slice(0, 9).split('-');
+        const year = fullDate[0];
+        const month = Number(fullDate[1]);
+        const day = Number(fullDate[2]).toString();
+        const monthArr = ['', 'styczeń', 'luty', 'marzec', 'kwiecień', 'maj', 'czerwiec', 'lipiec', 'siepień', 'wrzesień', 'październik', 'listopad', 'grudzień'];
+        return {
+            day, 
+            month: monthArr[month], 
+            year
+        };
     }
     return (
         <div className={style}>
@@ -82,7 +91,7 @@ export const ArticleLink = ({title, date, content, id}): JSX.Element => {
                     <Link href={`/articles/${id}`} className="title">{title}</Link>
                     <div className="author">Rafał Sokołowski</div>
                 </div>
-                <div className="right"><div>14</div><div>grudzien</div><div>2022</div></div>
+                <div className="right"><div>{formatDate(date).day}</div><div>{formatDate(date).month}</div><div>{formatDate(date).year}</div></div>
             </div>
             <div className="down">
                 <div>{sanitize(content)}</div>
