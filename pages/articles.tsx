@@ -16,7 +16,7 @@ type Props = {
   content:   string;
 };
 //const Index: NextPageWithLayout = (): JSX.Element => {
-  const Articles = ({ articles }: {articles: Props}): JSX.Element => {
+  const Articles: NextPageWithLayout = ({ articles }: any): JSX.Element => {
   const [firstView, setFirstView] = useRecoilState(firstRender)
   const [thisPage, setThisPage] = useRecoilState(page);
   useEffect(() => {
@@ -29,7 +29,7 @@ type Props = {
   return (
    <>
         {firstView && <Status info="Logged in" error={false} />}
-        {articles.map((article: Props) => (<ArticleLink />))}
+        {articles.map((article: Props) => (<ArticleLink key={article.id} title={article.title} date={article.createdAt} content={article.content} id={article.id} />))}
    </>
   )
 }

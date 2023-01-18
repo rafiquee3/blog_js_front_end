@@ -22,6 +22,7 @@
     "highlight.js": "^11.7.0",
     "html-escaper": "^3.0.3",
     "html-react-parser": "^3.0.4",
+    "isomorphic-dompurify": "^0.26.0",
     "next": "13.0.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
