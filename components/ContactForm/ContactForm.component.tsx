@@ -19,7 +19,7 @@ export const ContactForm: FC = (): JSX.Element => {
     display: flex;
     position: relative;
     min-height: 250px;
-   
+    min-width: 300px; 
     border: 2px solid #166587;
     border-radius: 18px;
     overflow: hidden;
@@ -53,7 +53,7 @@ export const ContactForm: FC = (): JSX.Element => {
       }
       input[type="text"], input[type="email"] {
         height: 50px;
-        width: 320px;
+        width: 400px;
         margin: 5px;
         border: none;
         border-bottom: 1px solid #166587;
@@ -162,12 +162,14 @@ export const ContactForm: FC = (): JSX.Element => {
     }
     return errors;
   }
-  const apiConnect = (subject: string, email: string, content: string) => {
-    axios.post('http://localhost:3001/auth/signup', {
-      subject,
-      email,
-      content,
-    })
+  const apiConnect = async (subject: string, email: string, content: string) => {
+    const data = {
+        subject,
+        email,
+        content,
+    };
+    const url: string = 'http://localhost:3001/nodemailer/send';
+    await axios.post(url, data)
     .then((res) => {
       setSuccess(true);
       setCurrentField('subject');
@@ -192,11 +194,10 @@ export const ContactForm: FC = (): JSX.Element => {
     if(errorFields.length) {
       if(currentField === 'subject') {
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'subject'));
-      }
-      if(currentField === 'email') {
+      }else if(currentField === 'email') {
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'email'));
-      }
-      if(currentField === 'content') {
+      }else if(currentField === 'content') {
+        console.log('err')
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'content'));
       }
     }
@@ -270,7 +271,8 @@ export const ContactForm: FC = (): JSX.Element => {
               <textarea 
                 name="content"
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                style={isValid('subject').res ? {} : styleErrField}
+                onChange={e => handleOnChange(() => setContent(e.target.value))}
                 onFocus={() => setCurrentField('content')}
                 ref={contentRef}
               >

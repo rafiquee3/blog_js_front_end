@@ -8,6 +8,7 @@ export const BlogLayout = ({children}: any): JSX.Element => {
     flex-direction: column;
     min-height: calc(100vh - 128px - 70px - 180px);
     max-width: 780px;
+    margin-top: 70px;
     color: ${FontColor.DEFAULT};
 
     code {
@@ -19,7 +20,6 @@ export const BlogLayout = ({children}: any): JSX.Element => {
     }
     h1 {
       color: ${FontColor.TITLE};
-      margin: 2em 1.5em 1em 0;
       text-transform: uppercase;
     }
     h1::before {
