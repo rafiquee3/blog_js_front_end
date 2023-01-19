@@ -109,8 +109,7 @@ export const ContactForm: FC = (): JSX.Element => {
     }
   `
   const styleImg = css`
-    opacity: ${success ? 0.5 : 0.4};
-    filter: ${success ? 'hue-rotate(340deg) saturate(130%) brightness(1.9)' : ''};
+    opacity: 0.4;
   `
   const styleCurrentField = css`
     position: absolute;
@@ -169,7 +168,7 @@ export const ContactForm: FC = (): JSX.Element => {
         content,
     };
     const url: string = 'http://localhost:3001/nodemailer/send';
-    await axios.post(url, data)
+    await axios.post(url, {subject: 'sraka', email: 'sera@wp.pl', content: 'asdjkasdjasdj'})
     .then((res) => {
       setSuccess(true);
       setCurrentField('subject');
@@ -265,7 +264,7 @@ export const ContactForm: FC = (): JSX.Element => {
                 onFocus={() => setCurrentField('email')}
                 ref={emailRef}  
                 name="email" 
-                placeholder="email"
+                placeholder="your e-mail"
               /> 
               <span>{isValid('email').elem?.error}</span>
               <textarea 
