@@ -3,6 +3,7 @@ import { BlogLayout, Layout } from '../components/Layout'
 import type { NextPageWithLayout } from './_app'
 import { useRecoilState } from 'recoil'
 import { page, user } from '../atoms/atoms'
+import { ContactForm } from '../components/ContactForm/ContactForm.component'
 
 const Admin: NextPageWithLayout = () => {
   const [isAdmin, setIsAdmin] = useRecoilState(user);
@@ -15,8 +16,7 @@ const Admin: NextPageWithLayout = () => {
   },[]);
   return (
     <>
-      <p>contact</p>
-      <button onClick={sendEmail}>send</button>
+      <ContactForm />
     </>
   )
 }

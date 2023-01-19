@@ -2,7 +2,7 @@ import { css } from '@emotion/css'
 import Image from 'next/image'
 import axios from 'axios';
 import { FC, useRef, useState } from 'react';
-import { FontColor } from '../../styles/colors';
+import { BckgColor, FontColor } from '../../styles/colors';
 
 export const ContactForm: FC = (): JSX.Element => {
   const [subject, setSubject] = useState('');
@@ -12,14 +12,14 @@ export const ContactForm: FC = (): JSX.Element => {
   const [errorFields, setErrorFields] = useState([]);
   const [success, setSuccess] = useState(false);
   const subjectRef = useRef<HTMLInputElement>(null);
-  const contentRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
 
   const style = css`
     display: flex;
     position: relative;
     min-height: 250px;
-    max-width: 470px;
+   
     border: 2px solid #166587;
     border-radius: 18px;
     overflow: hidden;
@@ -51,15 +51,15 @@ export const ContactForm: FC = (): JSX.Element => {
         padding-left: 0.5em;
         flex-wrap: wrap;
       }
-      input[type="text"], input[type="password"] {
+      input[type="text"], input[type="email"] {
         height: 50px;
-        width: 220px;
+        width: 320px;
         margin: 5px;
         border: none;
         border-bottom: 1px solid #166587;
         background: #183D61;
       }
-      input[type="submit"], input[type="button"] {
+      input[type="submit"] {
         align-self: flex-end;
         height: 50px;
         color: #7FA2B3;
@@ -84,6 +84,22 @@ export const ContactForm: FC = (): JSX.Element => {
         opacity: .5;
         color: ${FontColor.GRAY};
       }
+      textarea[name="content"] {
+        height: 250px;
+        width: 100%;
+        margin-top: 20px;
+        border: 1px solid ${BckgColor.SKYBLUE};
+        border-radius: 18px;
+        background: ${BckgColor.BLUE};
+        resize: none;
+        font-size: 1em;
+        color: ${FontColor.DEFAULT};
+        padding: 10px;
+      }
+      textarea:focus-visible {
+        outline: none;
+        border-bottom: 1px solid ${FontColor.GREEN};
+      }
     }
     input:-webkit-autofill,
     input:-webkit-autofill:hover, 
@@ -101,16 +117,6 @@ export const ContactForm: FC = (): JSX.Element => {
     padding: 10px;
     color: ${success ?  '#BABFBF' : FontColor.DEFAULT};
     bottom: 0;
-  `
-  const styleSuccess = css`
-    color: ${FontColor.DEFAULT};
-    & p {
-      text-align: left;
-    }
-    & b {
-      color: #166587;
-      filter: brightness(1.4);
-    }
   `
   const styleErrField = {
     color: FontColor.RED, 
@@ -156,17 +162,15 @@ export const ContactForm: FC = (): JSX.Element => {
     }
     return errors;
   }
-  const apiConnect = (login: string, password: string, email: string, firstName: string, lastName: string) => {
+  const apiConnect = (subject: string, email: string, content: string) => {
     axios.post('http://localhost:3001/auth/signup', {
-      login,
+      subject,
       email,
-      password,
-      firstName,
-      lastName
+      content,
     })
     .then((res) => {
       setSuccess(true);
-      setCurrentField(login);
+      setCurrentField('subject');
     })
     .catch((err) => {
       const validationErrors = err.response.data.errors;
@@ -181,19 +185,19 @@ export const ContactForm: FC = (): JSX.Element => {
       setErrorFields(validationErrors);
       focusOnErrField(validationErrors);
     } else {
-      apiConnect(login, password, email, firstName, lastName);
+      apiConnect(subject, content, email);
     }
   }
   const handleOnChange = (callback: () => void) => {
     if(errorFields.length) {
-      if(currentField === 'login') {
-        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'login'));
-      }
-      if(currentField === 'password') {
-        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'password'));
+      if(currentField === 'subject') {
+        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'subject'));
       }
       if(currentField === 'email') {
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'email'));
+      }
+      if(currentField === 'content') {
+        setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'content'));
       }
     }
     callback();
@@ -221,8 +225,10 @@ export const ContactForm: FC = (): JSX.Element => {
       contentRef.current?.focus();
     }
   }
-  const Form = (
-          <form 
+
+  return (
+    <>
+        <form 
             method="post"
             className={style}
             onSubmit={handleSubmit}
@@ -231,8 +237,8 @@ export const ContactForm: FC = (): JSX.Element => {
             <div>
               <div className={styleCurrentField}>{currentField}</div>
               <Image
-                src="/login.png"
-                alt="Picture of the author"
+                src="/email.png"
+                alt="Email icon"
                 width={130}
                 height={130}
                 className={styleImg}
@@ -244,8 +250,8 @@ export const ContactForm: FC = (): JSX.Element => {
                 value={subject} 
                 style={isValid('subject').res ? {} : styleErrField}
                 onChange={e => handleOnChange(() => setSubject(e.target.value))}
-                onFocus={() => setCurrentField('login')}
-                ref={SubjectRef} 
+                onFocus={() => setCurrentField('subject')}
+                ref={subjectRef} 
                 name="subject"
                 placeholder="subject"
               />
@@ -260,21 +266,19 @@ export const ContactForm: FC = (): JSX.Element => {
                 name="email" 
                 placeholder="email"
               /> 
-              <span>{isValid('content').elem?.error}</span>
+              <span>{isValid('email').elem?.error}</span>
               <textarea 
                 name="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
+                onFocus={() => setCurrentField('content')}
+                ref={contentRef}
               >
               </textarea>
               <span>{isValid('content').elem?.error}</span>
               <input type="submit" value="Send" name="submit"></input>
             </div>
-          </form>
-  );
-  return (
-    <>
-      {Form}
+        </form>
     </>
   )
 }
