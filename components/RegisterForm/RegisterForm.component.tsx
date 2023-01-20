@@ -218,11 +218,9 @@ const RegisterForm: FC = (): JSX.Element => {
     if(errorFields.length) {
       if(currentField === 'login') {
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'login'));
-      }
-      if(currentField === 'password') {
+      } else if (currentField === 'password') {
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'password'));
-      }
-      if(currentField === 'email') {
+      } else if (currentField === 'email') {
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'email'));
       }
     }

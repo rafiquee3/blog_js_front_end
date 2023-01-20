@@ -3,6 +3,7 @@ import Image from 'next/image'
 import axios from 'axios';
 import { FC, useRef, useState } from 'react';
 import { BckgColor, FontColor } from '../../styles/colors';
+import { Status } from '../Status/Status.component';
 
 export const ContactForm: FC = (): JSX.Element => {
   const [subject, setSubject] = useState('');
@@ -11,6 +12,7 @@ export const ContactForm: FC = (): JSX.Element => {
   const [currentField, setCurrentField] = useState('');
   const [errorFields, setErrorFields] = useState([]);
   const [success, setSuccess] = useState(false);
+  const [bttnClicked, setBttnClicked] = useState(false);
   const subjectRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -51,7 +53,7 @@ export const ContactForm: FC = (): JSX.Element => {
         padding-left: 0.5em;
         flex-wrap: wrap;
       }
-      input[type="text"], input[type="email"] {
+      input[type="text"] {
         height: 50px;
         width: 400px;
         margin: 5px;
@@ -168,12 +170,16 @@ export const ContactForm: FC = (): JSX.Element => {
         content,
     };
     const url: string = 'http://localhost:3001/nodemailer/send';
-    await axios.post(url, {subject: 'sraka', email: 'sera@wp.pl', content: 'asdjkasdjasdj'})
+    await axios.post(url, data)
     .then((res) => {
       setSuccess(true);
+      setSubject('');
+      setEmail('');
+      setContent('');
       setCurrentField('subject');
     })
     .catch((err) => {
+      setSuccess(false);
       const validationErrors = err.response.data.errors;
       setErrorFields(validationErrors);
       focusOnErrField(validationErrors);
@@ -181,22 +187,25 @@ export const ContactForm: FC = (): JSX.Element => {
   }
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setSuccess(false);
+    setBttnClicked(true);
+    const cos = ():any => setBttnClicked(false)
+    setTimeout(cos, 1700);
     const validationErrors: ErrorObj[] | any = formValidator({subject, email, content});
     if(validationErrors.length) {
       setErrorFields(validationErrors);
       focusOnErrField(validationErrors);
     } else {
-      apiConnect(subject, content, email);
+      apiConnect(subject, email, content);
     }
   }
   const handleOnChange = (callback: () => void) => {
     if(errorFields.length) {
       if(currentField === 'subject') {
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'subject'));
-      }else if(currentField === 'email') {
+      } else if (currentField === 'email') {
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'email'));
-      }else if(currentField === 'content') {
-        console.log('err')
+      } else if (currentField === 'content') {
         setErrorFields(prev => prev.filter((elem: ErrorObj) => elem.field !== 'content'));
       }
     }
@@ -257,7 +266,7 @@ export const ContactForm: FC = (): JSX.Element => {
               />
               <span>{isValid('subject').elem?.error}</span>
               <input 
-                type="email" 
+                type="text" 
                 value={email}
                 style={isValid('email').res ? {} : styleErrField} 
                 onChange={e => handleOnChange(() => setEmail(e.target.value))}
@@ -280,6 +289,8 @@ export const ContactForm: FC = (): JSX.Element => {
               <input type="submit" value="Send" name="submit"></input>
             </div>
         </form>
+        { bttnClicked && success && <Status info={'email sent'} error={false} /> }
+        { bttnClicked && !success && <Status info={'error'} error={true} /> }
     </>
   )
 }

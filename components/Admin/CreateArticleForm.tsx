@@ -242,7 +242,7 @@ export const PostForm: FC = (): JSX.Element => {
           onChange={(e) => setText(e.target.value)}
         >
         </textarea>
-        {errMsg.length && errMsg.map((msg) => <span>{msg.error}</span>)}
+        {errMsg.length && errMsg.map((msg) => <span key={msg.field}>{msg.error}</span>)}
       </div>
 
       :
